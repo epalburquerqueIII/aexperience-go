@@ -29,7 +29,7 @@ func main() {
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
 	http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
-	http.HandleFunc("/usuario/getoptionsRol", controller.UsuariogetopcionesRoles)
+	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetopcionesRoles)
 
 	http.ListenAndServe(":3000", nil)
 }
