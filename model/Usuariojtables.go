@@ -12,9 +12,3 @@ type UsuarioRecord struct {
 	Result string `json:"Resultado"`
 	Record Tusuario
 }
-
-// Option estructura para datos adiciones en jtable
-type Option struct {
-	Value       int
-	DisplayText string
-}
