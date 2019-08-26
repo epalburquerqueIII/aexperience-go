@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
 	"../model"
 	"../model/database"
 )
@@ -50,7 +51,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.Records
+	var vrecords model.UsuarioRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -62,6 +63,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 	defer db.Close()
 }
+
 // UsuarioCreate Crear un Usuario
 func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 
@@ -92,7 +94,7 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 		usu.ID, err1 = res.LastInsertId()
 		log.Println("INSERT: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
 	}
-	var vrecord model.Record
+	var vrecord model.UsuarioRecord
 	vrecord.Result = "OK"
 	vrecord.Record = usu
 	a, _ := json.Marshal(vrecord)
@@ -104,6 +106,7 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	//	http.Redirect(w, r, "/", 301)
 }
+
 // UsuarioUpdate Actualiza el usuario
 func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
@@ -132,7 +135,7 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Println("UPDATE: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
 	}
 	defer db.Close()
-	var vrecord model.Record
+	var vrecord model.UsuarioRecord
 	vrecord.Result = "OK"
 	vrecord.Record = usu
 	a, _ := json.Marshal(vrecord)
@@ -140,6 +143,7 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 
 	//	http.Redirect(w, r, "/", 301)
 }
+
 // UsuarioDelete Borra usuario
 func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
@@ -159,13 +163,14 @@ func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.Record
+	var vrecord model.UsuarioRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 
 	// 	http.Redirect(w, r, "/", 301)
 }
+
 // UsuariogetopcionesRoles Roles de usuario
 func UsuariogetopcionesRoles(w http.ResponseWriter, r *http.Request) {
 
