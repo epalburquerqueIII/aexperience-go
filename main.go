@@ -21,8 +21,9 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	log.Println("Server started on: http://localhost:3000")
-	http.Handle("/static/css/", http.StripPrefix("/static/css/", http.FileServer(http.Dir("css"))))
-	http.Handle("/static/js/", http.StripPrefix("/static/js/", http.FileServer(http.Dir("js"))))
+	http.Handle("/static/css/", http.StripPrefix("/static/css", http.FileServer(http.Dir("static/css"))))
+	http.Handle("/static/js/", http.StripPrefix("/static/js", http.FileServer(http.Dir("static/js"))))
+	http.Handle("/static/js/jtable", http.StripPrefix("/static/js/jtable", http.FileServer(http.Dir("static/js/jtable"))))
 	http.HandleFunc("/", index)
 	// Apis usuario
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
