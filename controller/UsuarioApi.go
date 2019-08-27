@@ -171,8 +171,8 @@ func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 	// 	http.Redirect(w, r, "/", 301)
 }
 
-// UsuariogetopcionesRoles Roles de usuario
-func UsuariogetopcionesRoles(w http.ResponseWriter, r *http.Request) {
+// UsuariogetoptionsRoles Roles de usuario
+func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
