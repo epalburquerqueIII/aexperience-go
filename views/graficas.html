@@ -1,0 +1,138 @@
+{{ define "graficas"}}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Charts</title>
+
+  <!-- Fuentes personalizadas para esta plantilla-->
+  <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Estilos personalizados para esta plantilla-->
+  <link href="static/
+  
+  css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  {{ template "menu" }}
+
+   {{ template "barrasuperior" }}
+
+        <!-- Comienzo del contenido de la página -->
+        <div class="container-fluid">
+
+          <!-- Encabezado de página -->
+          <h1 class="h3 mb-2 text-gray-800">Estadísticas</h1>
+          <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme. The charts below have been customized - for further customization options, please visit the <a target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js documentation</a>.</p>
+
+          <!-- Fila de contenido -->
+          <div class="row">
+
+            <div class="col-xl-8 col-lg-7">
+
+              <!-- Gráfico de áreas-->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Gráfico de áreas</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
+                  </div>
+                  <hr>
+                  El estilo del gráfico se puede encontrar en <code>/js/demo/chart-area-demo.js</code> file.
+                </div>
+              </div>
+
+              <!-- Gráfico de barras -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Gráfico de barras</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-bar">
+                    <canvas id="myBarChart"></canvas>
+                  </div>
+                  <hr>
+                  El estilo de la gráfica de barras se puede encontrar en el <code>/js/demo/chart-bar-demo.js</code> file.
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Gráfico Circular -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Encabezado de tarjeta - Desplegable -->
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Gráfico circular</h6>
+                </div>
+                <!-- Cuerpo de la tarjeta -->
+                <div class="card-body">
+                  <div class="chart-pie pt-4">
+                    <canvas id="myPieChart"></canvas>
+                  </div>
+                  <hr>
+                  El estilo para el gráfico circular se puede encontrar en el <code>/js/demo/chart-pie-demo.js</code> file.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- Fin del contenido principal -->
+
+      <!-- Footer -->
+      {{ template "footer"}}
+      <!-- Fin de Footer -->
+
+    </div>
+    <!-- Fin del Contenedor de Contenido-->
+
+  </div>
+  <!-- Contenedor de fin de página -->
+
+  <!-- Desplazarse al botón superior -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Modal de cierre de sesión-->
+  {{ template "cerrarsesion"}}
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="static/js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="static/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="static/js/demo/chart-area-demo.js"></script>
+  <script src="static/js/demo/chart-pie-demo.js"></script>
+  <script src="static/js/demo/chart-bar-demo.js"></script>
+
+</body>
+
+</html>
+{{ end }}
