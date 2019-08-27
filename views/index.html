@@ -1,14 +1,13 @@
 {{ define "index" }}
-  {{ template "header" }}
+    {{ template "header" }}
     {{ template "menu"  }}
     <h2> Registradas </h2>
     <div class="container">
-      <div id="UsuarioTableContainer"></div>      
+      <div id="UsuarioTableContainer"></div>
     </div>
     <script type="text/javascript">
- 
-      $(document).ready(function () {
-        var spanishMessages =  {
+        $(document).ready(function () {
+            var spanishMessages =  {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
                 loadingMessage: 'Cargando registros...',
                 noDataAvailable: 'No hay datos disponibles!',
@@ -29,73 +28,70 @@
                 deleteProggress: 'Eliminando {0} de {1} registros, procesando...',
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
-          };  
-          $('#UsuarioTableContainer').jtable({
-              messages: spanishMessages, //Lozalize
-              title: 'Listado de Usuarios',
-              paging: true, //Enable paging
-              pageSize: 10, //Set page size (default: 10)
-              sorting: true, //Enable sorting
-              defaultSorting: 'Nif ASC', //Set default sorting
-//              selecting: true, //Enable selecting
-//              multiselect: true, //Allow multiple selecting
-//              selectingCheckboxes: true, //Show checkboxes on first column
-              //selectOnRowClick: false, //Enable this to only select using checkboxes
-// Ver como aplicar selección en pagina jtables.org
-              actions: {
-                  listAction: '/usuario/list',
-                  deleteAction: '/usuario/delete',
-                  updateAction: '/usuario/update',
-                  createAction: '/usuario/create'
-              },
-              fields: {
-                  ID: {
-                      key: true,
-                      create: false,
-                      edit: false,
-                      list: false
-                  },
-                  Nombre: {
-                      title: 'Nombre',
-                      width: '20%'
-                  },
-                  Nif: {
-                      title: 'Nif',
-                      width: '15%'
-                  },
-                  Email: {
-                      title: 'Email',
-                      width: '15%'
-                  },
-                  Tipo: {
-                      title: 'Tipo',
-                      width: '8%',       
-                      options: '/usuario/getopcionesRoles'
-                  },
-                  Telefono: {
-                      title: 'Teléfono',
-                      width: '10%'
-                  },
-                  SesionesBonos: {
-                      title: 'SesionesBonos',
-                      width: '8%'
-                  },
-                  Newletter: {
-                      title: 'Newletter',
-                      width: '8%'
-                  },
-                  FechaBaja: {
-                      title: 'FechaBaja',
-                      width: '8%'
-                  }
-              }
-          });
-   
-          //Load student list from server
-          $('#UsuarioTableContainer').jtable('load');
-      });
-   
-  </script>
-  
-  {{ template "footer" }}
+            };
+            $('#UsuarioTableContainer').jtable({
+                messages: spanishMessages, //Lozalize
+                title: 'Listado de Usuarios',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                defaultSorting: 'Nif ASC', //Set default sorting
+                //selecting: true, //Enable selecting
+                //multiselect: true, //Allow multiple selecting
+                //selectingCheckboxes: true, //Show checkboxes on first column
+                //selectOnRowClick: false, //Enable this to only select using checkboxes
+                // Ver como aplicar selección en pagina jtables.org
+                actions: {
+                    listAction: '/usuario/list',
+                    deleteAction: '/usuario/delete',
+                    updateAction: '/usuario/update',
+                    createAction: '/usuario/create'
+                },
+                fields: {
+                    ID: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    Nombre: {
+                        title: 'Nombre',
+                        width: '20%'
+                    },
+                    Nif: {
+                        title: 'Nif',
+                        width: '15%'
+                    },
+                    Email: {
+                        title: 'Email',
+                        width: '15%'
+                    },
+                    Tipo: {
+                        title: 'Tipo',
+                        width: '8%',
+                        options: '/usuario/getopcionesRoles'
+                    },
+                    Telefono: {
+                        title: 'Teléfono',
+                        width: '10%'
+                    },
+                    SesionesBonos: {
+                        title: 'SesionesBonos',
+                        width: '8%'
+                    },
+                    Newletter: {
+                        title: 'Newletter',
+                        width: '8%'
+                    },
+                    FechaBaja: {
+                        title: 'FechaBaja',
+                        width: '8%'
+                    }
+                }
+            });
+            //Load student list from server
+            $('#UsuarioTableContainer').jtable('load');
+        });
+    </script>
+    {{ template "footer" }}
 {{ end }}
