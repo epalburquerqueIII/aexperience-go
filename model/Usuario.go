@@ -9,6 +9,6 @@ type Tusuario struct {
 	Tipo          int
 	Telefono      string
 	SesionesBonos int
-	Newletter     int
+	Newsletter    int
 	FechaBaja     string
 }

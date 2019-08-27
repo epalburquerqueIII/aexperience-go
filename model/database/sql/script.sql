@@ -14,8 +14,8 @@ CREATE TABLE usuarios (
     tipo integer not null,
     telefono varchar(30) NOT NULL,
     sesionesBonos integer,
-    newletter tinyint,
-    fechaBaja date 
+    newsletter tinyint,
+    fechaBaja date
 );
 CREATE Table tiposPago (
     id integer AUTO_INCREMENT PRIMARY KEY,
