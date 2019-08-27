@@ -26,7 +26,7 @@ func main() {
 	http.Handle("/static/js/jtable", http.StripPrefix("/static/js/jtable", http.FileServer(http.Dir("static/js/jtable"))))
 	http.HandleFunc("/", index)
 	// Apis usuario
-	http.HandleFunc("/usuario/list", controller.UsuarioList)
+	http.HandleFunc("/usuario/list", cont	roller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
 	http.HandleFunc("/usuario/delete", controller.UsuarioDelete)

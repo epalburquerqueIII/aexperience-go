@@ -12,7 +12,7 @@ type Options struct {
 	Options []Option
 }
 
-// Resulterror resultado de jtable
+// Resulterror result de jtable
 type Resulterror struct {
 	Result string `json:"Result"`
 	Error  string
