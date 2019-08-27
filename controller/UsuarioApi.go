@@ -24,7 +24,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre, nif, email, usuarios_roles.nombre, telefono, sesionesbonos, newletter, fechaBaja FROM usuarios left outer join usuarios_roles on (tipo = usuarios_roles.id) " + jtsort)
+	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, tipo, telefono, sesionesbonos, newletter, fechaBaja FROM usuarios " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -122,7 +122,7 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newletter, _ = strconv.Atoi(r.FormValue("Newletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, tipo =?, telefono=? ,sesionesBonos=?, newletter=?, fechaBaja=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, tipo =?, telefono=?, sesionesBonos=?, newletter=?, fechaBaja=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -171,8 +171,8 @@ func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 	// 	http.Redirect(w, r, "/", 301)
 }
 
-// UsuariogetopcionesRoles Roles de usuario
-func UsuariogetopcionesRoles(w http.ResponseWriter, r *http.Request) {
+// UsuariogetoptionsRoles Roles de usuario
+func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
