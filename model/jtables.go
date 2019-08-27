@@ -8,12 +8,12 @@ type Option struct {
 
 // Options estructura para datos adiciones en jtable
 type Options struct {
-	Result  string `json:"Resultado"`
+	Result  string `json:"Result"`
 	Options []Option
 }
 
 // Resulterror resultado de jtable
 type Resulterror struct {
-	Result string `json:"Resultado"`
+	Result string `json:"Result"`
 	Error  string
 }
