@@ -24,7 +24,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, tipo, telefono, sesionesbonos, newletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre, nif, email, usuarios_roles.nombre, telefono, sesionesbonos, newletter, fechaBaja FROM usuarios left outer join usuarios_roles on (tipo = usuarios_roles.id) " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
