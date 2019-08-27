@@ -24,7 +24,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre, nif, email, tipo, telefono, sesionesbonos, newletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, tipo, telefono, sesionesbonos, newletter, fechaBaja FROM usuarios " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -122,7 +122,7 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newletter, _ = strconv.Atoi(r.FormValue("Newletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, tipo =?, telefono=? ,sesionesBonos=?, newletter=?, fechaBaja=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, tipo =?, telefono=?, sesionesBonos=?, newletter=?, fechaBaja=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
