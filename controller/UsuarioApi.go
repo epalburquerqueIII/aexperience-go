@@ -200,3 +200,14 @@ func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 	defer db.Close()
 }
+
+//UsuarioNoticias pasar newletter de binario a sí o no
+func UsuarioNoticias(w http.ResponseWriter, r *http.Request) string {
+	usu := model.Tusuario{}
+	if usu.Newsletter == 0 {
+		usu.NewsletterNombre = "Sí"
+	} else {
+		usu.NewsletterNombre = "No"
+	}
+	return usu.NewsletterNombre
+}
