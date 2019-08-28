@@ -40,7 +40,7 @@ func main() {
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
 	http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
-	http.HandleFunc("/estadistica", controller.Estadistica)
+	http.HandleFunc("/estadisticas", controller.Estadistica)
 
 	http.ListenAndServe(":3000", nil)
 }
