@@ -87,8 +87,18 @@
                         options: { '0': 'Si', '1': 'No' }
                     },
                     FechaBaja: {
-                        title: 'FechaBaja',
-                        width: '8%'
+                        title: 'Fecha de Baja',
+                        width: '8%',
+                        type: 'date',
+                        edit: false,
+                        create: false
+                    },
+                    Baja: {
+                        inputTitle: 'Baja',
+                        type: 'checkbox',
+                        visibility: 'hidden',
+                        formText: 'Si',
+                        values: { '0': 'No', '1': 'Si' }
                     }
                 }
             });
