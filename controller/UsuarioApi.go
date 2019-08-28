@@ -21,6 +21,8 @@ func Usuario(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error ", error.Error)
 	}
 }
+
+// Pantalla de estadisticas
 func Estadistica(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "estadistica", nil)
 	if error != nil {
