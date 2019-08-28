@@ -22,6 +22,14 @@ func Usuario(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Pantalla de estadisticas
+func Estadistica(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "estadistica", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
 // UsuarioList - json con los datos de clientes
 func UsuarioList(w http.ResponseWriter, r *http.Request) {
 
