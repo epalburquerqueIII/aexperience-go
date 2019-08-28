@@ -145,31 +145,31 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioDelete Borra usuario
-func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
-	db := database.DbConn()
-	usu := r.FormValue("ID")
-	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
-	if err != nil {
+// func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
+// 	db := database.DbConn()
+// 	usu := r.FormValue("ID")
+// 	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
+// 	if err != nil {
 
-		panic(err.Error())
-	}
-	_, err1 := delForm.Exec(usu)
-	if err1 != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error Borrando usuario"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
-	}
-	log.Println("DELETE")
-	defer db.Close()
-	var vrecord model.UsuarioRecord
-	vrecord.Result = "OK"
-	a, _ := json.Marshal(vrecord)
-	w.Write(a)
+// 		panic(err.Error())
+// 	}
+// 	_, err1 := delForm.Exec(usu)
+// 	if err1 != nil {
+// 		var verror model.Resulterror
+// 		verror.Result = "ERROR"
+// 		verror.Error = "Error Borrando usuario"
+// 		a, _ := json.Marshal(verror)
+// 		w.Write(a)
+// 	}
+// 	log.Println("DELETE")
+// 	defer db.Close()
+// 	var vrecord model.UsuarioRecord
+// 	vrecord.Result = "OK"
+// 	a, _ := json.Marshal(vrecord)
+// 	w.Write(a)
 
-	// 	http.Redirect(w, r, "/", 301)
-}
+// 	// 	http.Redirect(w, r, "/", 301)
+// }
 
 // UsuariogetoptionsRoles Roles de usuario
 func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
