@@ -145,10 +145,37 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioDelete Borra usuario de la DB
-func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
+// func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
+// 	db := database.DbConn()
+// 	usu := r.FormValue("ID")
+// 	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
+// 	if err != nil {
+
+// 		panic(err.Error())
+// 	}
+// 	_, err1 := delForm.Exec(usu)
+// 	if err1 != nil {
+// 		var verror model.Resulterror
+// 		verror.Result = "ERROR"
+// 		verror.Error = "Error Borrando usuario"
+// 		a, _ := json.Marshal(verror)
+// 		w.Write(a)
+// 	}
+// 	log.Println("DELETE")
+// 	defer db.Close()
+// 	var vrecord model.UsuarioRecord
+// 	vrecord.Result = "OK"
+// 	a, _ := json.Marshal(vrecord)
+// 	w.Write(a)
+
+// 	// 	// 	http.Redirect(w, r, "/", 301)
+// }
+
+//UsuarioBaja da de baja al usuario
+func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := r.FormValue("ID")
-	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
+	delForm, err := db.Prepare("UPDATE usuarios SET fechaBaja=CURDATE() WHERE id=?")
 	if err != nil {
 
 		panic(err.Error())
@@ -157,11 +184,11 @@ func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 	if err1 != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
-		verror.Error = "Error Borrando usuario"
+		verror.Error = "Error dando de baja al usuario"
 		a, _ := json.Marshal(verror)
 		w.Write(a)
 	}
-	log.Println("DELETE")
+	log.Println("BAJA")
 	defer db.Close()
 	var vrecord model.UsuarioRecord
 	vrecord.Result = "OK"
