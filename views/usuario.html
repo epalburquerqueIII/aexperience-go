@@ -1,3 +1,5 @@
+{{ define "usuario" }}
+
 <head>
 
     <meta charset="utf-8">
@@ -18,8 +20,7 @@
     <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
     
     </head>
-
-{{ template "header" }}
+    {{ template "header" }}
     {{ template "menu"  }}
 
     
@@ -122,3 +123,4 @@
         });
     </script>
     {{ template "footer" }}
+ {{ end }} <!--usuario -->

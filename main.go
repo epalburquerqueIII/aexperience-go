@@ -27,6 +27,7 @@ func main() {
 	http.HandleFunc("/", index)
 	// Apis usuario
 
+	http.HandleFunc("/usuario", controller.Usuario)
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
