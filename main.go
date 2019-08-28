@@ -32,6 +32,8 @@ func main() {
 	http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
+	http.HandleFunc("/login", controller.Login)
+	http.HandleFunc("/404", controller.Errorpag)
 
 	http.ListenAndServe(":3000", nil)
 }

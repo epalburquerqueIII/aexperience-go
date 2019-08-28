@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
-  
+
 {{ define "index" }}
 
 {{ template "head" }}
- <!-- Add aditional link -->
+<!-- Add aditional link -->
 </head>
 
 
 <body id="page-top">
-
-  {{ template "header" }}
+  <!-- Se habre un div en menu.html y header.html y se cierra en index -->
   {{ template "menu" }}
+  {{ template "header" }}
+
 
   <!-- Contenido de la Pagina -->
   <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Tablero</h1>
+      <h1 class="h3 mb-0 text-gray-800"></h1>
       <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
           class="fas fa-download fa-sm text-white-50"></i> Generar informe</a>
     </div>
@@ -285,7 +286,7 @@
           </div>
           <div class="card-body">
             <div class="text-center">
-              <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg"
+              <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="static/img/undraw_posting_photo.svg"
                 alt="">
             </div>
             <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow"
@@ -315,7 +316,9 @@
   </div>
   <!-- /.container-fluid -->
 
-  </div>
+  </div><!--Cierre de menu-->
+  </div><!--Cierre de Header-->
+  
   <!-- Fin del contenido principal -->
 
   <!-- Pie de página -->
@@ -337,12 +340,12 @@
   {{ template "cerrarsesion" }}
 
   {{ template "enlacesfooter" }}
-    <!-- Page level plugins -->
-    <script src="static/vendor/chart.js/Chart.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="static/vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="static/js/demo/chart-area-demo.js"></script>
-    <script src="static/js/demo/chart-pie-demo.js"></script>
+  <!-- Page level custom scripts -->
+  <script src="static/js/demo/chart-area-demo.js"></script>
+  <script src="static/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
