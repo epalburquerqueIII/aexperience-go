@@ -3,7 +3,7 @@
     {{ template "menu"  }}
     <h2> Registradas </h2>
     <div class="container">
-      <div id="UsuarioTableContainer"></div>
+      <div id="AutorizadoTableContainer"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -32,13 +32,13 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#UsuarioTableContainer').jtable({
+            $('#AutorizadoTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
                 title: 'Listado de Autorizados',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Nif ASC', //Set default sorting
+                defaultSorting: 'idUsuario ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -72,7 +72,7 @@
                 }
             });
             //Load student list from server
-            $('#UsuarioTableContainer').jtable('load');
+            $('#AutorizadoTableContainer').jtable('load');
         });
     </script>
     {{ template "footer" }}
