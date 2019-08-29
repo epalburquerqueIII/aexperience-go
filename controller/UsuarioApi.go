@@ -38,14 +38,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Pantalla Error 404
-func Errorpag(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "404", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // Pantalla Registro
 func Registro(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "registro", nil)
@@ -54,8 +46,33 @@ func Registro(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Pantalla Error 404
+func Errorpag(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "404", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
+<<<<<<< HEAD
+// Pantalla Registro
+func Registro(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "registro", nil)
+=======
+// Pantalla Paginavacia
+func Paginavacia(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "paginavacia", nil)
+>>>>>>> 165e681f905b7ad4496ccdedabc65131cee88610
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 165e681f905b7ad4496ccdedabc65131cee88610
 // UsuarioList - json con los datos de clientes
 func UsuarioList(w http.ResponseWriter, r *http.Request) {
 

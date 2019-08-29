@@ -33,8 +33,13 @@ func main() {
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
-	http.HandleFunc("/404", controller.Errorpag)
 	http.HandleFunc("/registro", controller.Registro)
+	http.HandleFunc("/404", controller.Errorpag)
+<<<<<<< HEAD
+	http.HandleFunc("/registro", controller.Registro)
+=======
+	http.HandleFunc("/paginavacia", controller.Paginavacia)
+>>>>>>> 165e681f905b7ad4496ccdedabc65131cee88610
 
 	http.ListenAndServe(":3000", nil)
 }
