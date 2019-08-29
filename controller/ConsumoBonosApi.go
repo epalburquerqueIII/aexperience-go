@@ -1,5 +1,3 @@
-//TODO dar de alta usuarios dados de baja
-
 package controller
 
 import (
@@ -9,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	"../model"
 	"../model/database"
@@ -17,8 +14,8 @@ import (
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
-// UsuarioList - json con los datos de clientes
-func UsuarioList(w http.ResponseWriter, r *http.Request) {
+// ConsumoBonosList - json con los datos de clientes
+func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -27,7 +24,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, tipo, telefono, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT consumoBonos.id, consumoBonos.fecha, consumoBonos.sesiones, usuarios.nombre, espacios.descripcion, autorizados.nombreAutorizado FROM consumoBonos LEFT OUTER JOIN usuarios ON (usuarios.id = consumoBonos.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = consumoBonos.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = consumoBonos.idAutorizado) " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -36,34 +33,24 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		w.Write(a)
 		panic(err.Error())
 	}
-	usu := model.Tusuario{}
-	res := []model.Tusuario{}
+	consu := model.Tconsumo{}
+	res := []model.Tconsumo{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.Tipo, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
-		//Si no hay fecha de baja, este campo aparece como activo
-		if usu.FechaBaja == "0000-00-00" {
-			usu.FechaBaja = "Activo"
-		} else {
-			//Formato de fecha en español cuando está de baja
-			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
-			usu.FechaBaja = t.Format("02-01-2006")
-
-		}
-
+		err = selDB.Scan(&consu.ID, &consu.Fecha, &consu.Sesiones, &consu.IDUsuario, &consu.IDEspacio, &consu.IDAutorizado)
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Cargando registros de Usuarios"
+			verror.Error = "Error Cargando registros de Consumo de bonos"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
 		}
-		res = append(res, usu)
+		res = append(res, consu)
 		i++
 	}
 
-	var vrecords model.UsuarioRecords
+	var vrecords model.ConsumoBonosRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -76,8 +63,8 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// UsuarioCreate Crear un Usuario
-func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
+// ConsumoBonosCreate Crear un Usuario
+func ConsumoBonosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	usu := model.Tusuario{}
