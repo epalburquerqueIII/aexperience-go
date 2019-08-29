@@ -33,5 +33,10 @@ func main() {
 	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
 
+	// Apis consumoBonos
+	http.HandleFunc("/consumoBonos/list", controller.ConsumoBonosList)
+	http.HandleFunc("/consumoBonos/create", controller.ConsumoBonosCreate)
+	http.HandleFunc("/consumoBonos/update", controller.ConsumoBonosUpdate)
+
 	http.ListenAndServe(":3000", nil)
 }
