@@ -1,0 +1,60 @@
+{{ define "index" }}
+    {{ template "header" }}
+    {{ template "menu"  }}
+    <h2> Registradas </h2>
+    <div class="container">
+      <div id="BonoTableContainer"></div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var spanishMessages =  {
+                serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
+                loadingMessage: 'Cargando registros...',
+                noDataAvailable: 'No hay datos disponibles!',
+                editRecord: 'Editar registro',
+                areYouSure: '¿Confirma?',
+                //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
+                save: 'Guardar',
+                saving: 'Guardando',
+                cancel: 'Cancelar',
+                error: 'Error',
+                close: 'Cerrar',
+                cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
+                pagingInfo: 'Mostrando registros {0} a {1} de {2}',
+                pageSizeChangeLabel: 'Registros por página',
+                gotoPageLabel: 'Ir a página'
+            };
+            $('#BonoTableContainer').jtable({
+                messages: spanishMessages, //Lozalize
+                title: 'Listado de Bonos',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                defaultSorting: 'Precio ASC', //Set default sorting
+                //selecting: true, //Enable selecting
+                //multiselect: true, //Allow multiple selecting
+                //selectingCheckboxes: true, //Show checkboxes on first column
+                //selectOnRowClick: false, //Enable this to only select using checkboxes
+                // Ver como aplicar selección en pagina jtables.org
+                actions: {
+                    listAction: '/bono/list',
+                    updateAction: '/bono/update',
+                },
+                fields: {
+                
+                    Precio: {
+                        title: 'Precio',
+                        width: '20%'
+                    },
+                    Sesiones: {
+                        title: 'Sesiones',
+                        width: '8%'                       
+                    }
+                }
+            });
+            //Load student list from server
+            $('#BonoTableContainer').jtable('load');
+        });
+    </script>
+    {{ template "footer" }}
+{{ end }}

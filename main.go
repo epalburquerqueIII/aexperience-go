@@ -29,7 +29,8 @@ func main() {
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
-	http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
+	// http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
+	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
@@ -38,5 +39,21 @@ func main() {
 	http.HandleFunc("/olvido-contrasena", controller.Olvidocontrasena)
 	http.HandleFunc("/paginavacia", controller.Paginavacia)
 	http.HandleFunc("/iva", controller.Iva)
+
+	// Apis consumoBonos
+	http.HandleFunc("/consumoBonos/list", controller.ConsumoBonosList)
+	http.HandleFunc("/consumoBonos/create", controller.ConsumoBonosCreate)
+	http.HandleFunc("/consumoBonos/update", controller.ConsumoBonosUpdate)
+
+	// Apis bono
+	http.HandleFunc("/bono/list", controller.BonoList)
+	http.HandleFunc("/bono/update", controller.BonoUpdate)
+
+	// Apis autorizados
+	http.HandleFunc("/autorizado/list", controller.AutorizadoList)
+	http.HandleFunc("/autorizado/create", controller.AutorizadoCreate)
+	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
+	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
