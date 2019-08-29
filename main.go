@@ -21,17 +21,24 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	log.Println("Server started on: http://localhost:3000")
-	http.Handle("/static/css/", http.StripPrefix("/static/css", http.FileServer(http.Dir("static/css"))))
-	http.Handle("/static/js/", http.StripPrefix("/static/js", http.FileServer(http.Dir("static/js"))))
-	http.Handle("/static/js/jtable", http.StripPrefix("/static/js/jtable", http.FileServer(http.Dir("static/js/jtable"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/", index)
 	// Apis usuario
+
+	http.HandleFunc("/usuario", controller.Usuario)
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
 	// http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
 	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
+	http.HandleFunc("/estadisticas", controller.Estadisticas)
+	http.HandleFunc("/login", controller.Login)
+	http.HandleFunc("/registro", controller.Registro)
+	http.HandleFunc("/404", controller.Errorpag)
+	http.HandleFunc("/olvido-contrasena", controller.Olvidocontrasena)
+	http.HandleFunc("/paginavacia", controller.Paginavacia)
+	http.HandleFunc("/iva", controller.Iva)
 
 	// Apis consumoBonos
 	http.HandleFunc("/consumoBonos/list", controller.ConsumoBonosList)

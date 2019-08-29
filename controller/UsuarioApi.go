@@ -1,3 +1,5 @@
+//TODO dar de alta los usuarios que están de baja
+
 package controller
 
 import (
@@ -14,6 +16,14 @@ import (
 )
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
+
+// Usuario Pantalla de tratamiento de usuario
+func Usuario(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "usuario", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
 
 // UsuarioList - json con los datos de clientes
 func UsuarioList(w http.ResponseWriter, r *http.Request) {

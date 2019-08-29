@@ -1,5 +1,3 @@
-//TODO dar de alta Autorizados dados de baja
-
 package controller
 
 import (
