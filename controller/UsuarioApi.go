@@ -54,34 +54,14 @@ func Errorpag(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-<<<<<<< HEAD
 // Pantalla Olvido contraseña
 func Olvidocontrasena(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "olvido-contrasena", nil)
-=======
-<<<<<<< HEAD
-// Pantalla Registro
-func Registro(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "registro", nil)
-=======
-// Pantalla Paginavacia
-func Paginavacia(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "paginavacia", nil)
->>>>>>> 165e681f905b7ad4496ccdedabc65131cee88610
->>>>>>> 211d78108e2a6c373f78b391749afc238de4c971
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 165e681f905b7ad4496ccdedabc65131cee88610
->>>>>>> 211d78108e2a6c373f78b391749afc238de4c971
 // UsuarioList - json con los datos de clientes
 func UsuarioList(w http.ResponseWriter, r *http.Request) {
 
