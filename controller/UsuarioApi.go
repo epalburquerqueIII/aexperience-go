@@ -66,7 +66,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// UsuarioCreate Crear un Usuario
+// UsuarioCreate - Crear un Usuario
 func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
