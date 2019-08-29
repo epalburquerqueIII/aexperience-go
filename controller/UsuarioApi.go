@@ -38,9 +38,25 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Pantalla Registro
+func Registro(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "registro", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
 // Pantalla Error 404
 func Errorpag(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "404", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
+// Pantalla Paginavacia
+func Paginavacia(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "paginavacia", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
