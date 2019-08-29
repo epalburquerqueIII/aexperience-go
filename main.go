@@ -33,5 +33,9 @@ func main() {
 	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
 
+	// Apis bono
+	http.HandleFunc("/bono/list", controller.BonoList)
+	http.HandleFunc("/bono/update", controller.BonoUpdate)
+
 	http.ListenAndServe(":3000", nil)
 }
