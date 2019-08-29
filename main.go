@@ -26,9 +26,6 @@ func main() {
 	// Apis usuario
 
 	http.HandleFunc("/usuario", controller.Usuario)
-	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
-	http.HandleFunc("/Bono", controller.Bonos)
-	http.HandleFunc("/autorizado", controller.Autorizados)
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
@@ -44,15 +41,18 @@ func main() {
 	http.HandleFunc("/iva", controller.Iva)
 
 	// Apis consumoBonos
+	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
 	http.HandleFunc("/consumoBonos/list", controller.ConsumoBonosList)
 	http.HandleFunc("/consumoBonos/create", controller.ConsumoBonosCreate)
 	http.HandleFunc("/consumoBonos/update", controller.ConsumoBonosUpdate)
 
 	// Apis bono
+	http.HandleFunc("/Bono", controller.Bonos)
 	http.HandleFunc("/bono/list", controller.BonoList)
 	http.HandleFunc("/bono/update", controller.BonoUpdate)
 
 	// Apis autorizados
+	http.HandleFunc("/autorizado", controller.Autorizados)
 	http.HandleFunc("/autorizado/list", controller.AutorizadoList)
 	http.HandleFunc("/autorizado/create", controller.AutorizadoCreate)
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
