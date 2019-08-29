@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"../model"
 	"../model/database"
@@ -38,8 +39,14 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	for selDB.Next() {
 
 		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.Tipo, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
+		//Si no hay fecha de baja, este campo aparece como activo
 		if usu.FechaBaja == "0000-00-00" {
 			usu.FechaBaja = "Activo"
+		} else {
+			//Formato de fecha en español cuando está de baja
+			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
+			usu.FechaBaja = t.Format("02-01-2006")
+
 		}
 		if err != nil {
 			var verror model.Resulterror
