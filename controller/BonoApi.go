@@ -5,7 +5,6 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -13,8 +12,6 @@ import (
 	"../model"
 	"../model/database"
 )
-
-var tmplbon = template.Must(template.ParseGlob("views/*.html"))
 
 // BonoList - json con los datos de clientes
 func BonoList(w http.ResponseWriter, r *http.Request) {
@@ -122,7 +119,7 @@ func BonoUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 
 		insForm.Exec(bon.Precio, bon.Sesiones)
-		log.Println("UPDATE: precio: %d   | sesiones: %d\n", bon.Precio, bon.Sesiones)
+		log.Printf("UPDATE: precio: %d   | sesiones: %d\n", bon.Precio, bon.Sesiones)
 
 	}
 	defer db.Close()

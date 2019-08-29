@@ -3,7 +3,6 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -11,8 +10,6 @@ import (
 	"../model"
 	"../model/database"
 )
-
-var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 // ConsumoBonosList - json con los datos de clientes
 func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {

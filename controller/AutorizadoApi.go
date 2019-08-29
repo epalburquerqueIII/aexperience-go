@@ -5,7 +5,6 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -13,8 +12,6 @@ import (
 	"../model"
 	"../model/database"
 )
-
-var tmplauto = template.Must(template.ParseGlob("views/*.html"))
 
 // AutorizadoList - json con los datos de clientes
 func AutorizadoList(w http.ResponseWriter, r *http.Request) {
