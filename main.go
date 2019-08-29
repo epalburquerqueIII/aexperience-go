@@ -23,17 +23,13 @@ func main() {
 	log.Println("Server started on: http://localhost:3000")
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/", index)
-	// Apis usuario
 
+	// Apis usuario
 	http.HandleFunc("/usuario", controller.Usuario)
-	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
-	http.HandleFunc("/Bono", controller.Bonos)
-	http.HandleFunc("/autorizado", controller.Autorizados)
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
-	// http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
-	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
+	http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
@@ -44,15 +40,18 @@ func main() {
 	http.HandleFunc("/iva", controller.Iva)
 
 	// Apis consumoBonos
+	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
 	http.HandleFunc("/consumoBonos/list", controller.ConsumoBonosList)
 	http.HandleFunc("/consumoBonos/create", controller.ConsumoBonosCreate)
 	http.HandleFunc("/consumoBonos/update", controller.ConsumoBonosUpdate)
 
 	// Apis bono
+	http.HandleFunc("/Bono", controller.Bonos)
 	http.HandleFunc("/bono/list", controller.BonoList)
 	http.HandleFunc("/bono/update", controller.BonoUpdate)
 
 	// Apis autorizados
+	http.HandleFunc("/autorizado", controller.Autorizados)
 	http.HandleFunc("/autorizado/list", controller.AutorizadoList)
 	http.HandleFunc("/autorizado/create", controller.AutorizadoCreate)
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)

@@ -192,8 +192,8 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 // 	// 	// 	http.Redirect(w, r, "/", 301)
 // }
 
-//UsuarioBaja da de baja al usuario
-func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
+//UsuarioDelete da de baja al usuario
+func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := r.FormValue("ID")
 	delForm, err := db.Prepare("UPDATE usuarios SET fechaBaja=CURDATE() WHERE id=?")
