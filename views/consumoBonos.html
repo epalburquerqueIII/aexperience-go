@@ -3,7 +3,7 @@
     {{ template "menu"  }}
     <h2> Registradas </h2>
     <div class="container">
-      <div id="UsuarioTableContainer"></div>
+      <div id="ConsumoBonosTableContainer"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -11,44 +11,34 @@
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
                 loadingMessage: 'Cargando registros...',
                 noDataAvailable: 'No hay datos disponibles!',
-                addNewRecord: 'Crear nuevo registro',
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
-                //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
-                //deleteText: 'Eliminar',
-                deleteText: 'Dar de baja',
-                //deleting: 'Eliminando',
-                deleting: 'Dando de baja',
                 error: 'Error',
                 close: 'Cerrar',
                 cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
                 pagingInfo: 'Mostrando registros {0} a {1} de {2}',
-                canNotDeletedRecords: 'No se puede borrar registro(s) {0} de {1}!',
-                deleteProggress: 'Eliminando {0} de {1} registros, procesando...',
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#UsuarioTableContainer').jtable({
+            $('#ConsumoBonosTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Usuarios',
+                title: 'Listado de Consumo de Bono',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Nif ASC', //Set default sorting
+                defaultSorting: 'Fecha ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/usuario/list',
-                    deleteAction: '/usuario/baja',
-                    updateAction: '/usuario/update',
-                    createAction: '/usuario/create'
+                    listAction: '/consumoBonos/list',
+                    updateAction: '/consumoBonos/update',
+                    createAction: '/consumoBonos/create'
                 },
                 fields: {
                     ID: {
@@ -84,7 +74,7 @@
                 }
             });
             //Load student list from server
-            $('#UsuarioTableContainer').jtable('load');
+            $('#ConsumoBonosTableContainer').jtable('load');
         });
     </script>
     {{ template "footer" }}
