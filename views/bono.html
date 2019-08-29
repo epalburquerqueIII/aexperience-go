@@ -1,60 +1,81 @@
-{{ define "index" }}
+<!DOCTYPE html>
+<html lang="es">
+
+{{ define "bono" }}
+
+{{ template "head" }}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AExperience</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+{{ template "linkjtable" }}
+<!-- Add aditional link -->
+</head> <!-- fin de head -->
+
+<!-- Se habre un div en menu.html y header.html y se cierra en index -->
     {{ template "header" }}
     {{ template "menu"  }}
-    <h2> Registradas </h2>
-    <div class="container">
-      <div id="BonoTableContainer"></div>
-    </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var spanishMessages =  {
-                serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
-                loadingMessage: 'Cargando registros...',
-                noDataAvailable: 'No hay datos disponibles!',
-                editRecord: 'Editar registro',
-                areYouSure: '¿Confirma?',
-                //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                save: 'Guardar',
-                saving: 'Guardando',
-                cancel: 'Cancelar',
-                error: 'Error',
-                close: 'Cerrar',
-                cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
-                pagingInfo: 'Mostrando registros {0} a {1} de {2}',
-                pageSizeChangeLabel: 'Registros por página',
-                gotoPageLabel: 'Ir a página'
-            };
-            $('#BonoTableContainer').jtable({
-                messages: spanishMessages, //Lozalize
-                title: 'Listado de Bonos',
-                paging: true, //Enable paging
-                pageSize: 10, //Set page size (default: 10)
-                sorting: true, //Enable sorting
-                defaultSorting: 'Precio ASC', //Set default sorting
-                //selecting: true, //Enable selecting
-                //multiselect: true, //Allow multiple selecting
-                //selectingCheckboxes: true, //Show checkboxes on first column
-                //selectOnRowClick: false, //Enable this to only select using checkboxes
-                // Ver como aplicar selección en pagina jtables.org
-                actions: {
-                    listAction: '/bono/list',
-                    updateAction: '/bono/update',
-                },
-                fields: {
-                
-                    Precio: {
-                        title: 'Precio',
-                        width: '20%'
+
+<body>
+        <h2> Registradas </h2>
+        <div class="container">
+          <div id="BonoTableContainer"></div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var spanishMessages =  {
+                    serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
+                    loadingMessage: 'Cargando registros...',
+                    noDataAvailable: 'No hay datos disponibles!',
+                    editRecord: 'Editar registro',
+                    areYouSure: '¿Confirma?',
+                    //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
+                    save: 'Guardar',
+                    saving: 'Guardando',
+                    cancel: 'Cancelar',
+                    error: 'Error',
+                    close: 'Cerrar',
+                    cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
+                    pagingInfo: 'Mostrando registros {0} a {1} de {2}',
+                    pageSizeChangeLabel: 'Registros por página',
+                    gotoPageLabel: 'Ir a página'
+                };
+                $('#BonoTableContainer').jtable({
+                    messages: spanishMessages, //Lozalize
+                    title: 'Listado de Bonos',
+                    paging: true, //Enable paging
+                    pageSize: 10, //Set page size (default: 10)
+                    sorting: true, //Enable sorting
+                    defaultSorting: 'Precio ASC', //Set default sorting
+                    //selecting: true, //Enable selecting
+                    //multiselect: true, //Allow multiple selecting
+                    //selectingCheckboxes: true, //Show checkboxes on first column
+                    //selectOnRowClick: false, //Enable this to only select using checkboxes
+                    // Ver como aplicar selección en pagina jtables.org
+                    actions: {
+                        listAction: '/bono/list',
+                        updateAction: '/bono/update',
                     },
-                    Sesiones: {
-                        title: 'Sesiones',
-                        width: '8%'                       
+                    fields: {
+                        Precio: {
+                            key: true,
+                            title: 'Precio',
+                            width: '20%'
+                        },
+                        Sesiones: {
+                            title: 'Sesiones',
+                            width: '8%'
+                        }
                     }
-                }
+                });
+                //Load student list from server
+                $('#BonoTableContainer').jtable('load');
             });
-            //Load student list from server
-            $('#BonoTableContainer').jtable('load');
-        });
-    </script>
+        </script>
+        </div><!--Cierre de menu-->
+    </div><!--Cierre de Header-->
     {{ template "footer" }}
-{{ end }}
+    {{ end }}
+</body><!-- Cierre body -->
+</html><!-- Cierre html -->
