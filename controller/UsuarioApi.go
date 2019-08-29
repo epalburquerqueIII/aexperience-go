@@ -38,6 +38,9 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	for selDB.Next() {
 
 		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.Tipo, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
+		if usu.FechaBaja == "0000-00-00" {
+			usu.FechaBaja = "Activo"
+		}
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -46,7 +49,6 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-
 		res = append(res, usu)
 		i++
 	}
@@ -93,6 +95,7 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 		}
 		usu.ID, err1 = res.LastInsertId()
 		log.Println("INSERT: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
+
 	}
 	var vrecord model.UsuarioRecord
 	vrecord.Result = "OK"
@@ -131,6 +134,7 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
+
 		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.Tipo, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
 		log.Println("UPDATE: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
 	}
