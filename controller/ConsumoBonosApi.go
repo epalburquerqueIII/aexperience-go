@@ -11,6 +11,14 @@ import (
 	"../model/database"
 )
 
+// ConsumoBonos Pantalla de tratamiento de ConsumoBonos
+func ConsumoBonos(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "consumoBonos", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
 // ConsumoBonosList - json con los datos de clientes
 func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 

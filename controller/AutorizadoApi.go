@@ -11,6 +11,14 @@ import (
 	"../model/database"
 )
 
+// Autorizados Pantalla de tratamiento de Autorizados
+func Autorizados(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "autorizado", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
 // AutorizadoList - json con los datos de clientes
 func AutorizadoList(w http.ResponseWriter, r *http.Request) {
 

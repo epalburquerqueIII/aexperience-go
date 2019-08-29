@@ -11,6 +11,14 @@ import (
 	"../model/database"
 )
 
+//Bonos Pantalla de tratamiento de Bonos
+func Bonos(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "bono", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
 // BonoList - json con los datos de clientes
 func BonoList(w http.ResponseWriter, r *http.Request) {
 
