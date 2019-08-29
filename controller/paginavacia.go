@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// Pantalla Olvido contraseña
+// Pantalla Pagina vacia
 func Paginavacia(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "paginavacia", nil)
 	if error != nil {
