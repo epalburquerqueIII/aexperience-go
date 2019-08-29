@@ -23,8 +23,8 @@ func main() {
 	log.Println("Server started on: http://localhost:3000")
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/", index)
-	// Apis usuario
 
+	// Apis usuario
 	http.HandleFunc("/usuario", controller.Usuario)
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
