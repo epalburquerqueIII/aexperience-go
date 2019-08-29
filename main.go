@@ -34,6 +34,7 @@ func main() {
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
 	http.HandleFunc("/404", controller.Errorpag)
+	http.HandleFunc("/registro", controller.Registro)
 
 	http.ListenAndServe(":3000", nil)
 }
