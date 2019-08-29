@@ -22,47 +22,6 @@ func Usuario(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Pantalla de estadisticas
-func Estadisticas(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "estadisticas", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
-// Pantalla Login
-func Login(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "login", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
-// Pantalla Registro
-func Registro(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "registro", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
-// Pantalla Error 404
-func Errorpag(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "404", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
-// Pantalla Olvido contraseña
-func Olvidocontrasena(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "olvido-contrasena", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-
-}
-
 // UsuarioList - json con los datos de clientes
 func UsuarioList(w http.ResponseWriter, r *http.Request) {
 
