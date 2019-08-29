@@ -36,6 +36,7 @@ func main() {
 	http.HandleFunc("/registro", controller.Registro)
 	http.HandleFunc("/404", controller.Errorpag)
 	http.HandleFunc("/olvido-contrasena", controller.Olvidocontrasena)
+	http.HandleFunc("/paginavacia", controller.Paginavacia)
 
 	http.ListenAndServe(":3000", nil)
 }
