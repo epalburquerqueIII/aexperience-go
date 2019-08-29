@@ -1,5 +1,3 @@
-//TODO dar de alta bonos dados de baja
-
 package controller
 
 import (
