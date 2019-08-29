@@ -42,5 +42,11 @@ func main() {
 	http.HandleFunc("/bono/list", controller.BonoList)
 	http.HandleFunc("/bono/update", controller.BonoUpdate)
 
+	// Apis autorizados
+	http.HandleFunc("/autorizado/list", controller.AutorizadoList)
+	http.HandleFunc("/autorizado/create", controller.AutorizadoCreate)
+	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
+	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
