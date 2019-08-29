@@ -67,36 +67,33 @@ func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 func ConsumoBonosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	usu := model.Tusuario{}
+	consu := model.Tconsumo{}
 	if r.Method == "POST" {
-		usu.Nombre = r.FormValue("Nombre")
-		usu.Nif = r.FormValue("Nif")
-		usu.Email = r.FormValue("Email")
-		usu.Tipo, _ = strconv.Atoi(r.FormValue("Tipo"))
-		usu.Telefono = r.FormValue("Telefono")
-		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
-		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
-		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, tipo, telefono, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?)")
+		consu.Fecha = r.FormValue("fecha")
+		consu.Sesiones, _ = strconv.Atoi(r.FormValue("sesiones"))
+		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
+		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("idEspacio"))
+		consu.IDAutorizado, _ = strconv.Atoi(r.FormValue("idAutorizado"))
+		insForm, err := db.Prepare("INSERT INTO consumoBonos(fecha, sesiones, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Insertando Usuario"
+			verror.Error = "Error Insertando Consumo de bono"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.Tipo, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		res, err1 := insForm.Exec(consu.Fecha, consu.Sesiones, consu.IDUsuario, consu.IDEspacio, consu.IDAutorizado)
 		if err1 != nil {
 			panic(err1.Error())
 		}
-		usu.ID, err1 = res.LastInsertId()
-		log.Println("INSERT: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
+		consu.ID, err1 = res.LastInsertId()
+		log.Printf("INSERT: fecha: %s | sesiones:  %d\n", consu.Fecha, consu.Sesiones)
 
 	}
-	var vrecord model.UsuarioRecord
+	var vrecord model.ConsumoBonosRecord
 	vrecord.Result = "OK"
-	vrecord.Record = usu
+	vrecord.Record = consu
 	a, _ := json.Marshal(vrecord)
 	s := string(a)
 	fmt.Println(s)
