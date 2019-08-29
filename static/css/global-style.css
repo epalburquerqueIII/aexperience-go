@@ -9,5 +9,6 @@
 }
 
 .sidebar .sidebar-brand {
+  font-size: 1.2rem !important;
   text-transform: unset !important;
 }
