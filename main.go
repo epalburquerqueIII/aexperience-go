@@ -33,5 +33,11 @@ func main() {
 	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
 
+	// Apis autorizados
+	http.HandleFunc("/autorizado/list", controller.UsuarioList)
+	http.HandleFunc("/autorizado/create", controller.UsuarioCreate)
+	http.HandleFunc("/autorizado/update", controller.UsuarioUpdate)
+	http.HandleFunc("/autorizado/delete", controller.UsuarioDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
