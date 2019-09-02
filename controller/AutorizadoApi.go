@@ -29,7 +29,7 @@ func AutorizadoList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT autorizados.id, usuarios.nombre, nombreAutorizado, autorizados.nif FROM autorizados LEFT OUTER JOIN usuarios ON (idUsuario = usuarios.id) " + jtsort)
+	selDB, err := db.Query("SELECT autorizados.id, idUsuario, nombreAutorizado, autorizados.nif FROM autorizados " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -194,32 +194,32 @@ func AutorizadoDelete(w http.ResponseWriter, r *http.Request) {
 // 	// 	// 	http.Redirect(w, r, "/", 301)
 // }
 
-// // AutorizadogetoptionsRoles Roles de Autorizado
-// func AutorizadogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
+// AutorizadogetNombreUsuario - Obtener nombres de usuarios para la tabla de autorizados
+func AutorizadogetNombreUsuario(w http.ResponseWriter, r *http.Request) {
 
-// 	db := database.DbConn()
-// 	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	elem := model.Option{}
-// 	vtabla := []model.Option{}
-// 	for selDB.Next() {
-// 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-// 		if err != nil {
-// 			panic(err.Error())
-// 		}
-// 		vtabla = append(vtabla, elem)
-// 	}
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.id")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			panic(err.Error())
+		}
+		vtabla = append(vtabla, elem)
+	}
 
-// 	var vtab model.Options
-// 	vtab.Result = "OK"
-// 	vtab.Options = vtabla
-// 	// create json response from struct
-// 	a, err := json.Marshal(vtab)
-// 	// Visualza
-// 	s := string(a)
-// 	fmt.Println(s)
-// 	w.Write(a)
-// 	defer db.Close()
-// }
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
+}
