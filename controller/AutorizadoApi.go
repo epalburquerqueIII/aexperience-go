@@ -74,9 +74,9 @@ func AutorizadoCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	auto := model.Tautorizado{}
 	if r.Method == "POST" {
-		auto.IDUsuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
-		auto.NombreAutorizado = r.FormValue("nombreAutorizado")
-		auto.Nif = r.FormValue("nif")
+		auto.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
+		auto.NombreAutorizado = r.FormValue("NombreAutorizado")
+		auto.Nif = r.FormValue("Nif")
 		insForm, err := db.Prepare("INSERT INTO autorizados(idUsuario, nombreAutorizado, nif) VALUES(?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
@@ -114,10 +114,10 @@ func AutorizadoUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		auto.ID = int64(i)
-		auto.IDUsuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
-		auto.NombreAutorizado = r.FormValue("nombreAutorizado")
-		auto.Nif = r.FormValue("nif")
-		insForm, err := db.Prepare("UPDATE autorizados SET nombreAutorizado=?, autorizados.nif=? WHERE autorizados.id=?")
+		auto.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
+		auto.NombreAutorizado = r.FormValue("NombreAutorizado")
+		auto.Nif = r.FormValue("Nif")
+		insForm, err := db.Prepare("UPDATE autorizados SET idUsuario=?, nombreAutorizado=?, autorizados.nif=? WHERE autorizados.id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"

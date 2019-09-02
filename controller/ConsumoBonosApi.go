@@ -74,11 +74,11 @@ func ConsumoBonosCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	consu := model.Tconsumo{}
 	if r.Method == "POST" {
-		consu.Fecha = r.FormValue("fecha")
-		consu.Sesiones, _ = strconv.Atoi(r.FormValue("sesiones"))
-		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
-		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("idEspacio"))
-		consu.IDAutorizado, _ = strconv.Atoi(r.FormValue("idAutorizado"))
+		consu.Fecha = r.FormValue("Fecha")
+		consu.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
+		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
+		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
+		consu.IDAutorizado, _ = strconv.Atoi(r.FormValue("IDAutorizado"))
 		insForm, err := db.Prepare("INSERT INTO consumoBonos(fecha, sesiones, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
