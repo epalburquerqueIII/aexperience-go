@@ -11,8 +11,8 @@ import (
 	"../model/database"
 )
 
-// Autorizados Pantalla de tratamiento de Autorizados
-func Autorizados(w http.ResponseWriter, r *http.Request) {
+// Autorizado - Pantalla de tratamiento de Autorizados
+func Autorizado(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "autorizado", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
@@ -42,7 +42,7 @@ func AutorizadoList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tautorizado{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&auto.IDUsuario, &auto.NombreAutorizado, &auto.Nif)
+		err = selDB.Scan(&auto.ID, &auto.IDUsuario, &auto.NombreAutorizado, &auto.Nif)
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"

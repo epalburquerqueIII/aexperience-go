@@ -17,7 +17,8 @@
     {{ template "menu" }}
     {{ template "header" }}
 
-    {{ template "menu" }}
+
+
 <body>
     <div class="container">
       <div id="AutorizadoTableContainer"></div>
@@ -55,7 +56,7 @@
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'idUsuario ASC', //Set default sorting
+                defaultSorting: 'nombreAutorizado ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -74,12 +75,12 @@
                         edit: false,
                         list: false
                     },
-                    Nombre: {
+                    idUsuario: {
                         title: 'Nombre',
                         width: '20%',
                         options: '/autorizado/getNombreUsuario'
                     },
-                    NombredelAutorizado: {
+                    nombreAutorizado: {
                         title: 'Nombre del Autorizado',
                         width: '20%'
                     },
@@ -98,4 +99,4 @@
     {{ template "footer" }}
     {{ end }}
 </body>
-<!-- autorizado -->
+</html><!-- autorizado -->
