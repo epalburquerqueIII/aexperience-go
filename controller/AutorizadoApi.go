@@ -29,7 +29,7 @@ func AutorizadoList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT autorizados.id, idUsuario, nombreAutorizado, autorizados.nif FROM autorizados " + jtsort)
+	selDB, err := db.Query("SELECT autorizados.id, autorizados.idUsuario, nombreAutorizado, autorizados.nif FROM autorizados " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -42,7 +42,7 @@ func AutorizadoList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tautorizado{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&auto.Idusuario, &auto.NombreAutorizado, &auto.Nif)
+		err = selDB.Scan(&auto.IDUsuario, &auto.NombreAutorizado, &auto.Nif)
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -74,7 +74,7 @@ func AutorizadoCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	auto := model.Tautorizado{}
 	if r.Method == "POST" {
-		auto.Idusuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
+		auto.IDUsuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
 		auto.NombreAutorizado = r.FormValue("nombreAutorizado")
 		auto.Nif = r.FormValue("nif")
 		insForm, err := db.Prepare("INSERT INTO autorizados(idUsuario, nombreAutorizado, nif) VALUES(?,?,?)")
@@ -86,7 +86,7 @@ func AutorizadoCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(auto.Idusuario, auto.NombreAutorizado, auto.Nif)
+		res, err1 := insForm.Exec(auto.IDUsuario, auto.NombreAutorizado, auto.Nif)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -114,7 +114,7 @@ func AutorizadoUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		auto.ID = int64(i)
-		auto.Idusuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
+		auto.IDUsuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
 		auto.NombreAutorizado = r.FormValue("nombreAutorizado")
 		auto.Nif = r.FormValue("nif")
 		insForm, err := db.Prepare("UPDATE autorizados SET nombreAutorizado=?, autorizados.nif=? WHERE autorizados.id=?")
@@ -127,7 +127,7 @@ func AutorizadoUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(auto.Idusuario, auto.NombreAutorizado, auto.Nif, auto.ID)
+		insForm.Exec(auto.IDUsuario, auto.NombreAutorizado, auto.Nif, auto.ID)
 		log.Println("UPDATE: nombreAutorizado: " + auto.NombreAutorizado + " | nif: " + auto.Nif)
 	}
 	defer db.Close()
@@ -198,7 +198,7 @@ func AutorizadoDelete(w http.ResponseWriter, r *http.Request) {
 func AutorizadogetNombreUsuario(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.id")
+	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.nombre")
 	if err != nil {
 		panic(err.Error())
 	}
