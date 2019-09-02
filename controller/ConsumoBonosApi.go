@@ -29,7 +29,7 @@ func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT consumoBonos.id, consumoBonos.fecha, consumoBonos.sesiones, usuarios.nombre, espacios.descripcion, autorizados.nombreAutorizado FROM consumoBonos LEFT OUTER JOIN usuarios ON (usuarios.id = consumoBonos.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = consumoBonos.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = consumoBonos.idAutorizado) " + jtsort)
+	selDB, err := db.Query("SELECT consumoBonos.id, consumoBonos.fecha, consumoBonos.sesiones, idUsuario, idEspacio, idAutorizado FROM consumoBonos " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -172,32 +172,90 @@ func ConsumoBonosUpdate(w http.ResponseWriter, r *http.Request) {
 // 	// 	// 	http.Redirect(w, r, "/", 301)
 // }
 
-// UsuariogetoptionsRoles Roles de usuario
-// func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
+// ConsumoBonosgetNombre nombre del usuario
+func ConsumoBonosgetNombre(w http.ResponseWriter, r *http.Request) {
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre from usuarios Order by usuarios.nombre")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			panic(err.Error())
+		}
+		vtabla = append(vtabla, elem)
+	}
 
-// 	db := database.DbConn()
-// 	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	elem := model.Option{}
-// 	vtabla := []model.Option{}
-// 	for selDB.Next() {
-// 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-// 		if err != nil {
-// 			panic(err.Error())
-// 		}
-// 		vtabla = append(vtabla, elem)
-// 	}
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
+}
 
-// 	var vtab model.Options
-// 	vtab.Result = "OK"
-// 	vtab.Options = vtabla
-// 	// create json response from struct
-// 	a, err := json.Marshal(vtab)
-// 	// Visualza
-// 	s := string(a)
-// 	fmt.Println(s)
-// 	w.Write(a)
-// 	defer db.Close()
-// }
+// ConsumoBonosgetEspacio nombre del espacio
+func ConsumoBonosgetEspacio(w http.ResponseWriter, r *http.Request) {
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT espacios.id, espacios.descripcion from espacios Order by espacios.descripcion")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			panic(err.Error())
+		}
+		vtabla = append(vtabla, elem)
+	}
+
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
+}
+
+// ConsumoBonosgetNombreAutorizado nombre de la persona autorizado
+func ConsumoBonosgetNombreAutorizado(w http.ResponseWriter, r *http.Request) {
+
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado from autorizados Order by autorizados.nombreAutorizado")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			panic(err.Error())
+		}
+		vtabla = append(vtabla, elem)
+	}
+
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
+}

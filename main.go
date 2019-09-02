@@ -44,6 +44,9 @@ func main() {
 	http.HandleFunc("/consumoBonos/list", controller.ConsumoBonosList)
 	http.HandleFunc("/consumoBonos/create", controller.ConsumoBonosCreate)
 	http.HandleFunc("/consumoBonos/update", controller.ConsumoBonosUpdate)
+	http.HandleFunc("/consumoBonos/getNombre", controller.ConsumoBonosgetNombre)
+	http.HandleFunc("/consumoBonos/getEspacio", controller.ConsumoBonosgetEspacio)
+	http.HandleFunc("/consumoBonos/getNombreAutorizado", controller.ConsumoBonosgetNombreAutorizado)
 
 	// Apis bono
 	http.HandleFunc("/Bono", controller.Bonos)
