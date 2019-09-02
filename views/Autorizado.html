@@ -13,7 +13,7 @@
     <!-- Add aditional link -->
     </head> <!-- fin de head -->
 
-    <!-- Se habre un div en menu.html y header.html y se cierra en index -->
+    <!-- Se abre un div en menu.html y header.html y se cierra en index -->
     {{ template "menu" }}
     {{ template "header" }}
 
@@ -54,7 +54,7 @@
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'idUsuario ASC', //Set default sorting
+                defaultSorting: 'nombreAutorizado ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -73,12 +73,12 @@
                         edit: false,
                         list: false
                     },
-                    Nombre: {
+                    IDUsuario: {
                         title: 'Nombre',
                         width: '20%',
                         options: '/autorizado/getNombreUsuario'
                     },
-                    NombredelAutorizado: {
+                    NombreAutorizado: {
                         title: 'Nombre del Autorizado',
                         width: '20%'
                     },
@@ -97,4 +97,4 @@
     {{ template "footer" }}
     {{ end }}
 </body>
-<!-- autorizado -->
+</html><!-- autorizado -->
