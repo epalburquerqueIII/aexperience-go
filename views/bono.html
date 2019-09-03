@@ -15,8 +15,8 @@
 
 <body>
     <!-- Se abre un div en menu.html y header.html y se cierra en index -->
-    {{ template "header" }}
-    {{ template "menu"  }}
+{{ template "menu" }}
+{{ template "header" }}
 
         <div class="container">
           <div id="BonoTableContainer"></div>
@@ -72,8 +72,9 @@
                 $('#BonoTableContainer').jtable('load');
             });
         </script>
-        </div><!--Cierre de menu-->
+    </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
+
     {{ template "footer" }}
 </body><!-- Cierre body -->
 </html><!-- Cierre bono -->
