@@ -96,8 +96,8 @@ INSERT INTO `usuarios_roles` (`id`, `nombre`) VALUES (0, 'administrador');
 CREATE Table menu_parent (
     id integer PRIMARY KEY,
     titulo varchar(50) NOT NULL,
-    tipo integer NOT NULL 
-    );
+    tipo integer NOT NULL
+);
 -- Tipo de tabla menu_parent
 -- 0-normal
 -- 1-desplegable
@@ -109,7 +109,7 @@ CREATE Table menus (
     titulo varchar(50) NOT NULL,
     icono varchar(50) NOT NULL,
     url varchar(50) NOT NULL,
-    hanledFunc varchar(50) NOT NULL,
+    handleFunc varchar(50) NOT NULL,
     FOREIGN KEY (parent_id) REFERENCES menu_parent(id)
     );
     CREATE Table menu_usuarios_roles (

@@ -6,5 +6,6 @@ type Tmenu struct {
 	Titulo    string
 	Subtitulo string
 	Icono     string
+	NomEnlace string
 	Enlace    string
 }
