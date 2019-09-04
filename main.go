@@ -64,6 +64,18 @@ func main() {
 	http.HandleFunc("/usuarios_roles/create", controller.UsuarioRolesCreate)
 	http.HandleFunc("/usuarios_roles/update", controller.UsuarioRolesUpdate)
 	http.HandleFunc("/usuarios_roles/delete", controller.UsuarioRolesDelete)
+	// Apis tiposPago
+	http.HandleFunc("/tiposPago", controller.TiposPago)
+	http.HandleFunc("/tiposPago/list", controller.TiposPagoList)
+	http.HandleFunc("/tiposPago/create", controller.TiposPagoCreate)
+	http.HandleFunc("/tiposPago/update", controller.TiposPagoUpdate)
+	http.HandleFunc("/tiposPago/delete", controller.TiposPagoDelete)
+	//Apis menus
+	http.HandleFunc("/menus", controller.Menus)
+	http.HandleFunc("/menus/list", controller.MenusList)
+	http.HandleFunc("/menus/create", controller.MenusCreate)
+	http.HandleFunc("/menus/update", controller.MenusUpdate)
+	http.HandleFunc("/menus/delete", controller.MenusDelete)
 
 	http.ListenAndServe(":3000", nil)
 }
