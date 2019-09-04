@@ -64,6 +64,12 @@ func main() {
 	http.HandleFunc("/tiposPago/create", controller.TiposPagoCreate)
 	http.HandleFunc("/tiposPago/update", controller.TiposPagoUpdate)
 	http.HandleFunc("/tiposPago/delete", controller.TiposPagoDelete)
+	//Apis menus
+	http.HandleFunc("/menus", controller.Menus)
+	http.HandleFunc("/menus/list", controller.MenusList)
+	http.HandleFunc("/menus/create", controller.MenusCreate)
+	http.HandleFunc("/menus/update", controller.MenusUpdate)
+	http.HandleFunc("/menus/delete", controller.MenusDelete)
 
 	http.ListenAndServe(":3000", nil)
 }

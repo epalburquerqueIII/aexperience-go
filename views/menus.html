@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuario" }}
+{{ define "menus" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -13,17 +13,21 @@
 <!-- Add aditional link -->
 </head> <!-- fin de head -->
 
-<!-- Se habre un div en menu.html y header.html y se cierra en index -->
+<body>
+
+    
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" }}
 {{ template "header" }}
-
-
-
-<body>
     <!-- <h2> Registradas </h2> -->
+
     <div class="container">
-        <div id="UsuarioTableContainer"></div>
+        <div id="MenusTableContainer"></div>
     </div>
+    </div><!--Cierre de menu-->
+    </div><!--Cierre de Header-->
+
+   
     <script type="text/javascript">
         $(document).ready(function () {
             var spanishMessages = {
@@ -33,15 +37,15 @@
                 addNewRecord: 'Crear nuevo registro',
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
-                //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
+                deleteConfirmation: 'El registro será eliminado. ¿Confirmar?',
+                // deleteConfirmation: 'El menu será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
-                //deleteText: 'Eliminar',
-                deleteText: 'Dar de baja',
-                //deleting: 'Eliminando',
-                deleting: 'Dando de baja',
+                deleteText: 'Eliminar',
+                // deleteText: 'Dar de baja',
+                deleting: 'Eliminando',
+                // deleting: 'Dando de baja',
                 error: 'Error',
                 close: 'Cerrar',
                 cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
@@ -51,82 +55,71 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#UsuarioTableContainer').jtable({
+            $('#MenusTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Usuarios',
+                title: 'Listado de Menus',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Nif ASC', //Set default sorting
+                defaultSorting: 'parent_id ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/usuario/list',
-                    deleteAction: '/usuario/delete',
-                    updateAction: '/usuario/update',
-                    createAction: '/usuario/create'
+                    listAction: '/menus/list',
+                    deleteAction: '/menus/delete',
+                    updateAction: '/menus/update',
+                    createAction: '/menus/create'
                 },
                 fields: {
-                    ID: {
+                    Id: {
                         key: true,
                         create: false,
                         edit: false,
                         list: false
                     },
-                    Nombre: {
-                        title: 'Nombre',
-                        width: '20%'
+                    Parent_id: {
+                        title: 'Parent_id',
+                        width: '10%'
                     },
-                    Nif: {
-                        title: 'Nif',
-                        width: '8%'
-                    },
-                    Email: {
-                        title: 'Email',
+                    Orden: {
+                        title: 'Orden',
                         width: '15%'
                     },
-                    Tipo: {
-                        title: 'Tipo',
-                        width: '8%',
-                        type: 'radiobutton',
-                        options: '/usuario/getoptionsRoles'
+                    Titulo: {
+                        title: 'Titulo',
+                        width: '15%'
                     },
-                    Telefono: {
-                        title: 'Teléfono',
-                        width: '8%'
+                    Icono: {
+                        title: 'Icono',
+                        width: '10%',
                     },
-                    SesionesBonos: {
-                        title: 'Sesiones Bono',
-                        width: '6%'
+                    Url: {
+                        title: 'Url',
+                        width: '20%'
                     },
-                    Newsletter: {
-                        title: 'Newsletter',
-                        width: '5%',
-                        type: 'radiobutton',
-                        options: { '0': 'Si', '1': 'No' }
+                    HanledFunc: {
+                        title: 'HanledFunc',
+                        width: '10%'
                     },
-                    FechaBaja: {
-                        title: 'Fecha Baja',
-                        width: '5%',    
-                        create: false,
-                        edit: false                        
-                    }
                 }
             });
             //Load student list from server
-            $('#UsuarioTableContainer').jtable('load');
+            $('#MenusTableContainer').jtable('load');
         });
     </script>
-    </div><!--Cierre de menu-->
-    </div><!--Cierre de Header-->
     
+    
+   
     {{ template "footer" }}
- 
+
+    
+    
     <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 </body>
+<!--menus -->
 </html>
-<!--usuario -->
-   {{ end }}
+{{ end }}
