@@ -58,5 +58,12 @@ func main() {
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
 
+	// Apis roles de usuario
+	http.HandleFunc("/usuarios_roles", controller.UsuarioRoles)
+	http.HandleFunc("/usuarios_roles/list", controller.UsuarioRolesList)
+	http.HandleFunc("/usuarios_roles/create", controller.UsuarioRolesCreate)
+	http.HandleFunc("/usuarios_roles/update", controller.UsuarioRolesUpdate)
+	http.HandleFunc("/usuarios_roles/delete", controller.UsuarioRolesDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
