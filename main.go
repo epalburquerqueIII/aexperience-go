@@ -58,5 +58,12 @@ func main() {
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
 
+	// Apis tiposPago
+	http.HandleFunc("/tiposPago", controller.TiposPago)
+	http.HandleFunc("/tiposPago/list", controller.TiposPagoList)
+	http.HandleFunc("/tiposPago/create", controller.TiposPagoCreate)
+	http.HandleFunc("/tiposPago/update", controller.TiposPagoUpdate)
+	http.HandleFunc("/tiposPago/delete", controller.TiposPagoDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
