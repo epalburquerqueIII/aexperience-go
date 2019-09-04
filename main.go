@@ -58,5 +58,12 @@ func main() {
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
 
+	//Apis menus
+	http.HandleFunc("/menus", controller.Menus)
+	http.HandleFunc("/menus/list", controller.MenusList)
+	http.HandleFunc("/menus/create", controller.MenusCreate)
+	http.HandleFunc("/menus/update", controller.MenusUpdate)
+	http.HandleFunc("/menus/delete", controller.MenusDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
