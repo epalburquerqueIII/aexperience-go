@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuarios_roles" }}
+{{ define "usuariosRoles" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -22,7 +22,7 @@
 
     <!-- <h2> Registradas </h2> -->
     <div class="container">
-        <div id="usuarios_rolesTableContainer"></div>
+        <div id="usuariosRolesTableContainer"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -51,7 +51,7 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#usuarios_rolesTableContainer').jtable({
+            $('#usuariosRolesTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
                 title: 'Listado de Roles de Usuario',
                 paging: true, //Enable paging
@@ -64,10 +64,10 @@
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/usuarios_roles/list',
-                    deleteAction: '/usuarios_roles/delete',
-                    updateAction: '/usuarios_roles/update',
-                    createAction: '/usuarios_roles/create'
+                    listAction: '/usuariosRoles/list',
+                    deleteAction: '/usuariosRoles/delete',
+                    updateAction: '/usuariosRoles/update',
+                    createAction: '/usuariosRoles/create'
                 },
                 fields: {
                     ID: {
@@ -83,7 +83,7 @@
                 }
             });
             //Load student list from server
-            $('#usuarios_rolesTableContainer').jtable('load');
+            $('#usuariosRolesTableContainer').jtable('load');
         });
     </script>
     </div><!--Cierre de menu-->
