@@ -134,7 +134,7 @@ CREATE Table menus (
     INSERT INTO `menus` (`parent_id`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (1, 2, 'Autorizados', 'fas fa-fw fa-file-signature', 'http://localhost:3000/autorizados', 'http.HandleFunc("/autorizado", controller.Autorizado)' );
     INSERT INTO `menus` (`parent_id`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (1, 3, 'Consumo Bonos', 'fas fa-fw fa-file-signature', 'http://localhost:3000/consumoBonos', 'http.HandleFunc("/consumoBonos", controller.ConsumoBonos)' );
     INSERT INTO `menus` (`parent_id`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (1, 4, 'Espacios', 'fas fa-fw fa-file-signature', 'http://localhost:3000/espacios', 'http.HandleFunc("/espacios", controller.Espacios)' );
-    INSERT INTO `menus` (`parent_id`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (1, 5, 'Reservas', 'fas fa-fw fa-file-signature', 'http://localhost:3000/resservas', 'http.HandleFunc("/reservas", controller.Reservas)' );
+    INSERT INTO `menus` (`parent_id`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (1, 5, 'Reservas', 'fas fa-fw fa-file-signature', 'http://localhost:3000/reservas', 'http.HandleFunc("/reservas", controller.Reservas)' );
     INSERT INTO `menus` (`parent_id`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (1, 6, 'Horarios', 'fas fa-fw fa-file-signature',
     'http://localhost:3000/horarios', 'http.HandleFunc("/horarios", controller.Horarios)' );
     INSERT INTO `menus` (`parent_id`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (1, 7, 'Tipos Pagos', 'fas fa-fw fa-file-signature', 'http://localhost:3000/tiposPagos', 'http.HandleFunc("/tiposPagos", controller.TiposPagos)' );
