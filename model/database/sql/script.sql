@@ -111,14 +111,14 @@ CREATE Table menus (
     url varchar(50) NOT NULL,
     handleFunc varchar(50) NOT NULL,
     FOREIGN KEY (parent_id) REFERENCES menu_parent(id)
-    );
-    CREATE Table menu_usuarios_roles (
+);
+CREATE Table menu_usuarios_roles (
     id integer AUTO_INCREMENT PRIMARY KEY,
     idMenu integer NOT NULL,
     idUsuario_roles integer NOT NULL,
     FOREIGN KEY (idMenu) REFERENCES menus(id),
     FOREIGN KEY (idUsuario_roles) REFERENCES usuarios_roles(id)
-    );
+);
 
     INSERT INTO `menu_parent` (`id`, `titulo`, `tipo`) VALUES (1, 'Estadísticas', 0);
     INSERT INTO `menu_parent` (`id`, `titulo`, `tipo`) VALUES (2, 'Gestión de datos', 1);
