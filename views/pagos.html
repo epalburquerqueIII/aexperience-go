@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "menus" }}
+{{ define "pagos" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -13,20 +13,17 @@
 <!-- Add aditional link -->
 </head> <!-- fin de head -->
 
-<body>
 
+<body>
     
-<!-- Se abre un div en menu.html y header.html y se cierra en index -->
+    <!-- Se habre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" }}
 {{ template "header" }}
-    <!-- <h2> Registradas </h2> -->
 
+    
     <div class="container">
-        <div id="MenusTableContainer"></div>
+        <div id="PagosTableContainer"></div>
     </div>
-  
-
-   
     <script type="text/javascript">
         $(document).ready(function () {
             var spanishMessages = {
@@ -36,8 +33,8 @@
                 addNewRecord: 'Crear nuevo registro',
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
-                deleteConfirmation: 'El registro será eliminado. ¿Confirmar?',
-                // deleteConfirmation: 'El menu será dado de baja. ¿Continuar?',
+                deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
+                // deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
@@ -54,23 +51,23 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#MenusTableContainer').jtable({
+            $('#PagosTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Menus',
+                title: 'Listado de Pagos',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'parentId ASC', //Set default sorting
+                defaultSorting: 'FechaPago ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/menus/list',
-                    deleteAction: '/menus/delete',
-                    updateAction: '/menus/update',
-                    createAction: '/menus/create'
+                    listAction: '/pagos/list',
+                    updateAction: '/pagos/update',
+                    createAction: '/pagos/create',
+                    deleteAction: '/pagos/delete'
                 },
                 fields: {
                     Id: {
@@ -79,47 +76,44 @@
                         edit: false,
                         list: false
                     },
-                    ParentId: {
-                        title: 'ParentId',
-                        width: '10%'
-                    },
-                    Orden: {
-                        title: 'Orden',
-                        width: '15%'
-                    },
-                    Titulo: {
-                        title: 'Titulo',
-                        width: '15%'
-                    },
-                    Icono: {
-                        title: 'Icono',
+                    IdReserva: {
+                        title: 'Reserva',
                         width: '10%',
+                        type: 'combo',
+                        options: '/pagos/getoptionsReserva'
                     },
-                    Url: {
-                        title: 'Url',
-                        width: '20%'
+                    FechaPago: {
+                        title: 'Fecha',
+                        width: '15%',
+                        type: "date",
+                        create: false,
+                        edit: false,
+                        displayFormat: "dd-mm-yy"
                     },
-                    HanledFunc: {
-                        title: 'HanledFunc',
-                        width: '10%'
+                    IdTipopago: {
+                        title: 'Tipo de pago',
+                        width: '20%',
+                        type: 'combo',
+                        options: '/pagos/getoptionsTipo'
                     },
+                    NumeroTarjeta: {
+                        title: 'Numero tarjeta',
+                        width: '15%'
+                    }
                 }
             });
             //Load student list from server
-            $('#MenusTableContainer').jtable('load');
+            $('PagosTableContainer').jtable('load');
         });
     </script>
-      </div><!--Cierre de menu-->
+    </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
     
-   
     {{ template "footer" }}
-
-    
-    
+   
     <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
-<!--menus -->
 </html>
+<!--pagos -->
 {{ end }}
