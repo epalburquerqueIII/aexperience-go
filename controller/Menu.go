@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -19,21 +18,9 @@ func Menu(w http.ResponseWriter, r *http.Request) {
 
 // MenuList
 func MenuList(w http.ResponseWriter, r *http.Request) {
-
-	var i int = 0
-	jtsort := r.URL.Query().Get("jtSorting")
-	if jtsort != "" {
-		fmt.Println("jtSorting" + jtsort)
-		jtsort = "ORDER BY " + jtsort
-	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menus.id, icono, parent_id, menus.titulo, url FROM menus " + jtsort)
+	selDB, err := db.Query("Select parent_id, titulo, icono, url FROM menus ")
 	if err != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error buscando datos"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
 		panic(err.Error())
 	}
 	menu := model.Tmenu{}
@@ -42,35 +29,18 @@ func MenuList(w http.ResponseWriter, r *http.Request) {
 
 		err = selDB.Scan(&menu.ID, &menu.Icono, &menu.ParentID, &menu.NomEnlace, &menu.Enlace)
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error Cargando menu"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
 			panic(err.Error())
 		}
 		res = append(res, menu)
-		i++
 	}
-	// var vrecords model.UsuarioRecords
-	// vrecords.Result = "OK"
-	// vrecords.TotalRecordCount = i
-	// vrecords.Records = res
-
-	// create json response from struct
-	// a, err := json.Marshal(vrecords)
-	// Visualza
-	// 	s := string(a)
-	// 	fmt.Println(s)
-	// 	w.Write(a)
-	// 	defer db.Close()
+	defer db.Close()
 }
 
-// MenugetTitulo
+// MenugetTitulo - para obtener el titulo del parent
 func MenugetTitulo(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menu_parent.id, menu_parent.titulo FROM menu_parent ORDER BY menu_parent.id")
+	selDB, err := db.Query("SELECT menu_parent.titulo FROM menu_parent ORDER BY menu_parent.id")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -83,15 +53,25 @@ func MenugetTitulo(w http.ResponseWriter, r *http.Request) {
 		}
 		vtabla = append(vtabla, elem)
 	}
+	defer db.Close()
+}
 
-	var vtab model.Options
-	vtab.Result = "OK"
-	vtab.Options = vtabla
-	// create json response from struct
-	a, err := json.Marshal(vtab)
-	// Visualza
-	s := string(a)
-	fmt.Println(s)
-	w.Write(a)
+//MenugetTipo saber si es usuario o administrador
+func MenugetTipo(w http.ResponseWriter, r *http.Request) {
+
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT menu_parent.tipo FROM menu_parent ")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			panic(err.Error())
+		}
+		vtabla = append(vtabla, elem)
+	}
 	defer db.Close()
 }
