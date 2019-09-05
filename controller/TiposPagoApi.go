@@ -125,7 +125,7 @@ func TiposPagoUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(tip.Nombre)
+		insForm.Exec(tip.Nombre, tip.Id)
 		log.Printf("UPDATE: nombre: " + tip.Nombre)
 	}
 	defer db.Close()

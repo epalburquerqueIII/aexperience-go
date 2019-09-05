@@ -58,7 +58,6 @@ func main() {
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
 
-<<<<<<< HEAD
 	// Apis pagos
 	http.HandleFunc("/pagos", controller.Pagos)
 	http.HandleFunc("/pagos/list", controller.PagosList)
@@ -67,7 +66,6 @@ func main() {
 	http.HandleFunc("/pagos/delete", controller.PagosDelete)
 	http.HandleFunc("/pagos/getoptionsReserva", controller.PagosgetoptionsReserva)
 	http.HandleFunc("/pagos/getoptionsTipo", controller.PagosgetoptionsTipo)
-=======
 	// Apis roles de usuario
 	http.HandleFunc("/usuarios_roles", controller.UsuarioRoles)
 	http.HandleFunc("/usuarios_roles/list", controller.UsuarioRolesList)
@@ -86,7 +84,6 @@ func main() {
 	http.HandleFunc("/menus/create", controller.MenusCreate)
 	http.HandleFunc("/menus/update", controller.MenusUpdate)
 	http.HandleFunc("/menus/delete", controller.MenusDelete)
->>>>>>> 7fec213a7854bb8e649b13509c3d112584c54ec4
 
 	http.ListenAndServe(":3000", nil)
 }
