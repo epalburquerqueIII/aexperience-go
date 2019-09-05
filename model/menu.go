@@ -7,4 +7,5 @@ type Tmenu struct {
 	ParentID  int
 	NomEnlace string
 	Enlace    string
+	Despliega int
 }

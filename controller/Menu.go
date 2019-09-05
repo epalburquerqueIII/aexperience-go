@@ -52,18 +52,18 @@ func MenuList(w http.ResponseWriter, r *http.Request) {
 		res = append(res, menu)
 		i++
 	}
-	var vrecords model.UsuarioRecords
-	vrecords.Result = "OK"
-	vrecords.TotalRecordCount = i
-	vrecords.Records = res
+	// var vrecords model.UsuarioRecords
+	// vrecords.Result = "OK"
+	// vrecords.TotalRecordCount = i
+	// vrecords.Records = res
 
 	// create json response from struct
-	a, err := json.Marshal(vrecords)
+	// a, err := json.Marshal(vrecords)
 	// Visualza
-	s := string(a)
-	fmt.Println(s)
-	w.Write(a)
-	defer db.Close()
+	// 	s := string(a)
+	// 	fmt.Println(s)
+	// 	w.Write(a)
+	// 	defer db.Close()
 }
 
 // MenugetTitulo
