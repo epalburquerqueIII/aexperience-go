@@ -66,5 +66,11 @@ func main() {
 	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
 	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
 
+	//Apis Espacios
+	http.HandleFunc("/espacios", controller.Espacio)
+	http.HandleFunc("/espacios/list", controller.Espacio)
+	http.HandleFunc("/espacios/create", controller.Espacio)
+	http.HandleFunc("/espacios/update", controller.Espacio)
+	http.HandleFunc("/espacios/delete", controller.Espacio)
 	http.ListenAndServe(":3000", nil)
 }
