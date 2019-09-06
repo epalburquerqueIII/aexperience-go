@@ -34,7 +34,7 @@ func EspacioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT espacios.id, descripcion, estado, modo, precio, tiposevento.nombre, numeroreservaslimite, aforo,fecha FROM espacios LEFT OUTER JOIN tiposevento ON (idTipoaevento = tiposevento.id) " + jtsort)
+	selDB, err := db.Query("SELECT espacios.id, descripcion, estado, modo, precio, tiposevento.nombre, numeroreservaslimite, aforo,fecha FROM espacios LEFT OUTER JOIN tiposevento ON (idTipoevento = tiposevento.id) " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -164,38 +164,11 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// UsuarioDelete Borra usuario de la DB
-// func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
-// 	db := database.DbConn()
-// 	usu := r.FormValue("ID")
-// 	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
-// 	if err != nil {
-
-// 		panic(err.Error())
-// 	}
-// 	_, err1 := delForm.Exec(usu)
-// 	if err1 != nil {
-// 		var verror model.Resulterror
-// 		verror.Result = "ERROR"
-// 		verror.Error = "Error Borrando usuario"
-// 		a, _ := json.Marshal(verror)
-// 		w.Write(a)
-// 	}
-// 	log.Println("DELETE")
-// 	defer db.Close()
-// 	var vrecord model.UsuarioRecord
-// 	vrecord.Result = "OK"
-// 	a, _ := json.Marshal(vrecord)
-// 	w.Write(a)
-
-// 	// 	// 	http.Redirect(w, r, "/", 301)
-// }
-
-//UsuarioBaja da de baja al usuario
-func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
+//EspaciosBaja da de baja al usuario
+func EspaciosBaja(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := r.FormValue("ID")
-	delForm, err := db.Prepare("UPDATE usuarios SET fechaBaja=CURDATE() WHERE id=?")
+	delForm, err := db.Prepare("UPDATE espacios SET fecha=CURDATE() WHERE id=?")
 	if err != nil {
 
 		panic(err.Error())
@@ -210,7 +183,7 @@ func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("BAJA")
 	defer db.Close()
-	var vrecord model.UsuarioRecord
+	var vrecord model.EspacioRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
@@ -218,11 +191,11 @@ func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
 	// 	// 	http.Redirect(w, r, "/", 301)
 }
 
-// UsuariogetoptionsRoles Roles de usuario
-func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
+// EspaciosgetoptionsRoles Roles de usuario
+func EspaciosgetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
+	selDB, err := db.Query("SELECT espacios_roles.id, espacios_roles.nombre from espacios_roles Order by espacios_roles.id")
 	if err != nil {
 		panic(err.Error())
 	}
