@@ -29,6 +29,7 @@ func main() {
 	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
 	http.HandleFunc("/Bono", controller.Bonos)
 	http.HandleFunc("/autorizado", controller.Autorizados)
+
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
@@ -57,6 +58,13 @@ func main() {
 	http.HandleFunc("/autorizado/create", controller.AutorizadoCreate)
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
+
+	// Apis tiposevento
+	http.HandleFunc("/tiposevento", controller.Tiposevento)
+	http.HandleFunc("/tiposevento/list", controller.TiposeventoList)
+	http.HandleFunc("/tiposevento/create", controller.TiposeventoCreate)
+	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
+	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
 
 	http.ListenAndServe(":3000", nil)
 }
