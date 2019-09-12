@@ -1,4 +1,5 @@
 //TODO dar de alta los usuarios que están de baja
+
 package controller
 
 import (
@@ -8,7 +9,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	"../model"
 	"../model/database"
@@ -16,17 +16,16 @@ import (
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
-// Usuario Pantalla de tratamiento de usuario
-func Usuario(w http.ResponseWriter, r *http.Request) {
-	util.menus(0)
-	error := tmpl.ExecuteTemplate(w, "usuario", nil)
+// Horarios Pantalla de tratamiento de los horarios
+func Horarios(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "horarios", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// UsuarioList - json con los datos de clientes
-func UsuarioList(w http.ResponseWriter, r *http.Request) {
+// HorariosList - json con los horarios
+func HorariosList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -35,7 +34,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, tipo, telefono, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT horarios.id, idEspacio, descripcion, fechaInicio, fechaFin, hora FROM horarios " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -44,33 +43,33 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		w.Write(a)
 		panic(err.Error())
 	}
-	usu := model.Tusuario{}
-	res := []model.Tusuario{}
+	h := model.Thorarios{}
+	res := []model.Thorarios{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.Tipo, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
+		err = selDB.Scan(&h.ID, &h.IdEspacio, &h.Descripcion, &h.Fechainicio, &h.Fechafinal, &h.Hora)
 		//Si no hay fecha de baja, este campo aparece como activo
-		if usu.FechaBaja == "0000-00-00" {
-			usu.FechaBaja = "Activo"
-		} else {
-			//Formato de fecha en español cuando está de baja
-			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
-			usu.FechaBaja = t.Format("02-01-2006")
+		//if h.FechaBaja == "0000-00-00" {
+		//	usu.FechaBaja = "Activo"
+		//} else {)
+		//Formato de fecha en español cuando está de baja
+		//	t, _ := time.Parse("2006-01-02", usu.FechaBaja)
+		//	usu.FechaBaja = t.Format("02-01-2006"
 
-		}
+		//}
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Cargando registros de Usuarios"
+			verror.Error = "Error al cargar horarios"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
 		}
-		res = append(res, usu)
+		res = append(res, h)
 		i++
 	}
 
-	var vrecords model.UsuarioRecords
+	var vrecords model.HorariosRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -83,35 +82,32 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// UsuarioCreate - Crear un Usuario
-func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
+// HorariosCreate - Crear un Usuario
+func HorariosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	usu := model.Tusuario{}
+	h := model.Thorarios{}
 	if r.Method == "POST" {
-		usu.Nombre = r.FormValue("Nombre")
-		usu.Nif = r.FormValue("Nif")
-		usu.Email = r.FormValue("Email")
-		usu.Tipo, _ = strconv.Atoi(r.FormValue("Tipo"))
-		usu.Telefono = r.FormValue("Telefono")
-		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
-		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
-		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, tipo, telefono, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?)")
+		h.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
+		h.Descripcion = r.FormValue("Descripcion")
+		h.Fechainicio = r.FormValue("Fechainicio")
+		h.Fechafinal = r.FormValue("Fechafinal")
+		h.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
+		insForm, err := db.Prepare("INSERT INTO Horarios(idEspacio,descripcion,fechaInicio,fechaFin,hora) VALUES(?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Insertando Usuario"
+			verror.Error = "Error Insertando horario"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.Tipo, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		res, err1 := insForm.Exec(h.IdEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora)
 		if err1 != nil {
 			panic(err1.Error())
 		}
-		usu.ID, err1 = res.LastInsertId()
-		log.Println("INSERT: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
+		h.ID, err1 = res.LastInsertId()
+		log.Println("INSERT: IdEspacio: " + h.IdEspacio + " | Descripcion: " + h.Descripcion)
 
 	}
 	var vrecord model.UsuarioRecord
@@ -164,6 +160,33 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 
 	//	http.Redirect(w, r, "/", 301)
 }
+
+// UsuarioDelete Borra usuario de la DB
+// func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
+// 	db := database.DbConn()
+// 	usu := r.FormValue("ID")
+// 	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
+// 	if err != nil {
+
+// 		panic(err.Error())
+// 	}
+// 	_, err1 := delForm.Exec(usu)
+// 	if err1 != nil {
+// 		var verror model.Resulterror
+// 		verror.Result = "ERROR"
+// 		verror.Error = "Error Borrando usuario"
+// 		a, _ := json.Marshal(verror)
+// 		w.Write(a)
+// 	}
+// 	log.Println("DELETE")
+// 	defer db.Close()
+// 	var vrecord model.UsuarioRecord
+// 	vrecord.Result = "OK"
+// 	a, _ := json.Marshal(vrecord)
+// 	w.Write(a)
+
+// 	// 	// 	http.Redirect(w, r, "/", 301)
+// }
 
 //UsuarioBaja da de baja al usuario
 func UsuarioBaja(w http.ResponseWriter, r *http.Request) {

@@ -29,9 +29,11 @@ func main() {
 	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
 	http.HandleFunc("/Bono", controller.Bonos)
 	http.HandleFunc("/autorizado", controller.Autorizados)
+
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
+
 	// http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
 	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
@@ -97,5 +99,18 @@ func main() {
 	http.HandleFunc("/menus/update", controller.MenusUpdate)
 	http.HandleFunc("/menus/delete", controller.MenusDelete)
 
+	// Apis tiposevento
+	http.HandleFunc("/tiposevento", controller.Tiposevento)
+	http.HandleFunc("/tiposevento/list", controller.TiposeventoList)
+	http.HandleFunc("/tiposevento/create", controller.TiposeventoCreate)
+	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
+	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
+
+	//Apis espacios
+	http.HandleFunc("/espacios", controller.Espacio)
+	http.HandleFunc("/espacios/list", controller.EspacioList)
+	http.HandleFunc("/espacios/create", controller.EspacioCreate)
+	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
+	//http.HandleFunc("/espacios/delete", controller.EspacioDelete)
 	http.ListenAndServe(":3000", nil)
 }
