@@ -7,14 +7,18 @@ import (
 	"net/http"
 
 	"./controller"
+	"./util"
 	_ "github.com/go-sql-driver/mysql"
 )
+
+const usertype int = 0
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 func index(w http.ResponseWriter, r *http.Request) {
-	menu := util.menus()
-	error := tmpl.ExecuteTemplate(w, "index", nil)
+	menu := util.Menus(usertype)
+
+	error := tmpl.ExecuteTemplate(w, "index", menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

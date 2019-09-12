@@ -5,9 +5,10 @@ import (
 	"../model/database"
 )
 
-func menus(usertype int) Tmenu {
+// Menus Estructura de menu para template
+func Menus(usertype int) []model.Tmenu {
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menuparent.titulo AS Categoría, menuparent.tipo, menus.titulo, icono, url FROM menus LEFT OUTER JOIN menuparent ON menuparent.id = parentId ")
+	selDB, err := db.Query("SELECT menuparent.titulo AS Categoría, menuparent.tipo, menus.titulo, icono, url FROM menus LEFT OUTER JOIN menuparent ON menuparent.id = parentId")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -26,4 +27,5 @@ func menus(usertype int) Tmenu {
 		rst = append(rst, desp)
 	}
 	defer db.Close()
+	return res
 }
