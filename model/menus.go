@@ -1,12 +1,12 @@
 package model
 
-// Tmenu es la estructura para menus
-type Tmenu struct {
-	ID         int64
-	ParentID   int
-	Orden      string
+// Tusuario es la estructura para usuario
+type Tmenus struct {
+	Id         int64
+	ParentId   int
+	Orden      int
 	Titulo     string
 	Icono      string
 	Url        string
-	HandleFunc string
+	HanledFunc string
 }
