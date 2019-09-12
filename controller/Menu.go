@@ -30,51 +30,12 @@ func MenuList(w http.ResponseWriter, r *http.Request) {
 	rst := []model.Tmenudesplegable{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&menu.ParentTitle, &menu.Icono, &menu.)
+		err = selDB.Scan(&menu.ParentTitle, &menu.Icono, &menu.Despliega, &desp.NomEnlace, &desp.Enlace)
 		if err != nil {
 			panic(err.Error())
 		}
 		res = append(res, menu)
-	}
-	defer db.Close()
-}
-
-// MenugetTitulo - para obtener el titulo del parent
-func MenugetTitulo(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	selDB, err := db.Query("SELECT menuParent.titulo FROM menuParent ORDER BY menuParent.id")
-	if err != nil {
-		panic(err.Error())
-	}
-	elem := model.Option{}
-	vtabla := []model.Option{}
-	for selDB.Next() {
-		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-		if err != nil {
-			panic(err.Error())
-		}
-		vtabla = append(vtabla, elem)
-	}
-	defer db.Close()
-}
-
-//MenugetTipo saber si es usuario o administrador
-func MenugetTipo(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	selDB, err := db.Query("SELECT menuParent.tipo FROM menuParent ")
-	if err != nil {
-		panic(err.Error())
-	}
-	elem := model.Option{}
-	vtabla := []model.Option{}
-	for selDB.Next() {
-		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-		if err != nil {
-			panic(err.Error())
-		}
-		vtabla = append(vtabla, elem)
+		rst = append(rst, desp)
 	}
 	defer db.Close()
 }
