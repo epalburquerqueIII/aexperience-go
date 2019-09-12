@@ -13,7 +13,7 @@ import (
 
 // UsuarioRoles Pantalla de tratamiento de usuario
 func UsuarioRoles(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "usuarios_roles", nil)
+	error := tmpl.ExecuteTemplate(w, "usuariosRoles", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -29,7 +29,7 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT id, nombre FROM usuarios_roles " + jtsort)
+	selDB, err := db.Query("SELECT id, nombre FROM usuariosRoles " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -38,8 +38,8 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 		w.Write(a)
 		panic(err.Error())
 	}
-	usuR := model.Tusuarios_roles{}
-	res := []model.Tusuarios_roles{}
+	usuR := model.TusuariosRoles{}
+	res := []model.TusuariosRoles{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&usuR.ID, &usuR.Nombre)
@@ -55,7 +55,7 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.Usuarios_rolesRecords
+	var vrecords model.UsuariosRolesRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -72,10 +72,10 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	usuR := model.Tusuarios_roles{}
+	usuR := model.TusuariosRoles{}
 	if r.Method == "POST" {
 		usuR.Nombre = r.FormValue("Nombre")
-		insForm, err := db.Prepare("INSERT INTO usuarios_roles(nombre) VALUES(?)")
+		insForm, err := db.Prepare("INSERT INTO usuariosRoles(nombre) VALUES(?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -92,7 +92,7 @@ func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
 		log.Println("INSERT: nombre: " + usuR.Nombre)
 
 	}
-	var vrecord model.Usuarios_rolesRecord
+	var vrecord model.UsuariosRolesRecord
 	vrecord.Result = "OK"
 	vrecord.Record = usuR
 	a, _ := json.Marshal(vrecord)
@@ -108,12 +108,12 @@ func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
 // UsuarioRolesUpdate Actualiza el rol de usuario
 func UsuarioRolesUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	usuR := model.Tusuarios_roles{}
+	usuR := model.TusuariosRoles{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		usuR.ID = int64(i)
 		usuR.Nombre = r.FormValue("Nombre")
-		insForm, err := db.Prepare("UPDATE usuarios_roles SET nombre=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuariosRoles SET nombre=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -123,11 +123,11 @@ func UsuarioRolesUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(usuR.Nombre)
+		insForm.Exec(usuR.Nombre, usuR.ID)
 		log.Println("UPDATE: nombre: " + usuR.Nombre)
 	}
 	defer db.Close()
-	var vrecord model.Usuarios_rolesRecord
+	var vrecord model.UsuariosRolesRecord
 	vrecord.Result = "OK"
 	vrecord.Record = usuR
 	a, _ := json.Marshal(vrecord)
@@ -140,7 +140,7 @@ func UsuarioRolesUpdate(w http.ResponseWriter, r *http.Request) {
 func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usuR := r.FormValue("Id")
-	delForm, err := db.Prepare("DELETE FROM usuarios_roles WHERE id=?")
+	delForm, err := db.Prepare("DELETE FROM usuariosRoles WHERE id=?")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -154,7 +154,7 @@ func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.Usuarios_rolesRecord
+	var vrecord model.UsuariosRolesRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
@@ -166,7 +166,7 @@ func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
+	selDB, err := db.Query("SELECT usuariosRoles.id, usuariosRoles.nombre from usuariosRoles Order by usuariosRoles.id")
 	if err != nil {
 		panic(err.Error())
 	}

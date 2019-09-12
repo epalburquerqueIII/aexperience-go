@@ -29,7 +29,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menus.id, parent_id, orden, titulo, icono, url, hanledFunc FROM menus " + jtsort)
+	selDB, err := db.Query("SELECT menus.id, parentId, orden, titulo, icono, url, hanledFunc FROM menus " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -42,7 +42,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tmenus{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&menu.Id, &menu.Parent_id, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HanledFunc)
+		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HanledFunc)
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -74,13 +74,13 @@ func MenusCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	menu := model.Tmenus{}
 	if r.Method == "POST" {
-		menu.Parent_id, _ = strconv.Atoi(r.FormValue("Parent_id"))
+		menu.ParentId, _ = strconv.Atoi(r.FormValue("ParentId"))
 		menu.Orden, _ = strconv.Atoi(r.FormValue("Orden"))
 		menu.Titulo = r.FormValue("Titulo")
 		menu.Icono = r.FormValue("Icono")
 		menu.Url = r.FormValue("Url")
 		menu.HanledFunc = r.FormValue("HanledFunc")
-		insForm, err := db.Prepare("INSERT INTO menus(parent_id, orden, titulo, icono, url, hanledFunc) VALUES(?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO menus(parentId, orden, titulo, icono, url, hanledFunc) VALUES(?,?,?,?,?,?)")
 
 		if err != nil {
 			var verror model.Resulterror
@@ -90,12 +90,12 @@ func MenusCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(menu.Parent_id, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc)
+		res, err1 := insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc)
 		if err1 != nil {
 			panic(err1.Error())
 		}
 		menu.Id, err1 = res.LastInsertId()
-		log.Printf("INSERT: id: %d | parent_id: %d\n", menu.Id, menu.Parent_id)
+		log.Printf("INSERT: id: %d | parentId: %d\n", menu.Id, menu.ParentId)
 
 	}
 	var vrecord model.MenusRecord
@@ -118,13 +118,13 @@ func MenusUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		menu.Id = int64(i)
-		menu.Parent_id, _ = strconv.Atoi(r.FormValue("Parent_id"))
+		menu.ParentId, _ = strconv.Atoi(r.FormValue("ParentId"))
 		menu.Orden, _ = strconv.Atoi(r.FormValue("Orden"))
 		menu.Titulo = r.FormValue("Titulo")
 		menu.Icono = r.FormValue("Icono")
 		menu.Url = r.FormValue("Url")
 		menu.HanledFunc = r.FormValue("HanledFunc")
-		insForm, err := db.Prepare("UPDATE menus SET parent_id=?, orden=?, titulo=?, icono=?, url=?, hanledFunc=? WHERE menus.id=?")
+		insForm, err := db.Prepare("UPDATE menus SET parentId=?, orden=?, titulo=?, icono=?, url=?, hanledFunc=? WHERE menus.id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -134,8 +134,8 @@ func MenusUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(menu.Parent_id, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc, menu.Id)
-		log.Println("UPDATE: id: %d  | parent_id: %d\n", menu.Id, menu.Parent_id)
+		insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc, menu.Id)
+		log.Println("UPDATE: id: %d  | parentId: %d\n", menu.Id, menu.ParentId)
 	}
 	defer db.Close()
 	var vrecord model.MenusRecord
