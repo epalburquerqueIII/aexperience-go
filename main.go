@@ -13,6 +13,7 @@ import (
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 func index(w http.ResponseWriter, r *http.Request) {
+	menu := util.menus()
 	error := tmpl.ExecuteTemplate(w, "index", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)

@@ -1,23 +1,11 @@
-package controller
+package util
 
 import (
-	"fmt"
-	"net/http"
-
 	"../model"
 	"../model/database"
 )
 
-// Menu -
-func Menu(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "menu", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
-// MenuList -
-func MenuList(w http.ResponseWriter, r *http.Request) {
+func menus(usertype int) Tmenu {
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT menuparent.titulo AS Categoría, menuparent.tipo, menus.titulo, icono, url FROM menus LEFT OUTER JOIN menuparent ON menuparent.id = parentId ")
 	if err != nil {
