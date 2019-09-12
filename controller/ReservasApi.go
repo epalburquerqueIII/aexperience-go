@@ -44,15 +44,6 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 	for selDB.Next() {
 
 		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.FechaPago, &reser.Hora, &reser.IdUsuario, &reser.IdEspacio, &reser.IdAutorizado)
-		//Si no hay fecha de baja, este campo aparece como activo
-		// if reser.FechaPago == "0000-00-00" {
-		// 	reser.FechaPago = "Activo"
-		// } else {
-		// 	//Formato de fecha en español cuando está de baja
-		// 	t, _ := time.Parse("2006-01-02", reser.FechaPago)
-		// 	reser.FechaPago = t.Format("02-01-2006")
-
-		// }
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -286,63 +277,3 @@ func ReservasgetoptionsAutorizado(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 	defer db.Close()
 }
-
-//Reservasgetoptions tabla de autorizados
-// func ReservasgetoptionsAutorizado(w http.ResponseWriter, r *http.Request) {
-
-// 	db := database.DbConn()
-// 	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado from autorizados Order by autorizados.id")
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	elem := model.Option{}
-// 	vtabla := []model.Option{}
-// 	for selDB.Next() {
-// 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-// 		if err != nil {
-// 			panic(err.Error())
-// 		}
-// 		vtabla = append(vtabla, elem)
-// 	}
-
-// 	var vtab model.Options
-// 	vtab.Result = "OK"
-// 	vtab.Options = vtabla
-// 	// create json response from struct
-// 	a, err := json.Marshal(vtab)
-// 	// Visualza
-// 	s := string(a)
-// 	fmt.Println(s)
-// 	w.Write(a)
-// 	defer db.Close()
-// }
-
-// UsuariogetoptionsRoles Roles de usuario
-// func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
-
-// 	db := database.DbConn()
-// 	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	elem := model.Option{}
-// 	vtabla := []model.Option{}
-// 	for selDB.Next() {
-// 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-// 		if err != nil {
-// 			panic(err.Error())
-// 		}
-// 		vtabla = append(vtabla, elem)
-// 	}
-
-// 	var vtab model.Options
-// 	vtab.Result = "OK"
-// 	vtab.Options = vtabla
-// 	// create json response from struct
-// 	a, err := json.Marshal(vtab)
-// 	// Visualza
-// 	s := string(a)
-// 	fmt.Println(s)
-// 	w.Write(a)
-// 	defer db.Close()
-// }
