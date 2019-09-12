@@ -68,7 +68,7 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// UsuarioRolesCreate - Crear un Rol Usuario
+// UsuarioRolesCreate - Crear un rol Usuario
 func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
