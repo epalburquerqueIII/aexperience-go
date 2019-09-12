@@ -19,7 +19,7 @@ func Menu(w http.ResponseWriter, r *http.Request) {
 // MenuList -
 func MenuList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT parentId, icono, titulo, url FROM menus ")
+	selDB, err := db.Query("SELECT menuparent.titulo AS Categoría, menuparent.tipo, menus.titulo, icono, url FROM menus LEFT OUTER JOIN menuparent on menuparent.id = parentId ")
 	if err != nil {
 		panic(err.Error())
 	}
