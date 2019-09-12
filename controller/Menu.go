@@ -8,7 +8,7 @@ import (
 	"../model/database"
 )
 
-// Menu
+// Menu -
 func Menu(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "menu", nil)
 	if error != nil {
@@ -16,18 +16,21 @@ func Menu(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// MenuList
+// MenuList -
 func MenuList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	selDB, err := db.Query("Select parent_id, titulo, icono, url FROM menus ")
+	selDB, err := db.Query("SELECT parentId, icono, titulo, url FROM menus ")
 	if err != nil {
 		panic(err.Error())
 	}
 	menu := model.Tmenu{}
 	res := []model.Tmenu{}
+
+	desp := model.Tmenudesplegable{}
+	rst := []model.Tmenudesplegable{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&menu.ID, &menu.Icono, &menu.ParentID, &menu.NomEnlace, &menu.Enlace)
+		err = selDB.Scan(&menu.ParentTitle, &menu.Icono, &menu.)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -40,7 +43,7 @@ func MenuList(w http.ResponseWriter, r *http.Request) {
 func MenugetTitulo(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menu_parent.titulo FROM menu_parent ORDER BY menu_parent.id")
+	selDB, err := db.Query("SELECT menuParent.titulo FROM menuParent ORDER BY menuParent.id")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -60,7 +63,7 @@ func MenugetTitulo(w http.ResponseWriter, r *http.Request) {
 func MenugetTipo(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menu_parent.tipo FROM menu_parent ")
+	selDB, err := db.Query("SELECT menuParent.tipo FROM menuParent ")
 	if err != nil {
 		panic(err.Error())
 	}

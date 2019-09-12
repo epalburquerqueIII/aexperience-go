@@ -216,7 +216,7 @@ func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 
-	// 	// 	http.Redirect(w, r, "/", 301)
+	//	http.Redirect(w, r, "/", 301)
 }
 
 // UsuariogetoptionsRoles Roles de usuario
