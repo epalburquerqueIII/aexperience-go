@@ -30,8 +30,8 @@
     <hr class="sidebar-divider">
 
     {{ with .Menu }}
-    {{ range . }}
     {{ if eq .Despliega 1 }}
+    {{ range . }}
     <!-- Nav Item - Menu Desplegable -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -41,12 +41,13 @@
       </a>
       <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          {{ range . Options }}
+          {{ with . Options }}
           <a class="collapse-item" href="{{ .Enlace }}">{{ .NomEnlace }}</a>
           {{ end }}
         </div>
       </div>
     </li>
+    {{ end }}<!-- Cierre de range. -->
 
     <!-- Separacion del Menu -->
     <hr class="sidebar-divider">
@@ -62,7 +63,8 @@
     <!-- Separacion del Menu -->
     <hr class="sidebar-divider">
 
-    {{ end }}
+    {{ end }}<!-- Cierre if -->
+    {{ end }}<!-- Cierre with .Menu -->
 
     <!-- Sidebar Toggler (Sidebar) (Recoger Menu) -->
     <div class="text-center d-none d-md-inline">
@@ -77,4 +79,4 @@
   <script src="static/js/sb-admin-2.min.js"></script>
 
 </html>
-{{ end }}
+{{ end }}<!-- Cierre define menu -->
