@@ -9,7 +9,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	"../model"
 	"../model/database"
@@ -17,26 +16,25 @@ import (
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
-// Usuario Pantalla de tratamiento de usuario
-func Usuario(w http.ResponseWriter, r *http.Request) {
-	util.menus(0)
-	error := tmpl.ExecuteTemplate(w, "usuario", nil)
+// Menus Pantalla de tratamiento de menus
+func Menu(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "menus", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// UsuarioList - json con los datos de clientes
-func UsuarioList(w http.ResponseWriter, r *http.Request) {
+//MenusList
+func MenusList(w http.ResponseWriter, r *http.Request) {
 
-	var i int = 0
+	var i int
 	jtsort := r.URL.Query().Get("jtSorting")
 	if jtsort != "" {
 		fmt.Println("jtSorting" + jtsort)
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, tipo, telefono, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT menus.id, parent_id, orden, titulo, icono, url, handleFunc FROM menus " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -45,12 +43,12 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		w.Write(a)
 		panic(err.Error())
 	}
-	usu := model.Tusuario{}
-	res := []model.Tusuario{}
+	men := model.Tmenu{}
+	res := []model.Tmenu{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.Tipo, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
-		//Si no hay fecha de baja, este campo aparece como activo
+		err = selDB.Scan(&men.ID, &men.ParentID, &men.Orden, &men.Titulo, &men.Icono, &men.Url, &men.HandleFunc)
+		/*//Si no hay fecha de baja, este campo aparece como activo
 		if usu.FechaBaja == "0000-00-00" {
 			usu.FechaBaja = "Activo"
 		} else {
@@ -58,20 +56,20 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
 			usu.FechaBaja = t.Format("02-01-2006")
 
-		}
+		}*/
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Cargando registros de Usuarios"
+			verror.Error = "Error Cargando registros de Menús"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
 		}
-		res = append(res, usu)
+		res = append(res, men)
 		i++
 	}
 
-	var vrecords model.UsuarioRecords
+	var vrecords model.MenuRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -84,40 +82,39 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// UsuarioCreate - Crear un Usuario
-func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
+// MenusCreate - Crear un Menus
+func MenusCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	usu := model.Tusuario{}
+	men := model.Tmenu{}
 	if r.Method == "POST" {
-		usu.Nombre = r.FormValue("Nombre")
-		usu.Nif = r.FormValue("Nif")
-		usu.Email = r.FormValue("Email")
-		usu.Tipo, _ = strconv.Atoi(r.FormValue("Tipo"))
-		usu.Telefono = r.FormValue("Telefono")
-		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
-		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
-		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, tipo, telefono, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?)")
+		men.ParentID, _ = strconv.Atoi(r.FormValue("Parent_id"))
+		men.Orden = r.FormValue("Orden")
+		men.Titulo = r.FormValue("Titulo")
+		men.Icono = r.FormValue("Icono")
+		men.Url = r.FormValue("Url")
+		men.HandleFunc = r.FormValue("HandleFunc")
+
+		insForm, err := db.Prepare("INSERT INTO menus(parent_id, orden, titulo, icono, url, handleFunc) VALUES(?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Insertando Usuario"
+			verror.Error = "Error Insertando Menus"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.Tipo, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		res, err1 := insForm.Exec(men.ParentID, men.Orden, men.Titulo, men.Icono, men.Url, men.HandleFunc)
 		if err1 != nil {
 			panic(err1.Error())
 		}
-		usu.ID, err1 = res.LastInsertId()
-		log.Println("INSERT: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
+		men.ID, err1 = res.LastInsertId()
+		log.Println("INSERT: parent id: " + men.ParentID)
 
 	}
-	var vrecord model.UsuarioRecord
+	var vrecord model.MenusRecords
 	vrecord.Result = "OK"
-	vrecord.Record = usu
+	vrecord.Record = men
 	a, _ := json.Marshal(vrecord)
 	s := string(a)
 	fmt.Println(s)
@@ -128,22 +125,20 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// UsuarioUpdate Actualiza el usuario
-func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
+// MenusUpdate Actualiza el menus
+func MenusUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	usu := model.Tusuario{}
+	men := model.Tmenu{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
-		usu.ID = int64(i)
-		usu.Nombre = r.FormValue("Nombre")
-		usu.Nif = r.FormValue("Nif")
-		usu.Email = r.FormValue("Email")
-		usu.Tipo, _ = strconv.Atoi(r.FormValue("Tipo"))
-		usu.Telefono = r.FormValue("Telefono")
-		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
-		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
-		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, tipo =?, telefono=?, sesionesBonos=?, newsletter=?, fechaBaja=? WHERE id=?")
+		men.ID = int64(i)
+		men.ParentID, _ = strconv.Atoi(r.FormValue("Parent_id"))
+		men.Orden = r.FormValue("Orden")
+		men.Titulo = r.FormValue("Titulo")
+		men.Icono = r.FormValue("Icono")
+		men.Url = r.FormValue("Url")
+		men.HandleFunc = r.FormValue("handleFunc")
+		insForm, err := db.Prepare("UPDATE menus SET parent_id=?, orden=?, titulo=?, icono=?, url=?, handleFunc=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -153,29 +148,56 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.Tipo, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
-		log.Println("UPDATE: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
+		insForm.Exec(men.ParentID, men.Orden, men.Titulo, men.Icono, men.Url, men.HandleFunc, men.ID)
+		log.Println("UPDATE: nombre: " + men.Parent_id)
 	}
 	defer db.Close()
-	var vrecord model.UsuarioRecord
+	var vrecord model.MenuRecord
 	vrecord.Result = "OK"
-	vrecord.Record = usu
+	vrecord.Record = men
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 
 	//	http.Redirect(w, r, "/", 301)
 }
 
-//UsuarioBaja da de baja al usuario
-func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
+// UsuarioDelete Borra usuario de la DB
+// func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
+// 	db := database.DbConn()
+// 	usu := r.FormValue("ID")
+// 	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
+// 	if err != nil {
+
+// 		panic(err.Error())
+// 	}
+// 	_, err1 := delForm.Exec(usu)
+// 	if err1 != nil {
+// 		var verror model.Resulterror
+// 		verror.Result = "ERROR"
+// 		verror.Error = "Error Borrando usuario"
+// 		a, _ := json.Marshal(verror)
+// 		w.Write(a)
+// 	}
+// 	log.Println("DELETE")
+// 	defer db.Close()
+// 	var vrecord model.UsuarioRecord
+// 	vrecord.Result = "OK"
+// 	a, _ := json.Marshal(vrecord)
+// 	w.Write(a)
+
+// 	// 	// 	http.Redirect(w, r, "/", 301)
+// }
+
+/*//UsuarioBaja da de baja al usuario
+func MenuBaja(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	usu := r.FormValue("ID")
-	delForm, err := db.Prepare("UPDATE usuarios SET fechaBaja=CURDATE() WHERE id=?")
+	men := r.FormValue("ID")
+	delForm, err := db.Prepare("UPDATE menus SET fechaBaja=CURDATE() WHERE id=?")
 	if err != nil {
 
 		panic(err.Error())
 	}
-	_, err1 := delForm.Exec(usu)
+	_, err1 := delForm.Exec(men)
 	if err1 != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -191,7 +213,7 @@ func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 
 	// 	// 	http.Redirect(w, r, "/", 301)
-}
+}*/
 
 // UsuariogetoptionsRoles Roles de usuario
 func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
