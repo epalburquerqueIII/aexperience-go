@@ -1,6 +1,6 @@
 package model
 
-// Tusuario es la estructura para usuario
+// Tmenus es la estructura para menus
 type Tmenus struct {
 	Id         int64
 	ParentId   int
