@@ -106,8 +106,8 @@ CREATE Table menus (
 CREATE Table menu_usuarios_roles (
     id integer AUTO_INCREMENT PRIMARY KEY,
     idMenu integer NOT NULL,
-    idUsuario integer NOT NULL,
+    idusuario_roles integer NOT NULL,
     FOREIGN KEY (idMenu) REFERENCES menus(id),
-    FOREIGN KEY (idUsuario) REFERENCES usuarios(id)
+    FOREIGN KEY (idusuario_roles) REFERENCES usuarios_roles(id)
     );
 

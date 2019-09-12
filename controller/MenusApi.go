@@ -3,6 +3,7 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -13,6 +14,10 @@ import (
 
 // Pantalla de tratamiento de Menus
 func Menus(w http.ResponseWriter, r *http.Request) {
+var tmpl = template.Must(template.ParseGlob("views/*.html"))
+
+// Menus Pantalla de tratamiento de menus
+func Menu(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "menus", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
@@ -23,6 +28,10 @@ func Menus(w http.ResponseWriter, r *http.Request) {
 func MenusList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
+//MenusList
+func MenusList(w http.ResponseWriter, r *http.Request) {
+
+	var i int
 	jtsort := r.URL.Query().Get("jtSorting")
 	if jtsort != "" {
 		fmt.Println("jtSorting" + jtsort)
@@ -47,6 +56,24 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
 			verror.Error = "Error cargando menus"
+	men := model.Tmenu{}
+	res := []model.Tmenu{}
+	for selDB.Next() {
+
+		err = selDB.Scan(&men.ID, &men.ParentID, &men.Orden, &men.Titulo, &men.Icono, &men.Url, &men.HandleFunc)
+		/*//Si no hay fecha de baja, este campo aparece como activo
+		if usu.FechaBaja == "0000-00-00" {
+			usu.FechaBaja = "Activo"
+		} else {
+			//Formato de fecha en español cuando está de baja
+			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
+			usu.FechaBaja = t.Format("02-01-2006")
+
+		}*/
+		if err != nil {
+			var verror model.Resulterror
+			verror.Result = "ERROR"
+			verror.Error = "Error Cargando registros de Menús"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
