@@ -43,15 +43,6 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 	for selDB.Next() {
 
 		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaPago, &pag.IdTipopago, &pag.NumeroTarjeta)
-		// Si no hay fecha de baja, este campo aparece como activo
-		// if pag.FechaPago == "" {
-		// 	pag.FechaPago = ""
-		// } else {
-		// 	//Formato de fecha en español cuando está de baja
-		// 	t, _ := time.Parse("2006-01-02", pag.FechaPago)
-		// 	pag.FechaPago = t.Format("02-01-2006")
-
-		// }
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -139,7 +130,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 
 		insForm.Exec(pag.IdReserva, pag.NumeroTarjeta, pag.Id)
-		log.Printf("INSERT: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
+		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()
 	var vrecord model.PagosRecord
