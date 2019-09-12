@@ -71,6 +71,6 @@ func main() {
 	http.HandleFunc("/espacios/list", controller.Espacio)
 	http.HandleFunc("/espacios/create", controller.Espacio)
 	http.HandleFunc("/espacios/update", controller.Espacio)
-	http.HandleFunc("/espacios/delete", controller.Espacio)
+
 	http.ListenAndServe(":3000", nil)
 }
