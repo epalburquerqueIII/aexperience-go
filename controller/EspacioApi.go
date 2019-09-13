@@ -32,7 +32,7 @@ func EspacioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT id, descripcion, estado, modo, precio, idTipoevento, aforo, fecha, numeroReservaslimite FROM espacios " + jtsort)
+	selDB, err := db.Query("SELECT espacios.id, descripcion, estado, modo, precio, tiposevento.id, aforo, fecha, numeroReservaslimite FROM espacios LEFT OUTER JOIN tiposevento on (tiposevento.id = idTipoevento) " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -45,7 +45,7 @@ func EspacioList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tespacios{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&esp.ID, &esp.Descripcion, &esp.Estado, &esp.Modo, &esp.Precio, &esp.IDTipoevento, &esp.Aforo, &esp.Fecha, &esp.NumeroReservaslimite)
+		err = selDB.Scan(&esp.ID, &esp.Descripcion, &esp.Estado, &esp.Modo, &esp.Precio, &esp.IdTipoevento, &esp.Aforo, &esp.Fecha, &esp.NumeroReservaslimite)
 		//Si no hay fecha de baja, este campo aparece como activo
 		if esp.Fecha == "0000-00-00" {
 			esp.Fecha = "Activo"
@@ -90,7 +90,7 @@ func EspacioCreate(w http.ResponseWriter, r *http.Request) {
 		esp.Estado = r.FormValue("Estado")
 		esp.Modo = r.FormValue("Modo")
 		esp.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
-		esp.IDTipoevento, _ = strconv.Atoi(r.FormValue("IdTipoevento"))
+		esp.IdTipoevento, _ = strconv.Atoi(r.FormValue("IdTipoevento"))
 		esp.Aforo, _ = strconv.Atoi(r.FormValue("Aforo"))
 		esp.Fecha = r.FormValue("Fecha")
 		esp.NumeroReservaslimite, _ = strconv.Atoi(r.FormValue("NumeroReservaslimite"))
@@ -103,7 +103,7 @@ func EspacioCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IDTipoevento, esp.Aforo, esp.Fecha, esp.NumeroReservaslimite)
+		res, err1 := insForm.Exec(esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IdTipoevento, esp.Aforo, esp.Fecha, esp.NumeroReservaslimite)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -135,7 +135,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 		esp.Estado = r.FormValue("Estado")
 		esp.Modo = r.FormValue("Modo")
 		esp.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
-		esp.IDTipoevento, _ = strconv.Atoi(r.FormValue("IdTipoevento"))
+		esp.IdTipoevento, _ = strconv.Atoi(r.FormValue("IdTipoevento"))
 
 		esp.Aforo, _ = strconv.Atoi(r.FormValue("Aforo"))
 		esp.Fecha = r.FormValue("Fecha")
@@ -150,7 +150,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IDTipoevento, esp.Aforo, esp.Fecha, esp.NumeroReservaslimite, esp.ID)
+		insForm.Exec(esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IdTipoevento, esp.Aforo, esp.Fecha, esp.NumeroReservaslimite, esp.ID)
 		log.Println("UPDATE: descripcion: " + esp.Descripcion + " | estado: " + esp.Estado)
 	}
 	defer db.Close()

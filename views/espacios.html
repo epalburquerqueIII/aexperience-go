@@ -58,7 +58,7 @@
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'ID ASC', //Set default sorting
+                defaultSorting: 'Descripcion ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -79,7 +79,7 @@
                     },
                     Descripcion: {
                         title: 'Descripcion',
-                        width: '20%'
+                        width: '10%'
                     },
                     Estado: {
                         title: 'Estado',
@@ -94,7 +94,7 @@
                         title: 'Precio',
                         width: '8%'
                     },
-                    Tipoevento: {
+                    IdTipoevento: {
                         title: 'Tipo evento',
                         width: '8%',
                         options: '/espacios/getoptionsespacios'
@@ -106,9 +106,11 @@
                     },
                     Fecha: {
                         title: 'Fecha',
-                        width: '5%',    
+                        width: '8%',
+                        type: "date",
                         create: true,
-                        edit: false                        
+                        edit: true,
+                        displayFormat: "dd-mm-yy"                        
                     },
                     NumeroReservaslimite: {
                         title: 'Numero reservas',
@@ -124,6 +126,6 @@
     </div><!--Cierre de Header-->
     
     {{ template "footer" }}
-    {{ end }}
 </body>
 <!--espacios -->
+{{ end }}
