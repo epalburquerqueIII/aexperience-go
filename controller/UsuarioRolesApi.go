@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // UsuarioRoles Pantalla de tratamiento de usuario
@@ -31,12 +32,7 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT id, nombre FROM usuariosRoles " + jtsort)
 	if err != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error. Buscando datos"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
-		panic(err.Error())
+		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
 	usuR := model.TusuariosRoles{}
 	res := []model.TusuariosRoles{}
@@ -77,12 +73,7 @@ func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
 		usuR.Nombre = r.FormValue("Nombre")
 		insForm, err := db.Prepare("INSERT INTO usuariosRoles(nombre) VALUES(?)")
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error. Insertando el rol de usuario"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Insertando rol de usuario")
 		}
 		res, err1 := insForm.Exec(usuR.Nombre)
 		if err1 != nil {
@@ -115,12 +106,7 @@ func UsuarioRolesUpdate(w http.ResponseWriter, r *http.Request) {
 		usuR.Nombre = r.FormValue("Nombre")
 		insForm, err := db.Prepare("UPDATE usuariosRoles SET nombre=? WHERE id=?")
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error. Actualizando la base de datos"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Actualizando rol de usuario")
 		}
 
 		insForm.Exec(usuR.Nombre, usuR.ID)
@@ -146,11 +132,7 @@ func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err1 := delForm.Exec(usuR)
 	if err1 != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error. Borrando usuario"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
+		util.ErrorApi(err.Error(), w, "Error borrando usuario")
 	}
 	log.Println("DELETE")
 	defer db.Close()
