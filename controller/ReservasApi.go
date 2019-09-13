@@ -75,18 +75,14 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,CURDATE(),?,?,?,?)")
 
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error Insertando Pago"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Insertando Pago")
 		}
 
 		res, err1 := insForm.Exec(reser.Fecha, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
 
 		if err1 != nil {
-			panic(err1.Error())
+			//panic(err1.Error())
+			util.ErrorApi(err.Error(), w, "")
 		}
 		reser.Id, err1 = res.LastInsertId()
 		log.Printf("INSERT: fecha: %s | fechaPago: %s | hora:  %d\n ", reser.Fecha, reser.FechaPago, reser.Hora)
@@ -129,12 +125,7 @@ func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 
 		insForm, err := db.Prepare("UPDATE reservas SET fecha=?, fechaPago=CURDATE(), hora=?, idUsuario=?, idEspacio =?, idAutorizado=? WHERE id=?")
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error Actualizando Base de Datos"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
 		insForm.Exec(reser.Fecha, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado, reser.Id)
@@ -157,16 +148,12 @@ func ReservasDelete(w http.ResponseWriter, r *http.Request) {
 	reser := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM reservas WHERE id=?")
 	if err != nil {
-
-		panic(err.Error())
+		//panic(err.Error())
+		util.ErrorApi(err.Error(), w, "")
 	}
 	_, err1 := delForm.Exec(reser)
 	if err1 != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error Borrando reservas"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
+		util.ErrorApi(err.Error(), w, "Error Borrando reserva")
 	}
 	log.Println("Borrar")
 	defer db.Close()
@@ -178,20 +165,20 @@ func ReservasDelete(w http.ResponseWriter, r *http.Request) {
 	// 	// 	// 	http.Redirect(w, r, "/", 301)
 }
 
-//ReservasgetoptionsRoles Roles de usuario
+//ReservasgetoptionsRoles Roles de usuarios
 func ReservasgetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre from usuarios Order by usuarios.id")
 	if err != nil {
-		panic(err.Error())
+		util.ErrorApi(err.Error(), w, "")
 	}
 	elem := model.Option{}
 	vtabla := []model.Option{}
 	for selDB.Next() {
 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
 		if err != nil {
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "")
 		}
 		vtabla = append(vtabla, elem)
 	}
@@ -208,20 +195,20 @@ func ReservasgetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//ReservasgetoptionsRoles tabala de espacios
+//ReservasgetoptionsEspacios tabla de espacios
 func ReservasgetoptionsEspacios(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT espacios.id, espacios.descripcion from espacios Order by espacios.id")
 	if err != nil {
-		panic(err.Error())
+		util.ErrorApi(err.Error(), w, "")
 	}
 	elem := model.Option{}
 	vtabla := []model.Option{}
 	for selDB.Next() {
 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
 		if err != nil {
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "")
 		}
 		vtabla = append(vtabla, elem)
 	}
@@ -238,20 +225,20 @@ func ReservasgetoptionsEspacios(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//Reservasgetoptions tabla de autorizados
+//ReservasgetoptionsAutorizado tabla de autorizados
 func ReservasgetoptionsAutorizado(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado from autorizados Order by autorizados.id")
 	if err != nil {
-		panic(err.Error())
+		util.ErrorApi(err.Error(), w, "")
 	}
 	elem := model.Option{}
 	vtabla := []model.Option{}
 	for selDB.Next() {
 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
 		if err != nil {
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "")
 		}
 		vtabla = append(vtabla, elem)
 	}
