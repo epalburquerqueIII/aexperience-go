@@ -68,9 +68,9 @@ func main() {
 
 	//Apis Espacios
 	http.HandleFunc("/espacios", controller.Espacio)
-	http.HandleFunc("/espacios/list", controller.Espacio)
-	http.HandleFunc("/espacios/create", controller.Espacio)
-	http.HandleFunc("/espacios/update", controller.Espacio)
-
+	http.HandleFunc("/espacios/list", controller.EspacioList)
+	http.HandleFunc("/espacios/create", controller.EspacioCreate)
+	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
+	http.HandleFunc("/espacios/getoptionsespacios", controller.Espaciosgetoptionsespacios)
 	http.ListenAndServe(":3000", nil)
 }

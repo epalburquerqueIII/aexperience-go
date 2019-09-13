@@ -91,9 +91,9 @@ func EspacioCreate(w http.ResponseWriter, r *http.Request) {
 		esp.Modo = r.FormValue("Modo")
 		esp.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
 		esp.IDTipoevento, _ = strconv.Atoi(r.FormValue("IdTipoevento"))
-		esp.NumeroReservaslimite, _ = strconv.Atoi(r.FormValue("NumeroReservaslimite"))
 		esp.Aforo, _ = strconv.Atoi(r.FormValue("Aforo"))
 		esp.Fecha = r.FormValue("Fecha")
+		esp.NumeroReservaslimite, _ = strconv.Atoi(r.FormValue("NumeroReservaslimite"))
 		insForm, err := db.Prepare("INSERT INTO espacios(descripcion, estado, modo, precio, idTipoevento, aforo, fecha, numeroReservaslimite) VALUES(?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
@@ -103,7 +103,7 @@ func EspacioCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(esp.ID, esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IDTipoevento, esp.Aforo, esp.Fecha, esp.NumeroReservaslimite)
+		res, err1 := insForm.Exec(esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IDTipoevento, esp.Aforo, esp.Fecha, esp.NumeroReservaslimite)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -150,7 +150,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IDTipoevento, esp.Aforo, esp.Fecha, esp.ID, esp.NumeroReservaslimite)
+		insForm.Exec(esp.Descripcion, esp.Estado, esp.Modo, esp.Precio, esp.IDTipoevento, esp.Aforo, esp.Fecha, esp.NumeroReservaslimite, esp.ID)
 		log.Println("UPDATE: descripcion: " + esp.Descripcion + " | estado: " + esp.Estado)
 	}
 	defer db.Close()
@@ -191,7 +191,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 } */
 
 // EspaciosgetoptionsRoles Roles de usuario
-func EspaciosgetoptionsRoles(w http.ResponseWriter, r *http.Request) {
+func Espaciosgetoptionsespacios(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT tiposevento.id, tiposevento.nombre from tiposevento Order by tiposevento.id")
