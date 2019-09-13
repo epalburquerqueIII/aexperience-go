@@ -40,12 +40,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 
 		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.FechaPago, &reser.Hora, &reser.IdUsuario, &reser.IdEspacio, &reser.IdAutorizado)
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error Cargando registros de Reservas"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(),w,"Error Cargando registros de Reservas")
 		}
 		res = append(res, reser)
 		i++
