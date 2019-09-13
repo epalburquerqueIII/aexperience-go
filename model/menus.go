@@ -1,6 +1,6 @@
 package model
 
-// Tmenus es la estructura para menus para la web y android
+// Tusuario es la estructura para usuario
 type Tmenus struct {
 	Id         int64
 	ParentId   int
