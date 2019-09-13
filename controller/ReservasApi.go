@@ -6,9 +6,14 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+<<<<<<< HEAD
 	"../util"
+=======
+
+>>>>>>> 384f974208596253688a7d9a491870fc84979be5
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // Reservas Pantalla de tratamiento de Reservas
@@ -69,7 +74,7 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	reser := model.Treservas{}
 	if r.Method == "POST" {
-		reser.Fecha = r.FormValue("Fecha")
+		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
 		reser.FechaPago = r.FormValue("FechaPago")
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		reser.IdUsuario, _ = strconv.Atoi(r.FormValue("IdUsuario"))
@@ -118,6 +123,15 @@ func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 		reser.Id = int64(i)
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
 
+<<<<<<< HEAD
+=======
+		/* // convertir de español a fecha
+		format := "02-01-2006"
+		t, _ := time.Parse(format, reser.Fecha)
+		// format date to string en ingles para sql
+		format = "2006-01-02"
+		reser.Fecha = t.Format(format) */
+>>>>>>> 384f974208596253688a7d9a491870fc84979be5
 
 		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
