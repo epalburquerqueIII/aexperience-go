@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"../util"
+
 	"../model"
 	"../model/database"
 	"../util"
@@ -32,7 +32,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT reservas.id, reservas.fecha, reservas.fechaPago, reservas.hora, usuarios.id, espacios.id, autorizados.id FROM reservas LEFT OUTER JOIN usuarios ON (usuarios.id = reservas.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = reservas.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = reservas.idAutorizado) " + jtsort)
 	if err != nil {
-		util.ErrorApi(err.Error(),w,"Error en Select ")
+		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
 	reser := model.Treservas{}
 	res := []model.Treservas{}
@@ -40,7 +40,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 
 		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.FechaPago, &reser.Hora, &reser.IdUsuario, &reser.IdEspacio, &reser.IdAutorizado)
 		if err != nil {
-			util.ErrorApi(err.Error(),w,"Error Cargando registros de Reservas")
+			util.ErrorApi(err.Error(), w, "Error Cargando registros de Reservas")
 		}
 		res = append(res, reser)
 		i++
@@ -113,7 +113,6 @@ func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		reser.Id = int64(i)
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
-
 
 		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
