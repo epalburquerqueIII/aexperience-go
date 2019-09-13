@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"../util"
+
 	"../model"
 	"../model/database"
 	"../util"
@@ -32,7 +32,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT reservas.id, reservas.fecha, reservas.fechaPago, reservas.hora, usuarios.id, espacios.id, autorizados.id FROM reservas LEFT OUTER JOIN usuarios ON (usuarios.id = reservas.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = reservas.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = reservas.idAutorizado) " + jtsort)
 	if err != nil {
-		util.ErrorApi(err.Error(),w,"Error en Select ")
+		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
 	reser := model.Treservas{}
 	res := []model.Treservas{}
@@ -119,6 +119,12 @@ func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 		reser.Id = int64(i)
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
 
+		/* // convertir de español a fecha
+		format := "02-01-2006"
+		t, _ := time.Parse(format, reser.Fecha)
+		// format date to string en ingles para sql
+		format = "2006-01-02"
+		reser.Fecha = t.Format(format) */
 
 		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
