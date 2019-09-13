@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 //Pagos Pantalla de tratamiento de Pagos
@@ -116,10 +117,10 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		pag.Id = int64(i)
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
-		pag.FechaPago = r.FormValue("FechaPago")
+		pag.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		pag.IdTipopago, _ = strconv.Atoi(r.FormValue("IdTipopago"))
 		pag.NumeroTarjeta = r.FormValue("NumeroTarjeta")
-		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, fechaPago=CURDATE(), idTipopago=?, numeroTarjeta =? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, fechaPago=?, idTipopago=?, numeroTarjeta =? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -129,7 +130,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(pag.IdReserva, pag.NumeroTarjeta, pag.Id)
+		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.NumeroTarjeta, pag.Id)
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()
