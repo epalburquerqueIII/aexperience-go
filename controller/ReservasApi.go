@@ -165,7 +165,7 @@ func ReservasDelete(w http.ResponseWriter, r *http.Request) {
 	// 	// 	// 	http.Redirect(w, r, "/", 301)
 }
 
-//ReservasgetoptionsRoles Roles de usuario
+//ReservasgetoptionsRoles Roles de usuarios
 func ReservasgetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
@@ -195,7 +195,7 @@ func ReservasgetoptionsRoles(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//ReservasgetoptionsRoles tabala de espacios
+//ReservasgetoptionsEspacios tabla de espacios
 func ReservasgetoptionsEspacios(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
@@ -225,7 +225,7 @@ func ReservasgetoptionsEspacios(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//Reservasgetoptions tabla de autorizados
+//ReservasgetoptionsAutorizado tabla de autorizados
 func ReservasgetoptionsAutorizado(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
