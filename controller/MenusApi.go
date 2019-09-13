@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // Pantalla de tratamiento de Menus
@@ -31,12 +32,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT menus.id, parentId, orden, titulo, icono, url, hanledFunc FROM menus " + jtsort)
 	if err != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error buscando datos"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
-		panic(err.Error())
+		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
 	menu := model.Tmenus{}
 	res := []model.Tmenus{}
@@ -44,12 +40,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 
 		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HanledFunc)
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error cargando menus"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Cargando datos de menus")
 		}
 		res = append(res, menu)
 		i++
@@ -83,12 +74,7 @@ func MenusCreate(w http.ResponseWriter, r *http.Request) {
 		insForm, err := db.Prepare("INSERT INTO menus(parentId, orden, titulo, icono, url, hanledFunc) VALUES(?,?,?,?,?,?)")
 
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error al insertar campo del menu"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Insertando datos de menus")
 		}
 		res, err1 := insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc)
 		if err1 != nil {
@@ -126,12 +112,7 @@ func MenusUpdate(w http.ResponseWriter, r *http.Request) {
 		menu.HanledFunc = r.FormValue("HanledFunc")
 		insForm, err := db.Prepare("UPDATE menus SET parentId=?, orden=?, titulo=?, icono=?, url=?, hanledFunc=? WHERE menus.id=?")
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error Actualizando Base de Datos"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
 		insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc, menu.Id)
@@ -158,11 +139,7 @@ func MenusDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err1 := delForm.Exec(menu)
 	if err1 != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error Borrado"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
+		util.ErrorApi(err.Error(), w, "Error borrando datos de menus")
 	}
 	log.Println("DELETE")
 	defer db.Close()
