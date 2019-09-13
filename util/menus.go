@@ -8,7 +8,7 @@ import (
 // Menus Estructura de menu para template
 func Menus(usertype int) []model.Tmenu {
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menuparent.titulo AS Categoría, menuparent.tipo, menus.titulo, icono, url FROM menus LEFT OUTER JOIN menuparent ON menuparent.id = parentId")
+	selDB, err := db.Query("SELECT menuparent.titulo, icono, menus.titulo, url, menuparent.tipo FROM menus LEFT OUTER JOIN menuparent ON menuparent.id = parentId")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -19,7 +19,7 @@ func Menus(usertype int) []model.Tmenu {
 	rst := []model.Tmenudesplegable{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&menu.ParentTitle, &menu.Icono, &menu.Despliega, &desp.NomEnlace, &desp.Enlace)
+		err = selDB.Scan(&menu.ParentTitle, &menu.Icono, &desp.NomEnlace, &desp.Enlace, &menu.Despliega)
 		if err != nil {
 			panic(err.Error())
 		}
