@@ -66,5 +66,11 @@ func main() {
 	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
 	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
 
+	http.HandleFunc("/horarios", controller.Horarios)
+	http.HandleFunc("/horarios/list", controller.HorariosList)
+	http.HandleFunc("/horarios/create", controller.HorariosCreate)
+	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
+	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
