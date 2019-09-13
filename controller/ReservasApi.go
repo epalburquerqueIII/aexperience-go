@@ -31,12 +31,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT reservas.id, reservas.fecha, reservas.fechaPago, reservas.hora, usuarios.id, espacios.id, autorizados.id FROM reservas LEFT OUTER JOIN usuarios ON (usuarios.id = reservas.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = reservas.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = reservas.idAutorizado) " + jtsort)
 	if err != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error buscando datos"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
-		panic(err.Error())
+		util.ErrorApi(err.Error(),w,"Error en Select ")
 	}
 	reser := model.Treservas{}
 	res := []model.Treservas{}
