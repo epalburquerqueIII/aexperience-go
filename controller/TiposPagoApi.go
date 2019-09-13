@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // TiposPago Pantalla de tratamiento de TiposPagos
@@ -31,12 +32,7 @@ func TiposPagoList(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT id, nombre FROM tiposPago " + jtsort)
 	if err != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error, buscando datos"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
-		panic(err.Error())
+		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
 	tip := model.TtiposPago{}
 	res := []model.TtiposPago{}
@@ -44,12 +40,7 @@ func TiposPagoList(w http.ResponseWriter, r *http.Request) {
 
 		err = selDB.Scan(&tip.Id, &tip.Nombre)
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error. Cargando registros de Tipos de Pagos"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los tipos de pagos")
 		}
 		res = append(res, tip)
 		i++
@@ -77,12 +68,7 @@ func TiposPagoCreate(w http.ResponseWriter, r *http.Request) {
 		tip.Nombre = r.FormValue("Nombre")
 		insForm, err := db.Prepare("INSERT INTO tiposPago(nombre) VALUES(?)")
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error. Insertando Tipo de Pago"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Insertando tipo de pago")
 		}
 		res, err1 := insForm.Exec(tip.Nombre)
 		if err1 != nil {
@@ -117,12 +103,7 @@ func TiposPagoUpdate(w http.ResponseWriter, r *http.Request) {
 
 		insForm, err := db.Prepare("UPDATE tiposPago SET nombre=? WHERE id=?")
 		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error. Actualizando Base de Datos"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
 		insForm.Exec(tip.Nombre, tip.Id)
@@ -149,11 +130,7 @@ func TiposPagoDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	_, err1 := delForm.Exec(tip)
 	if err1 != nil {
-		var verror model.Resulterror
-		verror.Result = "ERROR"
-		verror.Error = "Error. Borrando"
-		a, _ := json.Marshal(verror)
-		w.Write(a)
+		util.ErrorApi(err.Error(), w, "Error borrando tipo de pago")
 	}
 	log.Println("DELETE")
 	defer db.Close()
