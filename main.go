@@ -28,7 +28,7 @@ func main() {
 	http.HandleFunc("/usuario", controller.Usuario)
 	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
 	http.HandleFunc("/Bono", controller.Bonos)
-	http.HandleFunc("/autorizado", controller.Autorizados)
+	http.HandleFunc("/autorizado", controller.Autorizado)
 
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
