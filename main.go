@@ -23,8 +23,8 @@ func main() {
 	log.Println("Server started on: http://localhost:3000")
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/", index)
-	// Apis usuario
 
+	// Apis usuario
 	http.HandleFunc("/usuario", controller.Usuario)
 	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
 	http.HandleFunc("/Bono", controller.Bonos)
@@ -33,7 +33,7 @@ func main() {
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
 	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
-	http.HandleFunc("/espacios", controller.Espacio)
+
 	// http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
 	http.HandleFunc("/usuario/baja", controller.UsuarioBaja)
 	http.HandleFunc("/usuario/getoptionsRoles", controller.UsuariogetoptionsRoles)
@@ -60,6 +60,44 @@ func main() {
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
 
+	http.HandleFunc("/reservas", controller.Reservas)
+	http.HandleFunc("/reservas/list", controller.ReservasList)
+	http.HandleFunc("/reservas/create", controller.ReservasCreate)
+	http.HandleFunc("/reservas/update", controller.ReservasUpdate)
+	http.HandleFunc("/reservas/delete", controller.ReservasDelete)
+	http.HandleFunc("/reservas/getoptionsRoles", controller.ReservasgetoptionsRoles)
+	http.HandleFunc("/reservas/getoptionsEspacios", controller.ReservasgetoptionsEspacios)
+	http.HandleFunc("/reservas/getoptionsAutorizado", controller.ReservasgetoptionsAutorizado)
+	// Apis pagos
+	http.HandleFunc("/pagos", controller.Pagos)
+	http.HandleFunc("/pagos/list", controller.PagosList)
+	http.HandleFunc("/pagos/create", controller.PagosCreate)
+	http.HandleFunc("/pagos/update", controller.PagosUpdate)
+	http.HandleFunc("/pagos/delete", controller.PagosDelete)
+	http.HandleFunc("/pagos/getoptionsReserva", controller.PagosgetoptionsReserva)
+	http.HandleFunc("/pagos/getoptionsTipo", controller.PagosgetoptionsTipo)
+
+	// Apis roles de usuario
+	http.HandleFunc("/usuariosRoles", controller.UsuarioRoles)
+	http.HandleFunc("/usuariosRoles/list", controller.UsuarioRolesList)
+	http.HandleFunc("/usuariosRoles/create", controller.UsuarioRolesCreate)
+	http.HandleFunc("/usuariosRoles/update", controller.UsuarioRolesUpdate)
+	http.HandleFunc("/usuariosRoles/delete", controller.UsuarioRolesDelete)
+
+	// Apis tiposPago
+	http.HandleFunc("/tiposPago", controller.TiposPago)
+	http.HandleFunc("/tiposPago/list", controller.TiposPagoList)
+	http.HandleFunc("/tiposPago/create", controller.TiposPagoCreate)
+	http.HandleFunc("/tiposPago/update", controller.TiposPagoUpdate)
+	http.HandleFunc("/tiposPago/delete", controller.TiposPagoDelete)
+
+	//Apis menus
+	http.HandleFunc("/menus", controller.Menus)
+	http.HandleFunc("/menus/list", controller.MenusList)
+	http.HandleFunc("/menus/create", controller.MenusCreate)
+	http.HandleFunc("/menus/update", controller.MenusUpdate)
+	http.HandleFunc("/menus/delete", controller.MenusDelete)
+
 	// Apis tiposevento
 	http.HandleFunc("/tiposevento", controller.Tiposevento)
 	http.HandleFunc("/tiposevento/list", controller.TiposeventoList)
@@ -67,5 +105,11 @@ func main() {
 	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
 	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
 
+	//Apis espacios
+	http.HandleFunc("/espacios", controller.Espacio)
+	http.HandleFunc("/espacios/list", controller.EspacioList)
+	http.HandleFunc("/espacios/create", controller.EspacioCreate)
+	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
+	//http.HandleFunc("/espacios/delete", controller.EspacioDelete)
 	http.ListenAndServe(":3000", nil)
 }

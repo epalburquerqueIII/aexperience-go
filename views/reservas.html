@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "espacios" }}
+{{ define "reservas" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -13,117 +13,109 @@
 <!-- Add aditional link -->
 </head> <!-- fin de head -->
 
-<!-- Se habre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
-{{ template "header" }}
-
 
 
 <body>
+    <!-- Se habre un div en menu.html y header.html y se cierra en index -->
+{{ template "menu" }}
+{{ template "header" }}
+
     <!-- <h2> Registradas </h2> -->
     <div class="container">
-        <div id="EspaciosTableContainer"></div>
+      <div id="ReservasTableContainer"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            var spanishMessages = {
+            var spanishMessages =  {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
                 loadingMessage: 'Cargando registros...',
                 noDataAvailable: 'No hay datos disponibles!',
-                addNewRecord: 'Crear nuevo registro',
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
-                //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
-                //deleteText: 'Eliminar',
-                deleteText: 'Dar de baja',
-                //deleting: 'Eliminando',
-                deleting: 'Dando de baja',
                 error: 'Error',
                 close: 'Cerrar',
                 cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
                 pagingInfo: 'Mostrando registros {0} a {1} de {2}',
-                canNotDeletedRecords: 'No se puede borrar registro(s) {0} de {1}!',
-                deleteProggress: 'Eliminando {0} de {1} registros, procesando...',
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#EspaciosTableContainer').jtable({
+            $('#ReservasTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Espacios',
+                title: 'Listado de Reservas',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'ID ASC', //Set default sorting
+                defaultSorting: 'Fecha ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/espacios/list',
-                    deleteAction: '/espacios/delete',
-                    updateAction: '/espacios/update',
-                    createAction: '/espacios/create'
+                    listAction: '/reservas/list',
+                    updateAction: '/reservas/update',
+                    createAction: '/reservas/create',
+                    deleteAction: '/reservas/delete'
                 },
                 fields: {
-                    ID: {
+                    Id: {
                         key: true,
                         create: false,
                         edit: false,
                         list: false
                     },
-                    Descripcion: {
-                        title: 'Descripcion',
-                        width: '20%'
-                    },
-                    Estado: {
-                        title: 'Estado',
-                        width: '8%'
-                    },
-                    Modo: {
-                        title: 'Modo',
-                        width: '15%'
-                    },
-                   
-                    Precio: {
-                        title: 'Precio',
-                        width: '8%'
-                    },
-                    Tipoevento: {
-                        title: 'Tipoevento',
-                        width: '8%',
-                        type: 'radiobutton',
-                        options: '/tipoevento/evento'
-                    },
-                    NumeroReservaslimite: {
-                        title: 'Fecha',
-                        width: '6%'
-                    },
-                    Aforo: {
-                        title: 'Aforo',
-                        width: '5%',
-                        
-                    },
                     Fecha: {
                         title: 'Fecha',
-                        width: '5%',    
+                        width: '8%',
+                        type: "date",
+                        create: true,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
+                    },
+                    FechaPago: {
+                        title: 'Fecha de Pago',
+                        width: '8%',
+                        type: "date",
                         create: false,
-                        edit: false                        
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
+                    },
+                    Hora: {
+                        title: 'Hora',
+                        width: '8%'
+                    },
+                    IdUsuario: {
+                        title: 'Usuario',
+                        width: '15%',
+                        options: '/reservas/getoptionsRoles'
+                    },
+                    IdEspacio: {
+                        title: 'Espacio',
+                        width: '8%',
+                        options: '/reservas/getoptionsEspacios'
+                    },
+                    IdAutorizado: {
+                        title: 'Autorizado',
+                        width: '8%',
+                        options: '/reservas/getoptionsAutorizado'
                     }
                 }
             });
             //Load student list from server
-            $('#EspaciosTableContainer').jtable('load');
+            $('#ReservasTableContainer').jtable('load');
         });
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
+
     {{ template "footer" }}
-    {{ end }}
+    
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 </body>
-<!--espacios -->
+</html>
+<!--usuario -->
+{{ end }}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuario" }}
+{{ define "menus" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -13,17 +13,20 @@
 <!-- Add aditional link -->
 </head> <!-- fin de head -->
 
-<!-- Se habre un div en menu.html y header.html y se cierra en index -->
+<body>
+
+    
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" }}
 {{ template "header" }}
-
-
-
-<body>
     <!-- <h2> Registradas </h2> -->
+
     <div class="container">
-        <div id="HorariosTableContainer"></div>
+        <div id="MenusTableContainer"></div>
     </div>
+  
+
+   
     <script type="text/javascript">
         $(document).ready(function () {
             var spanishMessages = {
@@ -33,15 +36,15 @@
                 addNewRecord: 'Crear nuevo registro',
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
-                //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
+                deleteConfirmation: 'El registro será eliminado. ¿Confirmar?',
+                // deleteConfirmation: 'El menu será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
-                //deleteText: 'Eliminar',
-                deleteText: 'Dar de baja',
-                //deleting: 'Eliminando',
-                deleting: 'Dando de baja',
+                deleteText: 'Eliminar',
+                // deleteText: 'Dar de baja',
+                deleting: 'Eliminando',
+                // deleting: 'Dando de baja',
                 error: 'Error',
                 close: 'Cerrar',
                 cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
@@ -51,63 +54,72 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#HorariosTableContainer').jtable({
+            $('#MenusTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Horarios',
+                title: 'Listado de Menus',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'fechaInicio', //Set default sorting
+                defaultSorting: 'parentId ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/horarios/list',
-                    deleteAction: '/horarios/delete',
-                    updateAction: '/horarios/update',
-                    createAction: '/horarios/create'
+                    listAction: '/menus/list',
+                    deleteAction: '/menus/delete',
+                    updateAction: '/menus/update',
+                    createAction: '/menus/create'
                 },
                 fields: {
-                    ID: {
+                    Id: {
                         key: true,
                         create: false,
                         edit: false,
                         list: false
                     },
-                    idEspacio: {
-                        title: 'idEspacio',
+                    ParentId: {
+                        title: 'ParentId',
+                        width: '10%'
+                    },
+                    Orden: {
+                        title: 'Orden',
+                        width: '15%'
+                    },
+                    Titulo: {
+                        title: 'Titulo',
+                        width: '15%'
+                    },
+                    Icono: {
+                        title: 'Icono',
+                        width: '10%',
+                    },
+                    Url: {
+                        title: 'Url',
                         width: '20%'
                     },
-                    Descripcion: {
-                        title: 'Descripcion',
-                        width: '8%'
-                    },
-                    fechaInicio: {
-                        title: 'Fecha de Inicio',
-                        width: '15%'
-                       
-                    },
-                    fechaFinal: {
-                        title: 'Fecha Final',
-                        width: '15%'
-                         
-                    },
-                    Hora: {
-                        title: 'Hora',
-                        width: '8%'
+                    HanledFunc: {
+                        title: 'HanledFunc',
+                        width: '10%'
                     },
                 }
             });
             //Load student list from server
-            $('#HorariosTableContainer').jtable('load');
+            $('#MenusTableContainer').jtable('load');
         });
     </script>
-    </div><!--Cierre de menu-->
+      </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
     
+   
     {{ template "footer" }}
-    {{ end }}
+
+    
+    
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 </body>
-<!--usuario -->
+<!--menus -->
+</html>
+{{ end }}

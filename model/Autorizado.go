@@ -1,6 +1,6 @@
 package model
 
-// Tusuario es la estructura para usuario
+// Tautorizado es la estructura para autorizado
 type Tautorizado struct {
 	ID               int64
 	Idusuario        int
