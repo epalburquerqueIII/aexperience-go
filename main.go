@@ -99,11 +99,11 @@ func main() {
 	http.HandleFunc("/menus/delete", controller.MenusDelete)
 
 	// Apis tiposevento
-	http.HandleFunc("/tiposevento", controller.Tiposevento)
-	http.HandleFunc("/tiposevento/list", controller.TiposeventoList)
-	http.HandleFunc("/tiposevento/create", controller.TiposeventoCreate)
-	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
-	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
+	http.HandleFunc("/tiposeventos", controller.Tiposevento)
+	http.HandleFunc("/tiposeventos/list", controller.TiposeventoList)
+	http.HandleFunc("/tiposeventos/create", controller.TiposeventoCreate)
+	http.HandleFunc("/tiposeventos/update", controller.TiposeventoUpdate)
+	http.HandleFunc("/tiposeventos/delete", controller.TiposeventoDelete)
 
 	//Apis espacios
 	http.HandleFunc("/espacios", controller.Espacio)
