@@ -46,7 +46,7 @@ func HorariosList(w http.ResponseWriter, r *http.Request) {
 		//Si no hay fecha de baja, este campo aparece como activo
 		//if h.FechaBaja == "0000-00-00" {
 		//	usu.FechaBaja = "Activo"
-		//} else {)
+		//} else {
 		//Formato de fecha en español cuando está de baja
 		//	t, _ := time.Parse("2006-01-02", usu.FechaBaja)
 		//	usu.FechaBaja = t.Format("02-01-2006"
@@ -102,7 +102,7 @@ func HorariosCreate(w http.ResponseWriter, r *http.Request) {
 			panic(err1.Error())
 		}
 		h.ID, err1 = res.LastInsertId()
-		log.Println("INSERT: idEspacio: %d   | hora: %d\n", h.IdEspacio, h.Hora)
+		log.Printf("INSERT: idEspacio: %d   | hora: %d\n", h.IdEspacio, h.Hora)
 
 	}
 	var vrecord model.HorariosRecord
@@ -141,7 +141,7 @@ func HorariosUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 
 		insForm.Exec(h.IdEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora, h.ID)
-		log.Println("INSERT: IdEspacio: %d   | Hora: %d\n", h.IdEspacio, h.Hora)
+		log.Printf("INSERT: IdEspacio: %d   | Hora: %d\n", h.IdEspacio, h.Hora)
 	}
 	defer db.Close()
 	var vrecord model.HorariosRecord

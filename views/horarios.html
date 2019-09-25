@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuario" }}
+{{ define "horarios" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -14,12 +14,14 @@
 </head> <!-- fin de head -->
 
 <!-- Se habre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
-{{ template "header" }}
 
 
 
 <body>
+
+    {{ template "menu" }}
+    {{ template "header" }}
+
     <!-- <h2> Registradas </h2> -->
     <div class="container">
         <div id="HorariosTableContainer"></div>
@@ -57,7 +59,7 @@
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'fechaInicio ASC', //Set default sorting
+                defaultSorting: 'Hora ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -70,34 +72,34 @@
                     createAction: '/horarios/create'
                 },
                 fields: {
-                    id: {
+                    ID: {
                         key: true,
                         create: false,
                         edit: false,
                         list: false
                     },
-                    idEspacio: {
+                    IDEspacio: {
                         title: 'idEspacio',
                         width: '20%'
                     },
-                    descripcion: {
+                    Descripcion: {
                         title: 'Descripcion',
                         width: '8%'
                     },
-                    fechaInicio: {
+                    Fechainicio: {
                         title: 'Fecha de Inicio',
                         width: '15%'
                        
                     },
-                    fechaFin: {
+                    Fechafinal: {
                         title: 'Fecha Final',
                         width: '15%'
                          
                     },
-                    hora: {
+                    Hora: {
                         title: 'Hora',
                         width: '8%'
-                    },
+                    }
                 }
             });
             //Load student list from server
@@ -110,4 +112,5 @@
     {{ template "footer" }}
    
 </body><!--horarios -->
+</html>
 {{ end }}
