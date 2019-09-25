@@ -110,8 +110,8 @@ func main() {
 	http.HandleFunc("/espacios/list", controller.EspacioList)
 	http.HandleFunc("/espacios/create", controller.EspacioCreate)
 	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
-	http.HandleFunc("/espacios/delete", controller.EspacioDelete)
-	http.HandleFunc("/reservas/getoptionsespacios", controller.EspaciosgetoptionsRoles)
+	http.HandleFunc("/espacios/delete", controller.EspaciosBaja)
+	http.HandleFunc("/reservas/getoptionsespacios", controller.Espaciosgetoptionsespacios)
 
 	http.HandleFunc("/horarios", controller.Horarios)
 	http.HandleFunc("/horarios/list", controller.HorariosList)

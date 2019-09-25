@@ -12,7 +12,7 @@ import (
 )
 
 // Autorizado - Pantalla de tratamiento de Autorizados
-func Autorizado(w http.ResponseWriter, r *http.Request) {
+func Autorizados(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "autorizado", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)

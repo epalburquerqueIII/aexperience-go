@@ -164,7 +164,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 //EspaciosBaja da de baja al usuario
-/* func EspaciosBaja(w http.ResponseWriter, r *http.Request) {
+func EspaciosBaja(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := r.FormValue("ID")
 	delForm, err := db.Prepare("UPDATE espacios SET fecha=CURDATE() WHERE id=?")
@@ -188,7 +188,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 
 	// 	// 	http.Redirect(w, r, "/", 301)
-} */
+}
 
 // EspaciosgetoptionsRoles Roles de usuario
 func Espaciosgetoptionsespacios(w http.ResponseWriter, r *http.Request) {
