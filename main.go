@@ -111,6 +111,7 @@ func main() {
 	http.HandleFunc("/espacios/list", controller.EspacioList)
 	http.HandleFunc("/espacios/create", controller.EspacioCreate)
 	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
-	//http.HandleFunc("/espacios/delete", controller.EspacioDelete)
+	http.HandleFunc("/espacios/getoptionsRoles", controller.EspaciosgetoptionsRoles)
+	http.HandleFunc("/espacios/delete", controller.EspaciosBaja)
 	http.ListenAndServe(":3000", nil)
 }

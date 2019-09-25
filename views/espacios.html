@@ -93,26 +93,26 @@
                         title: 'Precio',
                         width: '8%'
                     },
-                    Tipoevento: {
+                    IDTipoevento: {
                         title: 'Tipoevento',
                         width: '8%',
-                        type: 'radiobutton',
-                        options: '/tipoevento/evento'
+                        options: '/espacios/getoptionsRoles'
                     },
-                    NumeroReservaslimite: {
+                    Fecha: {
                         title: 'Fecha',
-                        width: '6%'
+                        width: '5%',    
+                        create: true,
+                        edit: false                        
                     },
                     Aforo: {
                         title: 'Aforo',
                         width: '5%',
                         
                     },
-                    Fecha: {
-                        title: 'Fecha',
-                        width: '5%',    
-                        create: false,
-                        edit: false                        
+                   
+                    NumeroReservaslimite: {
+                        title: 'Reservas',
+                        width: '6%'
                     }
                 }
             });
