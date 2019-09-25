@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "espacios" }}
+{{ define "horarios" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -14,15 +14,17 @@
 </head> <!-- fin de head -->
 
 <!-- Se habre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
-{{ template "header" }}
 
 
 
 <body>
+
+    {{ template "menu" }}
+    {{ template "header" }}
+
     <!-- <h2> Registradas </h2> -->
     <div class="container">
-        <div id="EspaciosTableContainer"></div>
+        <div id="HorariosTableContainer"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -51,23 +53,23 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#EspaciosTableContainer').jtable({
+            $('#HorariosTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Espacios',
+                title: 'horarios',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Descripcion ASC', //Set default sorting
+                defaultSorting: 'Hora ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/espacios/list',
-                    deleteAction: '/espacios/delete',
-                    updateAction: '/espacios/update',
-                    createAction: '/espacios/create'
+                    listAction: '/horarios/list',
+                    deleteAction: '/horarios/delete',
+                    updateAction: '/horarios/update',
+                    createAction: '/horarios/create'
                 },
                 fields: {
                     ID: {
@@ -76,54 +78,39 @@
                         edit: false,
                         list: false
                     },
+                    IDEspacio: {
+                        title: 'idEspacio',
+                        width: '20%'
+                    },
                     Descripcion: {
                         title: 'Descripcion',
-                        width: '10%'
-                    },
-                    Estado: {
-                        title: 'Estado',
                         width: '8%'
                     },
-                    Modo: {
-                        title: 'Modo',
+                    Fechainicio: {
+                        title: 'Fecha de Inicio',
                         width: '15%'
+                       
                     },
-                   
-                    Precio: {
-                        title: 'Precio',
+                    Fechafinal: {
+                        title: 'Fecha Final',
+                        width: '15%'
+                         
+                    },
+                    Hora: {
+                        title: 'Hora',
                         width: '8%'
-                    },
-                    IdTipoevento: {
-                        title: 'Tipo evento',
-                        width: '8%',
-                        options: '/espacios/getoptionsespacios'
-                    },
-                    Aforo: {
-                        title: 'Aforo',
-                        width: '5%',
-                        
-                    },
-                    Fecha: {
-                        title: 'Fecha',
-                        width: '8%',
-                        create: true,
-                        edit: true,
-                                             
-                    },
-                    NumeroReservaslimite: {
-                        title: 'Numero reservas',
-                        width: '6%'
                     }
                 }
             });
             //Load student list from server
-            $('#EspaciosTableContainer').jtable('load');
+            $('#HorariosTableContainer').jtable('load');
         });
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
     
     {{ template "footer" }}
-</body>
-<!--espacios -->
+   
+</body><!--horarios -->
+</html>
 {{ end }}

@@ -27,8 +27,8 @@ func main() {
 	// Apis usuario
 	http.HandleFunc("/usuario", controller.Usuario)
 	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
-	http.HandleFunc("/Bono", controller.Bonos)
-	http.HandleFunc("/autorizado", controller.Autorizado)
+	http.HandleFunc("/bono", controller.Bonos)
+	http.HandleFunc("/autorizado", controller.Autorizados)
 
 	http.HandleFunc("/usuario/list", controller.UsuarioList)
 	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
@@ -60,7 +60,6 @@ func main() {
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
 
-	// Apis reservas
 	http.HandleFunc("/reservas", controller.Reservas)
 	http.HandleFunc("/reservas/list", controller.ReservasList)
 	http.HandleFunc("/reservas/create", controller.ReservasCreate)
@@ -111,7 +110,14 @@ func main() {
 	http.HandleFunc("/espacios/list", controller.EspacioList)
 	http.HandleFunc("/espacios/create", controller.EspacioCreate)
 	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
-	http.HandleFunc("/espacios/getoptionsRoles", controller.EspaciosgetoptionsRoles)
-	http.HandleFunc("/espacios/delete", controller.EspaciosBaja)
+	http.HandleFunc("/espacios/delete", controller.EspacioDelete)
+	http.HandleFunc("/reservas/getoptionsespacios", controller.EspaciosgetoptionsRoles)
+
+	http.HandleFunc("/horarios", controller.Horarios)
+	http.HandleFunc("/horarios/list", controller.HorariosList)
+	http.HandleFunc("/horarios/create", controller.HorariosCreate)
+	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
+	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
+
 	http.ListenAndServe(":3000", nil)
 }
