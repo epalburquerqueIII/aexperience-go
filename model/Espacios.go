@@ -7,8 +7,8 @@ type Tespacios struct {
 	Estado               string
 	Modo                 string
 	Precio               int
-	IdTiposevento        int
-	NumeroReservaslimite int
+	IdTipoevento         int
 	Aforo                int
 	Fecha                string
+	NumeroReservaslimite int
 }

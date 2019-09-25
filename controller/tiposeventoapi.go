@@ -114,7 +114,7 @@ func TiposeventoUpdate(w http.ResponseWriter, r *http.Request) {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		tipo.ID = int64(i)
 		tipo.Nombre = r.FormValue("Nombre")
-		insForm, err := db.Prepare("UPDATE tiposevento SET tiposevento.nombre=? WHERE tiposevento.id=?")
+		insForm, err := db.Prepare("UPDATE tiposevento SET nombre=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -124,7 +124,7 @@ func TiposeventoUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(tipo.ID, tipo.Nombre)
+		insForm.Exec(tipo.Nombre, tipo.ID)
 		log.Println("UPDATE: nombre: " + tipo.Nombre)
 	}
 	defer db.Close()
