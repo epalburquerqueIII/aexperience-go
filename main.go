@@ -118,6 +118,7 @@ func main() {
 	http.HandleFunc("/horarios/create", controller.HorariosCreate)
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
+	http.HandleFunc("/horarios/getoptionsEspacios", controller.HorariosgetoptionsEspacios)s
 
 	http.ListenAndServe(":3000", nil)
 }
