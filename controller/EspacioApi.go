@@ -31,8 +31,9 @@ func EspacioList(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("jtSorting" + jtsort)
 		jtsort = "ORDER BY " + jtsort
 	}
+
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT espacios.id, descripcion, estado, modo, precio, tiposevento.id, aforo, fecha, numeroReservaslimite FROM espacios LEFT OUTER JOIN tiposevento on (tiposevento.id = idTipoevento) " + jtsort)
+	selDB, err := db.Query("SELECT espacios.id, descripcion, estado, modo, precio, idTipoevento, aforo, fecha, numeroReservaslimite FROM espacios " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -58,7 +59,7 @@ func EspacioList(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Cargando registros de Usuarios"
+			verror.Error = "Error Cargando registros de Espacios"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
@@ -136,10 +137,9 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 		esp.Modo = r.FormValue("Modo")
 		esp.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
 		esp.IDTipoevento, _ = strconv.Atoi(r.FormValue("IdTipoevento"))
-
 		esp.Aforo, _ = strconv.Atoi(r.FormValue("Aforo"))
 		esp.Fecha = r.FormValue("Fecha")
-		esp.NumeroReservaslimite, _ = strconv.Atoi(r.FormValue("numeroReservaslimite"))
+		esp.NumeroReservaslimite, _ = strconv.Atoi(r.FormValue("MumeroReservaslimite"))
 		insForm, err := db.Prepare("UPDATE espacios SET descripcion=?, estado=?, modo=?, precio =?, idTipoevento=?, aforo=?, fecha=?, numeroReservaslimite=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
@@ -164,7 +164,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 //EspaciosBaja da de baja al usuario
-func EspaciosBaja(w http.ResponseWriter, r *http.Request) {
+func EspaciosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := r.FormValue("ID")
 	delForm, err := db.Prepare("UPDATE espacios SET fecha=CURDATE() WHERE id=?")
@@ -188,34 +188,4 @@ func EspaciosBaja(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 
 	// 	// 	http.Redirect(w, r, "/", 301)
-}
-
-// EspaciosgetoptionsRoles Roles de usuario
-func Espaciosgetoptionsespacios(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	selDB, err := db.Query("SELECT tiposevento.id, tiposevento.nombre from tiposevento Order by tiposevento.id")
-	if err != nil {
-		panic(err.Error())
-	}
-	elem := model.Option{}
-	vtabla := []model.Option{}
-	for selDB.Next() {
-		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-		if err != nil {
-			panic(err.Error())
-		}
-		vtabla = append(vtabla, elem)
-	}
-
-	var vtab model.Options
-	vtab.Result = "OK"
-	vtab.Options = vtabla
-	// create json response from struct
-	a, err := json.Marshal(vtab)
-	// Visualza
-	s := string(a)
-	fmt.Println(s)
-	w.Write(a)
-	defer db.Close()
 }

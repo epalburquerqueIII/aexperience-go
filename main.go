@@ -104,14 +104,15 @@ func main() {
 	http.HandleFunc("/tiposeventos/create", controller.TiposeventoCreate)
 	http.HandleFunc("/tiposeventos/update", controller.TiposeventoUpdate)
 	http.HandleFunc("/tiposeventos/delete", controller.TiposeventoDelete)
+	// obtiene los nombre de los tipos de evento
+	http.HandleFunc("/tiposeventos/getoptions", controller.TiposeventogetOptions)
 
 	//Apis espacios
 	http.HandleFunc("/espacios", controller.Espacio)
 	http.HandleFunc("/espacios/list", controller.EspacioList)
 	http.HandleFunc("/espacios/create", controller.EspacioCreate)
 	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
-	http.HandleFunc("/espacios/delete", controller.EspaciosBaja)
-	http.HandleFunc("/reservas/getoptionsespacios", controller.Espaciosgetoptionsespacios)
+	http.HandleFunc("/espacios/delete", controller.EspaciosDelete)
 
 	http.HandleFunc("/horarios", controller.Horarios)
 	http.HandleFunc("/horarios/list", controller.HorariosList)
