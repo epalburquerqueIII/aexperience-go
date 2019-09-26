@@ -86,8 +86,8 @@ func HorariosCreate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		h.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 		h.Descripcion = r.FormValue("Descripcion")
-		h.Fechainicio = r.FormValue("Fechainicio")
-		h.Fechafinal = r.FormValue("Fechafinal")
+		h.Fechainicio = util.DateSql(r.FormValue("Fechainicio"))
+		h.Fechafinal = util.DateSql(r.FormValue("Fechafinal"))
 		h.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		insForm, err := db.Prepare("INSERT INTO horarios(idEspacio,descripcion,fechaInicio,fechaFin,hora) VALUES(?,?,?,?,?)")
 		if err != nil {
@@ -128,8 +128,8 @@ func HorariosUpdate(w http.ResponseWriter, r *http.Request) {
 		h.ID = int64(i)
 		h.IdEspacio, _ = strconv.Atoi(r.FormValue("idEspacio"))
 		h.Descripcion = r.FormValue("Descripcion")
-		h.Fechainicio = r.FormValue("Fechainicio")
-		h.Fechafinal = r.FormValue("Fechafinal")
+		h.Fechainicio = util.DateSql(r.FormValue("Fechainicio"))
+		h.Fechafinal = util.DateSql(r.FormValue("Fechafinal"))
 		h.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		insForm, err := db.Prepare("UPDATE horarios SET idEspacio=?, descripcion=?, fechaInicio=?, fechaFin =?,hora=? WHERE id=?")
 		if err != nil {
@@ -178,34 +178,4 @@ func HorariosDelete(w http.ResponseWriter, r *http.Request) {
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 	http.Redirect(w, r, "/", 301)
-}
-
-//HorariosgetoptionsEspacios tabla de espacios
-func HorariosgetoptionsEspacios(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	selDB, err := db.Query("SELECT espacios.id, espacios.descripcion from espacios Order by espacios.id")
-	if err != nil {
-		util.ErrorApi(err.Error(), w, "")
-	}
-	elem := model.Option{}
-	vtabla := []model.Option{}
-	for selDB.Next() {
-		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-		if err != nil {
-			util.ErrorApi(err.Error(), w, "")
-		}
-		vtabla = append(vtabla, elem)
-	}
-
-	var vtab model.Options
-	vtab.Result = "OK"
-	vtab.Options = vtabla
-	// create json response from struct
-	a, err := json.Marshal(vtab)
-	// Visualza
-	s := string(a)
-	fmt.Println(s)
-	w.Write(a)
-	defer db.Close()
 }
