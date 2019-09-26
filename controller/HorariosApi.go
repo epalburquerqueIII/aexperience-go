@@ -43,7 +43,7 @@ func HorariosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Thorarios{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&h.ID, &h.IdEspacio, &h.Descripcion, &h.Fechainicio, &h.Fechafinal, &h.Hora)
+		err = selDB.Scan(&h.ID, &h.IDEspacio, &h.Descripcion, &h.Fechainicio, &h.Fechafinal, &h.Hora)
 		//Si no hay fecha de baja, este campo aparece como activo
 		//if h.FechaBaja == "0000-00-00" {
 		//	usu.FechaBaja = "Activo"
@@ -84,7 +84,7 @@ func HorariosCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	h := model.Thorarios{}
 	if r.Method == "POST" {
-		h.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
+		h.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
 		h.Descripcion = r.FormValue("Descripcion")
 		h.Fechainicio = util.DateSql(r.FormValue("Fechainicio"))
 		h.Fechafinal = util.DateSql(r.FormValue("Fechafinal"))
@@ -98,12 +98,12 @@ func HorariosCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(h.IdEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora)
+		res, err1 := insForm.Exec(h.IDEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora)
 		if err1 != nil {
 			panic(err1.Error())
 		}
 		h.ID, err1 = res.LastInsertId()
-		log.Printf("INSERT: idEspacio: %d   | hora: %d\n", h.IdEspacio, h.Hora)
+		log.Printf("INSERT: idEspacio: %d   | hora: %d\n", h.IDEspacio, h.Hora)
 
 	}
 	var vrecord model.HorariosRecord
@@ -126,7 +126,7 @@ func HorariosUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		h.ID = int64(i)
-		h.IdEspacio, _ = strconv.Atoi(r.FormValue("idEspacio"))
+		h.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
 		h.Descripcion = r.FormValue("Descripcion")
 		h.Fechainicio = util.DateSql(r.FormValue("Fechainicio"))
 		h.Fechafinal = util.DateSql(r.FormValue("Fechafinal"))
@@ -141,8 +141,8 @@ func HorariosUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(h.IdEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora, h.ID)
-		log.Printf("INSERT: IdEspacio: %d   | Hora: %d\n", h.IdEspacio, h.Hora)
+		insForm.Exec(h.IDEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora, h.ID)
+		log.Printf("INSERT: IdEspacio: %d   | Hora: %d\n", h.IDEspacio, h.Hora)
 	}
 	defer db.Close()
 	var vrecord model.HorariosRecord
