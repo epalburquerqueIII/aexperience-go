@@ -168,7 +168,7 @@ func TiposeventoDelete(w http.ResponseWriter, r *http.Request) {
 func TiposeventogetOptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT tiposevento.id, tiposevento.nombre from tiposevento Order by tiposevento.id")
+	selDB, err := db.Query("SELECT id, nombre from tiposevento Order by id")
 	if err != nil {
 		panic(err.Error())
 	}

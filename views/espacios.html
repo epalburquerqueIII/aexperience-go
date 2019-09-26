@@ -34,14 +34,14 @@
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
                 //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
+                deleteConfirmation: 'El espacio será eliminado',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
                 //deleteText: 'Eliminar',
-                deleteText: 'Dar de baja',
+                deleteText: 'Eliminar',
                 //deleting: 'Eliminando',
-                deleting: 'Dando de baja',
+                deleting: 'Eliminando',
                 error: 'Error',
                 close: 'Cerrar',
                 cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
@@ -82,11 +82,17 @@
                     },
                     Estado: {
                         title: 'Estado',
-                        width: '8%'
+                        width: '8%',
+                        type: "radiobutton",
+                        options: { '0': 'Cerrado', '1': 'Abierto' }
+
+
                     },
                     Modo: {
                         title: 'Modo',
-                        width: '15%'
+                        width: '15%',
+                        type: "radiobutton",
+                        options: { '0': 'Fijo', '1': 'Variable' }
                     },
                    
                     Precio: {
@@ -106,9 +112,11 @@
                     Fecha: {
                         title: 'Fecha',
                         width: '8%',
+                        type: "date",
                         create: true,
-                        edit: true
-                                             
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
+                                         
                     },
                     NumeroReservaslimite: {
                         title: 'Numero reservas',
