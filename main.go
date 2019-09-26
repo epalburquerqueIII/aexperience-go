@@ -104,6 +104,7 @@ func main() {
 	http.HandleFunc("/tiposevento/create", controller.TiposeventoCreate)
 	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
 	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
+	http.HandleFunc("/tiposeventos/getoptions", controller.TiposeventogetOptions)
 
 	//Apis espacios
 	http.HandleFunc("/espacios", controller.Espacio)
@@ -111,13 +112,14 @@ func main() {
 	http.HandleFunc("/espacios/create", controller.EspacioCreate)
 	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
 	http.HandleFunc("/espacios/delete", controller.EspaciosDelete)
+	http.HandleFunc("/espacios/getoptions", controller.Espaciosgetoptions)
 
+	//Apis horarios
 	http.HandleFunc("/horarios", controller.Horarios)
 	http.HandleFunc("/horarios/list", controller.HorariosList)
 	http.HandleFunc("/horarios/create", controller.HorariosCreate)
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
-	http.HandleFunc("/horarios/getoptionsEspacios", controller.HorariosgetoptionsEspacios)
 
 	http.ListenAndServe(":3000", nil)
 }
