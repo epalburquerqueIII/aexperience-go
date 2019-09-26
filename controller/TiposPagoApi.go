@@ -142,32 +142,32 @@ func TiposPagoDelete(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", 301)
 }
 
-// TiposPagogetoptionsRoles
-/* func TiposPagogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
+// PagosgetoptionsTipoPago tipos de pago
+func PagosgetoptionsTipoPago(w http.ResponseWriter, r *http.Request) {
 
- 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
- 	if err != nil {
- 		panic(err.Error())
- 	}
- 	elem := model.Option{}
- 	vtabla := []model.Option{}
- 	for selDB.Next() {
- 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
- 		if err != nil {
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT  tipospago.id, tipospago.nombre from tipospago Order by tipospago.id")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
 			panic(err.Error())
- 		}
- 		vtabla = append(vtabla, elem)
- 	}
+		}
+		vtabla = append(vtabla, elem)
+	}
 
- 	var vtab model.Options
- 	vtab.Result = "OK"
- 	vtab.Options = vtabla
- 	 create json response from struct
- 	a, err := json.Marshal(vtab)
- 	 Visualza
- 	s := string(a)
- 	fmt.Println(s)
- 	w.Write(a)
- 	defer db.Close()
-}*/
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
+}
