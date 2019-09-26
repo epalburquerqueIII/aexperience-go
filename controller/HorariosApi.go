@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // Horarios Pantalla de tratamiento de los horarios
@@ -42,7 +43,7 @@ func HorariosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Thorarios{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&h.ID, &h.IdEspacio, &h.Descripcion, &h.Fechainicio, &h.Fechafinal, &h.Hora)
+		err = selDB.Scan(&h.ID, &h.IDEspacio, &h.Descripcion, &h.Fechainicio, &h.Fechafinal, &h.Hora)
 		//Si no hay fecha de baja, este campo aparece como activo
 		//if h.FechaBaja == "0000-00-00" {
 		//	usu.FechaBaja = "Activo"
@@ -83,10 +84,10 @@ func HorariosCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	h := model.Thorarios{}
 	if r.Method == "POST" {
-		h.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
+		h.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
 		h.Descripcion = r.FormValue("Descripcion")
-		h.Fechainicio = r.FormValue("Fechainicio")
-		h.Fechafinal = r.FormValue("Fechafinal")
+		h.Fechainicio = util.DateSql(r.FormValue("Fechainicio"))
+		h.Fechafinal = util.DateSql(r.FormValue("Fechafinal"))
 		h.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		insForm, err := db.Prepare("INSERT INTO horarios(idEspacio,descripcion,fechaInicio,fechaFin,hora) VALUES(?,?,?,?,?)")
 		if err != nil {
@@ -97,12 +98,12 @@ func HorariosCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(h.IdEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora)
+		res, err1 := insForm.Exec(h.IDEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora)
 		if err1 != nil {
 			panic(err1.Error())
 		}
 		h.ID, err1 = res.LastInsertId()
-		log.Printf("INSERT: idEspacio: %d   | hora: %d\n", h.IdEspacio, h.Hora)
+		log.Printf("INSERT: idEspacio: %d   | hora: %d\n", h.IDEspacio, h.Hora)
 
 	}
 	var vrecord model.HorariosRecord
@@ -125,10 +126,10 @@ func HorariosUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		h.ID = int64(i)
-		h.IdEspacio, _ = strconv.Atoi(r.FormValue("idEspacio"))
+		h.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
 		h.Descripcion = r.FormValue("Descripcion")
-		h.Fechainicio = r.FormValue("Fechainicio")
-		h.Fechafinal = r.FormValue("Fechafinal")
+		h.Fechainicio = util.DateSql(r.FormValue("Fechainicio"))
+		h.Fechafinal = util.DateSql(r.FormValue("Fechafinal"))
 		h.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		insForm, err := db.Prepare("UPDATE horarios SET idEspacio=?, descripcion=?, fechaInicio=?, fechaFin =?,hora=? WHERE id=?")
 		if err != nil {
@@ -140,8 +141,8 @@ func HorariosUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(h.IdEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora, h.ID)
-		log.Printf("INSERT: IdEspacio: %d   | Hora: %d\n", h.IdEspacio, h.Hora)
+		insForm.Exec(h.IDEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora, h.ID)
+		log.Printf("INSERT: IdEspacio: %d   | Hora: %d\n", h.IDEspacio, h.Hora)
 	}
 	defer db.Close()
 	var vrecord model.HorariosRecord
@@ -178,57 +179,3 @@ func HorariosDelete(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 	http.Redirect(w, r, "/", 301)
 }
-
-//HorariosBaja da de baja al usuario
-//func HorariosBaja(w http.ResponseWriter, r *http.Request) {
-////	h := r.FormValue("ID")
-//delForm, err := db.Prepare("UPDATE horarios SET fechaBaja=CURDATE() WHERE id=?")
-//if err != nil {
-
-//	panic(err.Error())
-//}
-//_, err1 := delForm.Exec(usu)
-//if err1 != nil {
-//	var verror model.Resulterror
-//	verror.Result = "ERROR"
-//	verror.Error = "Error dando de baja al usuario"
-//	a, _ := json.Marshal(verror)
-//	w.Write(a)
-//}
-//log.Println("BAJA")
-//defer db.Close()
-//var vrecord model.UsuarioRecord
-//vrecord.Result = "OK"
-//a, _ := json.Marshal(vrecord)
-//w.Write(a)
-
-// 	// 	http.Redirect(w, r, "/", 301)
-//}
-
-// UsuariogetoptionsRoles Roles de usuario
-//func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
-
-//	db := database.DbConn()
-//	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
-//	if err != nil {
-//		panic(err.Error())
-//	}
-//	elem := model.Option{}
-//	vtabla := []model.Option{}
-//	for selDB.Next() {
-//		if err != nil {
-//		}
-//		vtabla = append(vtabla, elem)
-//	}
-
-//	var vtab model.Options
-//	vtab.Result = "OK"
-//	vtab.Options = vtabla
-// create json response from struct
-//	a, err := json.Marshal(vtab)
-// Visualza
-//	s := string(a)
-//	fmt.Println(s)
-//	w.Write(a)
-//	defer db.Close()
-//}

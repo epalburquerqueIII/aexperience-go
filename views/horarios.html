@@ -79,8 +79,9 @@
                         list: false
                     },
                     IDEspacio: {
-                        title: 'idEspacio',
-                        width: '20%'
+                        title: 'Espacio',
+                        width: '20%',
+                        options: '/espacios/getoptions'
                     },
                     Descripcion: {
                         title: 'Descripcion',
@@ -88,12 +89,20 @@
                     },
                     Fechainicio: {
                         title: 'Fecha de Inicio',
-                        width: '15%'
+                        width: '15%',
+                        type: "date",
+                        create: true,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
                        
                     },
                     Fechafinal: {
                         title: 'Fecha Final',
-                        width: '15%'
+                        width: '15%',
+                        type: "date",
+                        create: true,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
                          
                     },
                     Hora: {
