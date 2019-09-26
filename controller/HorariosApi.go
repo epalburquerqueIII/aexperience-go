@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // Horarios Pantalla de tratamiento de los horarios
@@ -179,56 +180,32 @@ func HorariosDelete(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", 301)
 }
 
-//HorariosBaja da de baja al usuario
-//func HorariosBaja(w http.ResponseWriter, r *http.Request) {
-////	h := r.FormValue("ID")
-//delForm, err := db.Prepare("UPDATE horarios SET fechaBaja=CURDATE() WHERE id=?")
-//if err != nil {
+//HorariosgetoptionsEspacios tabla de espacios
+func HorariosgetoptionsEspacios(w http.ResponseWriter, r *http.Request) {
 
-//	panic(err.Error())
-//}
-//_, err1 := delForm.Exec(usu)
-//if err1 != nil {
-//	var verror model.Resulterror
-//	verror.Result = "ERROR"
-//	verror.Error = "Error dando de baja al usuario"
-//	a, _ := json.Marshal(verror)
-//	w.Write(a)
-//}
-//log.Println("BAJA")
-//defer db.Close()
-//var vrecord model.UsuarioRecord
-//vrecord.Result = "OK"
-//a, _ := json.Marshal(vrecord)
-//w.Write(a)
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT espacios.id, espacios.descripcion from espacios Order by espacios.id")
+	if err != nil {
+		util.ErrorApi(err.Error(), w, "")
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			util.ErrorApi(err.Error(), w, "")
+		}
+		vtabla = append(vtabla, elem)
+	}
 
-// 	// 	http.Redirect(w, r, "/", 301)
-//}
-
-// UsuariogetoptionsRoles Roles de usuario
-//func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
-
-//	db := database.DbConn()
-//	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
-//	if err != nil {
-//		panic(err.Error())
-//	}
-//	elem := model.Option{}
-//	vtabla := []model.Option{}
-//	for selDB.Next() {
-//		if err != nil {
-//		}
-//		vtabla = append(vtabla, elem)
-//	}
-
-//	var vtab model.Options
-//	vtab.Result = "OK"
-//	vtab.Options = vtabla
-// create json response from struct
-//	a, err := json.Marshal(vtab)
-// Visualza
-//	s := string(a)
-//	fmt.Println(s)
-//	w.Write(a)
-//	defer db.Close()
-//}
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
+}
