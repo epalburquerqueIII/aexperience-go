@@ -66,6 +66,7 @@ func main() {
 	http.HandleFunc("/reservas/create", controller.ReservasCreate)
 	http.HandleFunc("/reservas/update", controller.ReservasUpdate)
 	http.HandleFunc("/reservas/delete", controller.ReservasDelete)
+	http.HandleFunc("/reservas/getoptionsReserva", controller.PagosgetoptionsTipoPago)
 	// Apis pagos
 	http.HandleFunc("/pagos", controller.Pagos)
 	http.HandleFunc("/pagos/list", controller.PagosList)
