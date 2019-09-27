@@ -66,7 +66,7 @@ func main() {
 	http.HandleFunc("/reservas/create", controller.ReservasCreate)
 	http.HandleFunc("/reservas/update", controller.ReservasUpdate)
 	http.HandleFunc("/reservas/delete", controller.ReservasDelete)
-	http.HandleFunc("/reservas/getoptionsReserva", controller.PagosgetoptionsTipoPago)
+	http.HandleFunc("/reservas/getoptions", controller.Reservasgetoptions)
 	// Apis pagos
 	http.HandleFunc("/pagos", controller.Pagos)
 	http.HandleFunc("/pagos/list", controller.PagosList)
@@ -88,7 +88,7 @@ func main() {
 	http.HandleFunc("/tiposPago/create", controller.TiposPagoCreate)
 	http.HandleFunc("/tiposPago/update", controller.TiposPagoUpdate)
 	http.HandleFunc("/tiposPago/delete", controller.TiposPagoDelete)
-	http.HandleFunc("/tiposPago/getoptionsTipoPago", controller.PagosgetoptionsTipoPago)
+	http.HandleFunc("/tiposPago/getoptions", controller.TiposPagogetoptions)
 
 	//Apis menus
 	http.HandleFunc("/menus", controller.Menus)

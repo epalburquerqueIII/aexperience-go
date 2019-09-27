@@ -142,8 +142,8 @@ func TiposPagoDelete(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", 301)
 }
 
-// PagosgetoptionsTipoPago tipos de pago
-func PagosgetoptionsTipoPago(w http.ResponseWriter, r *http.Request) {
+// TiposPagogetoptions tipos de pago para tabla pagos
+func TiposPagogetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT  tipospago.id, tipospago.nombre from tipospago Order by tipospago.id")
