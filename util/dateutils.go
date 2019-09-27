@@ -4,7 +4,6 @@ import (
 	"time"
 )
 
-
 // DateSql Función para pasar a formato SQL date
 func DateSql(fecha string) string {
 	// convertir de español a fecha

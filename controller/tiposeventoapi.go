@@ -114,7 +114,7 @@ func TiposeventoUpdate(w http.ResponseWriter, r *http.Request) {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		tipo.ID = int64(i)
 		tipo.Nombre = r.FormValue("Nombre")
-		insForm, err := db.Prepare("UPDATE tiposevento SET tiposevento.nombre=? WHERE tiposevento.id=?")
+		insForm, err := db.Prepare("UPDATE tiposevento SET nombre=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -124,7 +124,7 @@ func TiposeventoUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(tipo.ID, tipo.Nombre)
+		insForm.Exec(tipo.Nombre, tipo.ID)
 		log.Println("UPDATE: nombre: " + tipo.Nombre)
 	}
 	defer db.Close()
@@ -162,4 +162,34 @@ func TiposeventoDelete(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 
 	// 	// 	http.Redirect(w, r, "/", 301)
+}
+
+// getoptions nombre tipo evento
+func TiposeventogetOptions(w http.ResponseWriter, r *http.Request) {
+
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT id, nombre from tiposevento Order by id")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			panic(err.Error())
+		}
+		vtabla = append(vtabla, elem)
+	}
+
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
 }

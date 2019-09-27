@@ -4,11 +4,11 @@ package model
 type Tespacios struct {
 	ID                   int64
 	Descripcion          string
-	Estado               string
-	Modo                 string
+	Estado               int
+	Modo                 int
 	Precio               int
-	IdTiposevento        int
-	NumeroReservaslimite int
+	IDTipoevento         int
 	Aforo                int
 	Fecha                string
+	NumeroReservaslimite int
 }
