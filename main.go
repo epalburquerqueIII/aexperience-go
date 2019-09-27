@@ -98,6 +98,8 @@ func main() {
 	http.HandleFunc("/menus/create", controller.MenusCreate)
 	http.HandleFunc("/menus/update", controller.MenusUpdate)
 	http.HandleFunc("/menus/delete", controller.MenusDelete)
+	// sumministra los nombres de los menus
+	http.HandleFunc("/menus/getoptions", controller.MenusgetoptionsMenuParent)
 
 	// Apis tiposevento
 	http.HandleFunc("/tiposevento", controller.Tiposevento)
