@@ -195,10 +195,10 @@ func AutorizadoDelete(w http.ResponseWriter, r *http.Request) {
 // }
 
 // AutorizadogetNombreUsuario - Obtener nombres de usuarios para la tabla de autorizados
-func AutorizadogetNombreUsuario(w http.ResponseWriter, r *http.Request) {
+func Autorizadogetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.nombre")
+	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado FROM autorizados ORDER BY autorizados.nombreAutorizado")
 	if err != nil {
 		panic(err.Error())
 	}

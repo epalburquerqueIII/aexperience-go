@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
 	"../model"
 	"../model/database"
 )
@@ -191,11 +192,11 @@ func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
 	// 	// 	http.Redirect(w, r, "/", 301)
 }
 
-// UsuariogetoptionsRoles Roles de usuario
-func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
+// Usuariogetoptions - Obtener nombres de usuarios para la tabla de autorizados
+func Usuariogetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
+	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.nombre")
 	if err != nil {
 		panic(err.Error())
 	}
