@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{{ define "reservas" }}
+
+{{ template "head" }}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AExperience</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+{{ template "linkjtable" }}
+<!-- Add aditional link -->
+</head> <!-- fin de head -->
+
+
+
+<body>
+    <!-- Se habre un div en menu.html y header.html y se cierra en index -->
+{{ template "menu" }}
+{{ template "header" }}
+
+    <!-- <h2> Registradas </h2> -->
+    <div class="container">
+      <div id="ReservasTableContainer"></div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var spanishMessages =  {
+                serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
+                loadingMessage: 'Cargando registros...',
+                noDataAvailable: 'No hay datos disponibles!',
+                editRecord: 'Editar registro',
+                areYouSure: '¿Confirma?',
+                save: 'Guardar',
+                saving: 'Guardando',
+                cancel: 'Cancelar',
+                error: 'Error',
+                close: 'Cerrar',
+                cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
+                pagingInfo: 'Mostrando registros {0} a {1} de {2}',
+                pageSizeChangeLabel: 'Registros por página',
+                gotoPageLabel: 'Ir a página'
+            };
+            $('#ReservasTableContainer').jtable({
+                messages: spanishMessages, //Lozalize
+                title: 'Listado de Reservas',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                defaultSorting: 'Fecha ASC', //Set default sorting
+                //selecting: true, //Enable selecting
+                //multiselect: true, //Allow multiple selecting
+                //selectingCheckboxes: true, //Show checkboxes on first column
+                //selectOnRowClick: false, //Enable this to only select using checkboxes
+                // Ver como aplicar selección en pagina jtables.org
+                actions: {
+                    listAction: '/reservas/list',
+                    updateAction: '/reservas/update',
+                    createAction: '/reservas/create',
+                    deleteAction: '/reservas/delete'
+                },
+                fields: {
+                    Id: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    Fecha: {
+                        title: 'Fecha',
+                        width: '8%',
+                        type: "date",
+                        create: true,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
+                    },
+                    FechaPago: {
+                        title: 'Fecha de Pago',
+                        width: '8%',
+                        type: "date",
+                        create: false,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
+                    },
+                    Hora: {
+                        title: 'Hora',
+                        width: '8%'
+                    },
+                    IdUsuario: {
+                        title: 'Usuario',
+                        width: '15%',
+                        options: '/usuariosRoles/getoptionsRoles'
+                    },
+                    IdEspacio: {
+                        title: 'Espacio',
+                        width: '8%',
+                        options: '/espacios/getoptions'
+                    },
+                    IdAutorizado: {
+                        title: 'Autorizado',
+                        width: '8%',
+                        options: '/autorizado/getoptionsAutorizado'
+                    }
+                }
+            });
+            //Load student list from server
+            $('#ReservasTableContainer').jtable('load');
+        });
+    </script>
+    </div><!--Cierre de menu-->
+    </div><!--Cierre de Header-->
+
+    {{ template "footer" }}
+    
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+<!--usuario -->
+{{ end }}

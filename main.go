@@ -62,6 +62,20 @@ func main() {
 	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
 	http.HandleFunc("/autorizado/getoptions", controller.Autorizadogetoptions)
+	// Apis reservas
+	http.HandleFunc("/reservas", controller.Reservas)
+	http.HandleFunc("/reservas/list", controller.ReservasList)
+	http.HandleFunc("/reservas/create", controller.ReservasCreate)
+	http.HandleFunc("/reservas/update", controller.ReservasUpdate)
+	http.HandleFunc("/reservas/delete", controller.ReservasDelete)
+	http.HandleFunc("/reservas/getoptions", controller.Reservasgetoptions)
+	//Apis espacios
+	http.HandleFunc("/espacios", controller.Espacio)
+	http.HandleFunc("/espacios/list", controller.EspacioList)
+	http.HandleFunc("/espacios/create", controller.EspacioCreate)
+	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
+	http.HandleFunc("/espacios/delete", controller.EspaciosDelete)
+	http.HandleFunc("/espacios/getoptions", controller.Espaciosgetoptions)
 
 	http.ListenAndServe(":3000", nil)
 }
