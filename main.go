@@ -106,7 +106,7 @@ func main() {
 	http.HandleFunc("/tiposevento/create", controller.TiposeventoCreate)
 	http.HandleFunc("/tiposevento/update", controller.TiposeventoUpdate)
 	http.HandleFunc("/tiposevento/delete", controller.TiposeventoDelete)
-	http.HandleFunc("/tiposeventos/getoptions", controller.TiposeventogetOptions)
+	http.HandleFunc("/tiposevento/getoptions", controller.TiposeventogetOptions)
 
 	//Apis espacios
 	http.HandleFunc("/espacios", controller.Espacio)
