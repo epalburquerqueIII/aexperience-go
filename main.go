@@ -30,12 +30,12 @@ func main() {
 	http.HandleFunc("/", index)
 
 	// Apis usuario
-	http.HandleFunc("/usuario", controller.Usuario)
-	http.HandleFunc("/usuario/list", controller.UsuarioList)
-	http.HandleFunc("/usuario/create", controller.UsuarioCreate)
-	http.HandleFunc("/usuario/update", controller.UsuarioUpdate)
-	http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
-	http.HandleFunc("/usuario/getoptions", controller.Usuariogetoptions)
+	http.HandleFunc("/usuarios", controller.Usuario)
+	http.HandleFunc("/usuarios/list", controller.UsuarioList)
+	http.HandleFunc("/usuarios/create", controller.UsuarioCreate)
+	http.HandleFunc("/usuarios/update", controller.UsuarioUpdate)
+	http.HandleFunc("/usuarios/delete", controller.UsuarioDelete)
+	http.HandleFunc("/usuarios/getoptions", controller.Usuariogetoptions)
 
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
