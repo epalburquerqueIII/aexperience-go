@@ -17,7 +17,7 @@ import (
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 // Usuario Pantalla de tratamiento de usuario
-func Usuario(w http.ResponseWriter, r *http.Request) {
+func Usuarios(w http.ResponseWriter, r *http.Request) {
 	//util.menus(0)
 	error := tmpl.ExecuteTemplate(w, "usuario", nil)
 	if error != nil {
@@ -26,7 +26,7 @@ func Usuario(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioList - json con los datos de clientes
-func UsuarioList(w http.ResponseWriter, r *http.Request) {
+func UsuariosList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -84,7 +84,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioCreate - Crear un Usuario
-func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
+func UsuariosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	usu := model.Tusuario{}
@@ -128,7 +128,7 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioUpdate Actualiza el usuario
-func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
+func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := model.Tusuario{}
 	if r.Method == "POST" {
@@ -165,8 +165,8 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-//UsuarioBaja da de baja al usuario
-func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
+//UsuariosDelete da de baja al usuario
+func UsuariosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := r.FormValue("ID")
 	delForm, err := db.Prepare("UPDATE usuarios SET fechaBaja=CURDATE() WHERE id=?")
@@ -193,7 +193,7 @@ func UsuarioBaja(w http.ResponseWriter, r *http.Request) {
 }
 
 // Usuariogetoptions - Obtener nombres de usuarios para la tabla de autorizados
-func Usuariogetoptions(w http.ResponseWriter, r *http.Request) {
+func Usuariosgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.nombre")

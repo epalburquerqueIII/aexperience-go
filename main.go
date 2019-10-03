@@ -25,18 +25,17 @@ func main() {
 	http.HandleFunc("/", index)
 
 	// Apis usuario
-	http.HandleFunc("/usuarios", controller.Usuario)
+	http.HandleFunc("/usuarios", controller.Usuarios)
 	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
 	http.HandleFunc("/bonos", controller.Bonos)
 	http.HandleFunc("/autorizados", controller.Autorizados)
 
-	http.HandleFunc("/usuarios/list", controller.UsuarioList)
-	http.HandleFunc("/usuarios/create", controller.UsuarioCreate)
-	http.HandleFunc("/usuarios/update", controller.UsuarioUpdate)
+	http.HandleFunc("/usuarios/list", controller.UsuariosList)
+	http.HandleFunc("/usuarios/create", controller.UsuariosCreate)
+	http.HandleFunc("/usuarios/update", controller.UsuariosUpdate)
 
-	// http.HandleFunc("/usuario/delete", controller.UsuarioDelete)
-	http.HandleFunc("/usuarios/baja", controller.UsuarioBaja)
-	http.HandleFunc("/usuarios/getoptions", controller.Usuariogetoptions)
+	http.HandleFunc("/usuarios/delete", controller.UsuariosDelete)
+	http.HandleFunc("/usuarios/getoptions", controller.Usuariosgetoptions)
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
 	http.HandleFunc("/registro", controller.Registro)
