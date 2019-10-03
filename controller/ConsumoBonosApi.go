@@ -12,8 +12,8 @@ import (
 )
 
 // ConsumoBonos Pantalla de tratamiento de ConsumoBonos
-func ConsumoBonos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "consumoBonos", nil)
+func ConsumoBonos(w http.ResponseWriter, r *http.Request {
+	error := tmpl.ExecuteTemplate(w, "consumobonos", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
