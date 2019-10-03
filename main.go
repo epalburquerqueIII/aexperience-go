@@ -46,10 +46,10 @@ func main() {
 	http.HandleFunc("/iva", controller.Iva)
 
 	// Apis consumoBonos
-	http.HandleFunc("/consumoBonos", controller.ConsumoBonos)
-	http.HandleFunc("/consumoBonos/list", controller.ConsumoBonosList)
-	http.HandleFunc("/consumoBonos/create", controller.ConsumoBonosCreate)
-	http.HandleFunc("/consumoBonos/update", controller.ConsumoBonosUpdate)
+	http.HandleFunc("/consumobonos", controller.ConsumoBonos)
+	http.HandleFunc("/consumobonos/list", controller.ConsumoBonosList)
+	http.HandleFunc("/consumobonos/create", controller.ConsumoBonosCreate)
+	http.HandleFunc("/consumobonos/update", controller.ConsumoBonosUpdate)
 
 	// Apis bono
 	http.HandleFunc("/bono", controller.Bonos)
