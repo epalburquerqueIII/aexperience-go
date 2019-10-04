@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuario" }}
+{{ define "autorizados" }}
 
-{{ template "head" }}
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AExperience</title>
-<link rel="stylesheet" type="text/css" href="/static/css/style.css">
-{{ template "linkjtable" }}
-<!-- Add aditional link -->
-</head> <!-- fin de head -->
-
-<!-- Se habre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
-{{ template "header" }}
+    {{ template "head" }}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AExperience</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    {{ template "linkjtable" }}
+    <!-- Add aditional link -->
+    </head> <!-- fin de head -->
 
 <body>
-    <!-- <h2> Registradas </h2> -->
+    <!-- Se abre un div en menu.html y header.html y se cierra en index -->
+    {{ template "menu" }}
+    {{ template "header" }}
+
     <div class="container">
-        <div id="UsuarioTableContainer"></div>
+      <div id="AutorizadoTableContainer"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            var spanishMessages = {
+            var spanishMessages =  {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
                 loadingMessage: 'Cargando registros...',
                 noDataAvailable: 'No hay datos disponibles!',
@@ -32,7 +31,7 @@
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
                 //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
+                deleteConfirmation: 'El autorizado será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
@@ -49,23 +48,23 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#UsuarioTableContainer').jtable({
+            $('#AutorizadoTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Usuarios',
+                title: 'Listado de Autorizados',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Nif ASC', //Set default sorting
+                defaultSorting: 'nombreAutorizado ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/usuarios/list',
-                    deleteAction: '/usuarios/delete',
-                    updateAction: '/usuarios/update',
-                    createAction: '/usuarios/create'
+                    listAction: '/autorizados/list',
+                    deleteAction: '/autorizados/delete',
+                    updateAction: '/autorizados/update',
+                    createAction: '/autorizados/create'
                 },
                 fields: {
                     ID: {
@@ -74,57 +73,28 @@
                         edit: false,
                         list: false
                     },
-                    Nombre: {
+                    IDUsuario: {
                         title: 'Nombre',
+                        width: '20%',
+                        options: '/usuario/getoptions'
+                    },
+                    NombreAutorizado: {
+                        title: 'Nombre del Autorizado',
                         width: '20%'
                     },
                     Nif: {
                         title: 'Nif',
                         width: '8%'
-                    },
-                    Email: {
-                        title: 'Email',
-                        width: '15%'
-                    },
-                    Tipo: {
-                        title: 'Tipo',
-                        width: '8%',
-                        type: "radiobutton",
-                        options: '/usuarios/getoptions'
-                    },
-                    Telefono: {
-                        title: 'Teléfono',
-                        width: '8%'
-                    },
-                    SesionesBonos: {
-                        title: 'Sesiones Bono',
-                        width: '6%'
-                    },
-                    Newsletter: {
-                        title: 'Newsletter',
-                        width: '5%',
-                        type: 'radiobutton',
-                        options: { '0': 'Si', '1': 'No' }
-                    },
-                    FechaBaja: {
-                        title: 'Fecha Baja',
-                        width: '5%',    
-                        create: false,
-                        edit: false                        
                     }
                 }
             });
             //Load student list from server
-            $('#UsuarioTableContainer').jtable('load');
+            $('#AutorizadoTableContainer').jtable('load');
         });
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
     {{ template "footer" }}
- 
-    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
-<!--usuario -->
-   {{ end }}
+</html><!-- autorizado -->
+{{ end }}

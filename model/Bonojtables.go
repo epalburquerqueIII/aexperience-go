@@ -1,6 +1,6 @@
 package model
 
-// UsuarioRecords estructura para comunicar con jtable
+// BonoRecords estructura para comunicar con jtable
 type BonoRecords struct {
 	Result           string `json:"Result"`
 	TotalRecordCount int

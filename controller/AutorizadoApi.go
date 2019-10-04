@@ -194,11 +194,11 @@ func AutorizadoDelete(w http.ResponseWriter, r *http.Request) {
 // 	// 	// 	http.Redirect(w, r, "/", 301)
 // }
 
-// AutorizadogetNombreUsuario - Obtener nombres de usuarios para la tabla de autorizados
+// Autorizadogetoptions obtiene nombre de la persona autorizada
 func Autorizadogetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado FROM autorizados ORDER BY autorizados.nombreAutorizado")
+	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado from autorizados Order by autorizados.nombreAutorizado")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -211,7 +211,6 @@ func Autorizadogetoptions(w http.ResponseWriter, r *http.Request) {
 		}
 		vtabla = append(vtabla, elem)
 	}
-
 	var vtab model.Options
 	vtab.Result = "OK"
 	vtab.Options = vtabla

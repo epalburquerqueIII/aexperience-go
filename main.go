@@ -29,9 +29,9 @@ func main() {
 	http.HandleFunc("/usuarios/list", controller.UsuariosList)
 	http.HandleFunc("/usuarios/create", controller.UsuariosCreate)
 	http.HandleFunc("/usuarios/update", controller.UsuariosUpdate)
-
 	http.HandleFunc("/usuarios/delete", controller.UsuariosDelete)
 	http.HandleFunc("/usuarios/getoptions", controller.Usuariosgetoptions)
+
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
 	http.HandleFunc("/registro", controller.Registro)
