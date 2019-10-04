@@ -93,7 +93,7 @@ func EspacioCreate(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
-			verror.Error = "Error Insertando Usuario"
+			verror.Error = "Error Insertando Espacio"
 			a, _ := json.Marshal(verror)
 			w.Write(a)
 			panic(err.Error())
