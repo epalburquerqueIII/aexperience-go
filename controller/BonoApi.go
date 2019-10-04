@@ -13,7 +13,7 @@ import (
 
 //Bonos Pantalla de tratamiento de Bonos
 func Bonos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "bono", nil)
+	error := tmpl.ExecuteTemplate(w, "bonos", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

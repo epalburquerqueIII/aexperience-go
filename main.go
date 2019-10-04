@@ -52,17 +52,17 @@ func main() {
 	http.HandleFunc("/consumobonos/update", controller.ConsumoBonosUpdate)
 
 	// Apis bono
-	http.HandleFunc("/bono", controller.Bonos)
-	http.HandleFunc("/bono/list", controller.BonoList)
-	http.HandleFunc("/bono/update", controller.BonoUpdate)
+	http.HandleFunc("/bonos", controller.Bonos)
+	http.HandleFunc("/bonos/list", controller.BonoList)
+	http.HandleFunc("/bonos/update", controller.BonoUpdate)
 
 	// Apis autorizados
-	http.HandleFunc("/autorizado", controller.Autorizado)
-	http.HandleFunc("/autorizado/list", controller.AutorizadoList)
-	http.HandleFunc("/autorizado/create", controller.AutorizadoCreate)
-	http.HandleFunc("/autorizado/update", controller.AutorizadoUpdate)
-	http.HandleFunc("/autorizado/delete", controller.AutorizadoDelete)
-	http.HandleFunc("/autorizado/getoptions", controller.Autorizadogetoptions)
+	http.HandleFunc("/autorizados", controller.Autorizado)
+	http.HandleFunc("/autorizados/list", controller.AutorizadoList)
+	http.HandleFunc("/autorizados/create", controller.AutorizadoCreate)
+	http.HandleFunc("/autorizados/update", controller.AutorizadoUpdate)
+	http.HandleFunc("/autorizados/delete", controller.AutorizadoDelete)
+	http.HandleFunc("/autorizados/getoptions", controller.Autorizadogetoptions)
 
 	http.ListenAndServe(":3000", nil)
 }

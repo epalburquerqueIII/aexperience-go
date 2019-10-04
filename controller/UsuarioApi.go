@@ -19,7 +19,7 @@ var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 // Usuario Pantalla de tratamiento de usuario
 func Usuario(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "usuario", nil)
+	error := tmpl.ExecuteTemplate(w, "usuarios", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
