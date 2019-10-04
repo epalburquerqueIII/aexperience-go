@@ -6,7 +6,7 @@ type Tusuario struct {
 	Nombre        string
 	Nif           string
 	Email         string
-	Tipo          int
+	IdUsuarioRol  int
 	Telefono      string
 	SesionesBonos int
 	Newsletter    int

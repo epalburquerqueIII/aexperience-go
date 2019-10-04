@@ -96,7 +96,7 @@ INSERT INTO `usuariosRoles` (`id`, `nombre`) VALUES (0, 'administrador');
 CREATE Table menuParent (
     id integer PRIMARY KEY,
     titulo varchar(50) NOT NULL,
-    tipo integer NOT NULL,
+    tipo integer NOT NULL
 );
 -- Tipo de tabla menuParent
 -- 0-normal
@@ -115,9 +115,9 @@ CREATE Table menus (
 CREATE Table menuUsuariosRoles (
     id integer AUTO_INCREMENT PRIMARY KEY,
     idMenu integer NOT NULL,
-    idUsuarioRol integer NOT NULL,
+    idUsuarioRoles integer NOT NULL,
     FOREIGN KEY (idMenu) REFERENCES menus(id),
-    FOREIGN KEY (idUsuarioRol) REFERENCES usuariosRoles(id)
+    FOREIGN KEY (idUsuarioRoles) REFERENCES usuariosRoles(id)
 );
 
     INSERT INTO `menuParent` (`id`, `titulo`, `tipo`) VALUES (1, 'Estadísticas', 0);
