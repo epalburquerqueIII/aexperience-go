@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // ConsumoBonos Pantalla de tratamiento de ConsumoBonos
@@ -74,7 +75,7 @@ func ConsumoBonosCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	consu := model.Tconsumo{}
 	if r.Method == "POST" {
-		consu.Fecha = r.FormValue("Fecha")
+		consu.Fecha = util.DateSql(r.FormValue("Fecha"))
 		consu.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
 		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
 		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
@@ -116,7 +117,7 @@ func ConsumoBonosUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		consu.ID = int64(i)
-		consu.Fecha = r.FormValue("Fecha")
+		consu.Fecha = util.DateSql(r.FormValue("Fecha"))
 		consu.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
 		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
 		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
