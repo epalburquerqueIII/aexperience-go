@@ -17,6 +17,12 @@ CREATE TABLE usuarios (
     newsletter tinyint,
     fechaBaja date
 );
+
+--Newsletter
+-- 0 = no
+-- 1 = si
+
+
 CREATE Table tiposPago (
     id integer AUTO_INCREMENT PRIMARY KEY,
     nombre varchar(30)
