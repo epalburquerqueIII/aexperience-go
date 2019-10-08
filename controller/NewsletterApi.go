@@ -107,8 +107,8 @@ func NewsletterUpdate(w http.ResponseWriter, r *http.Request) {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(news.Email, news.Idtiponoticias)
-		log.Println("UPDATE: id: %d  | email: %d\n", news.Id, news.Email)
+		insForm.Exec(news.Email, news.Idtiponoticias, news.Id)
+		log.Println("UPDATE: id: %d  | email: %s\n", news.Id, news.Email)
 	}
 	defer db.Close()
 	var vrecord model.NewsletterRecord
