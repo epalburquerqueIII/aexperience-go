@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{{ define "menuroles" }}
+
+{{ template "head" }}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AExperience</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+{{ template "linkjtable" }}
+<!-- Add aditional link -->
+</head> <!-- fin de head -->
+
+<body>
+
+    
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
+{{ template "menurol" }}
+{{ template "header" }}
+    <!-- <h2> Registradas </h2> -->
+
+    <div class="container">
+        <div id="MenuRolesTableContainer"></div>
+    </div>
+  
+
+   
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var spanishMessages = {
+                serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
+                loadingMessage: 'Cargando registros...',
+                noDataAvailable: 'No hay datos disponibles!',
+                addNewRecord: 'Crear nuevo registro',
+                editRecord: 'Editar registro',
+                areYouSure: '¿Confirma?',
+                deleteConfirmation: 'El registro será eliminado. ¿Confirmar?',
+                // deleteConfirmation: 'El menu será dado de baja. ¿Continuar?',
+                save: 'Guardar',
+                saving: 'Guardando',
+                cancel: 'Cancelar',
+                deleteText: 'Eliminar',
+                // deleteText: 'Dar de baja',
+                deleting: 'Eliminando',
+                // deleting: 'Dando de baja',
+                error: 'Error',
+                close: 'Cerrar',
+                cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
+                pagingInfo: 'Mostrando registros {0} a {1} de {2}',
+                canNotDeletedRecords: 'No se puede borrar registro(s) {0} de {1}!',
+                deleteProggress: 'Eliminando {0} de {1} registros, procesando...',
+                pageSizeChangeLabel: 'Registros por página',
+                gotoPageLabel: 'Ir a página'
+            };
+            $('#MenuRolesTableContainer').jtable({
+                messages: spanishMessages, //Lozalize
+                title: 'Listado de MenuRoles',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                defaultSorting: 'parentId ASC', //Set default sorting
+                //selecting: true, //Enable selecting
+                //multiselect: true, //Allow multiple selecting
+                //selectingCheckboxes: true, //Show checkboxes on first column
+                //selectOnRowClick: false, //Enable this to only select using checkboxes
+                // Ver como aplicar selección en pagina jtables.org
+                actions: {
+                    listAction: '/menuroles/list',
+                    deleteAction: '/menuroles/delete',
+                    updateAction: '/menuroles/update',
+                    createAction: '/menuroles/create'
+                },
+                fields: {
+                    Id: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    
+                    IDMenu: {
+                        title: 'idMenu',
+                        width: '15%',
+                        options: '/usuariosRoles/getoptionsmenu'
+                    },
+                    IDUsuarioRoles: {
+                        title: 'Usuario',
+                        width: '8%',
+                        options: '/usuariosRoles/getoptionsRoles'
+                    }
+                }
+            });
+            //Load student list from server
+            $('#MenuRolesTableContainer').jtable('load');
+        });
+    </script>
+      </div><!--Cierre de menurol-->
+    </div><!--Cierre de Header-->
+    
+   
+    {{ template "footer" }}
+
+    
+    
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+<!--menuroles -->
+</html>
+{{ end }}

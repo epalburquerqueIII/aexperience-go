@@ -143,3 +143,31 @@ func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/", 301)
 }
+func UsuarioRolesgetoptions(w http.ResponseWriter, r *http.Request) {
+
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT usuariosroles.id, usuariosroles.nombre from usuariosroles Order by usuariosroles.id")
+	if err != nil {
+		panic(err.Error())
+	}
+	elem := model.Option{}
+	vtabla := []model.Option{}
+	for selDB.Next() {
+		err = selDB.Scan(&elem.Value, &elem.DisplayText)
+		if err != nil {
+			panic(err.Error())
+		}
+		vtabla = append(vtabla, elem)
+	}
+
+	var vtab model.Options
+	vtab.Result = "OK"
+	vtab.Options = vtabla
+	// create json response from struct
+	a, err := json.Marshal(vtab)
+	// Visualza
+	s := string(a)
+	fmt.Println(s)
+	w.Write(a)
+	defer db.Close()
+}
