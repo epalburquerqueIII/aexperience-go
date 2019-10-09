@@ -148,7 +148,7 @@ func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 func UsuarioRolesgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT id, nombre FROM usuarios ORDER BY nombre")
+	selDB, err := db.Query("SELECT usuariosroles.id, usuariosroles.nombre from usuariosroles Order by usuariosroles.id")
 	if err != nil {
 		panic(err.Error())
 	}

@@ -72,12 +72,13 @@ func main() {
 	http.HandleFunc("/pagos/update", controller.PagosUpdate)
 	http.HandleFunc("/pagos/delete", controller.PagosDelete)
 	// Apis roles de usuario
-	http.HandleFunc("/usuariosroles", controller.UsuarioRoles)
-	http.HandleFunc("/usuariosroles/list", controller.UsuarioRolesList)
-	http.HandleFunc("/usuariosroles/create", controller.UsuarioRolesCreate)
-	http.HandleFunc("/usuariosroles/update", controller.UsuarioRolesUpdate)
-	http.HandleFunc("/usuariosroles/delete", controller.UsuarioRolesDelete)
-	http.HandleFunc("/usuariosroles/getoptions", controller.UsuarioRolesgetoptions)
+	http.HandleFunc("/usuariosRoles", controller.UsuarioRoles)
+	http.HandleFunc("/usuariosRoles/list", controller.UsuarioRolesList)
+	http.HandleFunc("/usuariosRoles/create", controller.UsuarioRolesCreate)
+	http.HandleFunc("/usuariosRoles/update", controller.UsuarioRolesUpdate)
+	http.HandleFunc("/usuariosRoles/delete", controller.UsuarioRolesDelete)
+	http.HandleFunc("/usuariosRoles/getoptions", controller.UsuarioRolesgetoptions)
+	http.HandleFunc("/usuariosRoles/getoptionsmenu", controller.MenusgetoptionsMenuParent)
 
 	// Apis tiposPago
 	http.HandleFunc("/tipospagos", controller.TiposPago)
@@ -119,6 +120,15 @@ func main() {
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
 
+<<<<<<< HEAD
+	//Apis menu roles
+	http.HandleFunc("/menuroles", controller.MenuRoles)
+	http.HandleFunc("/menuroles/list", controller.MenuRolesList)
+	http.HandleFunc("/menuroles/create", controller.MenuRolesCreate)
+	http.HandleFunc("/menuroles/update", controller.MenuRolesUpdate)
+	http.HandleFunc("/menuroles/delete", controller.MenuRolesDelete)
+	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
+=======
 	//Apis newsletter
 	http.HandleFunc("/newsletter", controller.Newsletter)
 	http.HandleFunc("/newsletter/list", controller.NewsletterList)
@@ -127,6 +137,7 @@ func main() {
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	// sumministra los nombres de los newsletter
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
+>>>>>>> 4596be899b9c4ab0cc07c2a96aa75cc87e674944
 
 	http.ListenAndServe(":3000", nil)
 }
