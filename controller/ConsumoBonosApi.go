@@ -13,7 +13,7 @@ import (
 
 // ConsumoBonos Pantalla de tratamiento de ConsumoBonos
 func ConsumoBonos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "consumoBonos", nil)
+	error := tmpl.ExecuteTemplate(w, "consumobonos", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -29,7 +29,7 @@ func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT consumoBonos.id, consumoBonos.fecha, consumoBonos.sesiones, idUsuario, idEspacio, idAutorizado FROM consumoBonos " + jtsort)
+	selDB, err := db.Query("SELECT consumoBonos.id, consumoBonos.fecha, consumoBonos.sesiones, idUsuario, usuarios.nombre, idEspacio, idAutorizado FROM consumoBonos LEFT OUTER JOIN usuarios ON usuarios.id = idUsuario " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -42,7 +42,7 @@ func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tconsumo{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&consu.ID, &consu.Fecha, &consu.Sesiones, &consu.IDUsuario, &consu.IDEspacio, &consu.IDAutorizado)
+		err = selDB.Scan(&consu.ID, &consu.Fecha, &consu.Sesiones, &consu.IDUsuario, &consu.NombreUsuario, &consu.IDEspacio, &consu.IDAutorizado)
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -169,5 +169,5 @@ func ConsumoBonosUpdate(w http.ResponseWriter, r *http.Request) {
 // 	a, _ := json.Marshal(vrecord)
 // 	w.Write(a)
 
-// 	// 	// 	http.Redirect(w, r, "/", 301)
+//http.Redirect(w, r, "/", 301)
 // }

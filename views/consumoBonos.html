@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "consumoBonos" }}
+{{ define "consumobonos" }}
 
 
 {{ template "head" }}
@@ -54,9 +54,9 @@
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/consumoBonos/list',
-                    updateAction: '/consumoBonos/update',
-                    createAction: '/consumoBonos/create'
+                    listAction: '/consumobonos/list',
+                    updateAction: '/consumobonos/update',
+                    createAction: '/consumobonos/create'
                 },
                 fields: {
                     ID: {
@@ -80,7 +80,7 @@
                     IDUsuario: {
                         title: 'Usuario',
                         width: '15%',
-                        options: "/usuario/getoptions"
+                        options: "/usuarios/getoptions"
                     },
                     IDEspacio: {
                         title: 'Espacio',
@@ -90,7 +90,7 @@
                     IDAutorizado: {
                         title: 'Autorizado',
                         width: '8%',
-                        options: "/autorizado/getoptions"
+                        options: "/autorizados/getoptions"
                     }
                 }
             });
