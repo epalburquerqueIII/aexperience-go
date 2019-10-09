@@ -56,8 +56,8 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 			//Formato de fecha en español cuando está de baja
 			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
 			usu.FechaBaja = t.Format("02-01-2006")
-
 		}
+
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
