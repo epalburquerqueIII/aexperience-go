@@ -30,7 +30,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menus.id, parentId, orden, titulo, icono, url, hanledFunc FROM menus " + jtsort)
+	selDB, err := db.Query("SELECT menus.id, parentId, orden, titulo, icono, url, handleFunc FROM menus " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -38,7 +38,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tmenus{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HanledFunc)
+		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HandleFunc)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando datos de menus")
 		}
@@ -70,13 +70,13 @@ func MenusCreate(w http.ResponseWriter, r *http.Request) {
 		menu.Titulo = r.FormValue("Titulo")
 		menu.Icono = r.FormValue("Icono")
 		menu.Url = r.FormValue("Url")
-		menu.HanledFunc = r.FormValue("HanledFunc")
-		insForm, err := db.Prepare("INSERT INTO menus(parentId, orden, titulo, icono, url, hanledFunc) VALUES(?,?,?,?,?,?)")
+		menu.HandleFunc = r.FormValue("HandleFunc")
+		insForm, err := db.Prepare("INSERT INTO menus(parentId, orden, titulo, icono, url, handleFunc) VALUES(?,?,?,?,?,?)")
 
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando datos de menus")
 		}
-		res, err1 := insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc)
+		res, err1 := insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HandleFunc)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -109,13 +109,13 @@ func MenusUpdate(w http.ResponseWriter, r *http.Request) {
 		menu.Titulo = r.FormValue("Titulo")
 		menu.Icono = r.FormValue("Icono")
 		menu.Url = r.FormValue("Url")
-		menu.HanledFunc = r.FormValue("HanledFunc")
-		insForm, err := db.Prepare("UPDATE menus SET parentId=?, orden=?, titulo=?, icono=?, url=?, hanledFunc=? WHERE menus.id=?")
+		menu.HandleFunc = r.FormValue("HandleFunc")
+		insForm, err := db.Prepare("UPDATE menus SET parentId=?, orden=?, titulo=?, icono=?, url=?, handleFunc=? WHERE menus.id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HanledFunc, menu.Id)
+		insForm.Exec(menu.ParentId, menu.Orden, menu.Titulo, menu.Icono, menu.Url, menu.HandleFunc, menu.Id)
 		log.Println("UPDATE: id: %d  | parentId: %d\n", menu.Id, menu.ParentId)
 	}
 	defer db.Close()

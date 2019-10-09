@@ -8,5 +8,5 @@ type Tmenus struct {
 	Titulo     string
 	Icono      string
 	Url        string
-	HanledFunc string
+	HandleFunc string
 }

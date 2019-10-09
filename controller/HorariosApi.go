@@ -142,7 +142,7 @@ func HorariosUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 
 		insForm.Exec(h.IDEspacio, h.Descripcion, h.Fechainicio, h.Fechafinal, h.Hora, h.ID)
-		log.Printf("INSERT: IdEspacio: %d   | Hora: %d\n", h.IDEspacio, h.Hora)
+		log.Printf("Update: IdEspacio: %d   | Hora: %d fecha Inicio %s fecha Fin %s\n ", h.IDEspacio, h.Hora, h.Fechainicio, h.Fechafinal)
 	}
 	defer db.Close()
 	var vrecord model.HorariosRecord
