@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "menus" }}
+{{ define "newsletter" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -16,13 +16,13 @@
 <body>
 
     
-<!-- Se abre un div en menu.html y header.html y se cierra en index -->
+<!-- Se abre un div en newsletter.html y header.html y se cierra en index -->
 {{ template "menu" }}
 {{ template "header" }}
     <!-- <h2> Registradas </h2> -->
 
     <div class="container">
-        <div id="MenusTableContainer"></div>
+        <div id="NewsletterTableContainer"></div>
     </div>
   
 
@@ -37,7 +37,7 @@
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
                 deleteConfirmation: 'El registro será eliminado. ¿Confirmar?',
-                // deleteConfirmation: 'El menu será dado de baja. ¿Continuar?',
+                // deleteConfirmation: 'El newsletter será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
@@ -54,23 +54,23 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#MenusTableContainer').jtable({
+            $('#NewsletterTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Menus',
+                title: 'Listado de Newsletter',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'parentId ASC', //Set default sorting
+                defaultSorting: 'email ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/menus/list',
-                    deleteAction: '/menus/delete',
-                    updateAction: '/menus/update',
-                    createAction: '/menus/create'
+                    listAction: '/newsletter/list',
+                    deleteAction: '/newsletter/delete',
+                    updateAction: '/newsletter/update',
+                    createAction: '/newsletter/create'
                 },
                 fields: {
                     Id: {
@@ -79,36 +79,20 @@
                         edit: false,
                         list: false
                     },
-                    ParentId: {
-                        title: 'ParentId',
+                    Email: {
+                        title: 'Email',
+                        width: '15%'
+                    },
+                    Idtiponoticias: {
+                        title: 'Idtiponoticias',
                         width: '10%',
                         type: 'combo',
-                        options: '/menus/getoptions'
-                    },
-                    Orden: {
-                        title: 'Orden',
-                        width: '15%'
-                    },
-                    Titulo: {
-                        title: 'Titulo',
-                        width: '15%'
-                    },
-                    Icono: {
-                        title: 'Icono',
-                        width: '10%',
-                    },
-                    Url: {
-                        title: 'Url',
-                        width: '20%'
-                    },
-                    HandleFunc: {
-                        title: 'HandleFunc',
-                        width: '10%'
+                        options: '/newsletter/getoptions'
                     },
                 }
             });
             //Load student list from server
-            $('#MenusTableContainer').jtable('load');
+            $('#NewsletterTableContainer').jtable('load');
         });
     </script>
       </div><!--Cierre de menu-->
@@ -122,6 +106,6 @@
     <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
-<!--menus -->
+<!--newsletter -->
 </html>
 {{ end }}
