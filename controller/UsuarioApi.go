@@ -35,7 +35,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, tipo, telefono, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email,fechaNacimiento,idusuariorol, telefono, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -48,7 +48,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tusuario{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.Tipo, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
+		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.FechaNacimiento, &usu.IDUsuarioRol, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
 		//Si no hay fecha de baja, este campo aparece como activo
 		if usu.FechaBaja == "0000-00-00" {
 			usu.FechaBaja = "Activo"
@@ -92,12 +92,13 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.Tipo, _ = strconv.Atoi(r.FormValue("Tipo"))
+		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("IDUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, tipo, telefono, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechanacimiento,idusuariorol, telefono, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -106,7 +107,7 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.Tipo, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -137,12 +138,13 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.Tipo, _ = strconv.Atoi(r.FormValue("Tipo"))
+		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("IDUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, tipo =?, telefono=?, sesionesBonos=?, newsletter=?, fechaBaja=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, fechanacimiento=?, idusuariorol =?, telefono=?, sesionesBonos=?, newsletter=?, fechaBaja=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -152,7 +154,7 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.Tipo, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
+		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
 		log.Println("UPDATE: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
 	}
 	defer db.Close()
