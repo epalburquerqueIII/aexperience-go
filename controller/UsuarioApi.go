@@ -19,7 +19,7 @@ var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 // Usuario Pantalla de tratamiento de usuario
 func Usuario(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "usuario", nil)
+	error := tmpl.ExecuteTemplate(w, "usuarios", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -56,8 +56,8 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 			//Formato de fecha en español cuando está de baja
 			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
 			usu.FechaBaja = t.Format("02-01-2006")
-
 		}
+
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"

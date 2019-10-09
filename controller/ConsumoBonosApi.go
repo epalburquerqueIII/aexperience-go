@@ -13,7 +13,7 @@ import (
 
 // ConsumoBonos Pantalla de tratamiento de ConsumoBonos
 func ConsumoBonos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "consumoBonos", nil)
+	error := tmpl.ExecuteTemplate(w, "consumobonos", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -169,5 +169,5 @@ func ConsumoBonosUpdate(w http.ResponseWriter, r *http.Request) {
 // 	a, _ := json.Marshal(vrecord)
 // 	w.Write(a)
 
-// 	// 	// 	http.Redirect(w, r, "/", 301)
+//http.Redirect(w, r, "/", 301)
 // }

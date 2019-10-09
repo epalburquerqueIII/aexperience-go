@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuarios" }}
+{{ define "espacios" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -13,13 +13,16 @@
 <!-- Add aditional link -->
 </head> <!-- fin de head -->
 
-<body>
-<!-- Se abre un div en menu.html y header.html y se cierra en index -->
+<!-- Se habre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" }}
 {{ template "header" }}
 
+
+
+<body>
+    <!-- <h2> Registradas </h2> -->
     <div class="container">
-        <div id="UsuarioTableContainer"></div>
+        <div id="EspaciosTableContainer"></div>
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -31,14 +34,14 @@
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
                 //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
+                deleteConfirmation: 'El espacio será eliminado',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
                 //deleteText: 'Eliminar',
-                deleteText: 'Dar de baja',
+                deleteText: 'Eliminar',
                 //deleting: 'Eliminando',
-                deleting: 'Dando de baja',
+                deleting: 'Eliminando',
                 error: 'Error',
                 close: 'Cerrar',
                 cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
@@ -48,23 +51,23 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#UsuarioTableContainer').jtable({
+            $('#EspaciosTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Usuarios',
+                title: 'Listado de Espacios',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Nif ASC', //Set default sorting
+                defaultSorting: 'ID ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/usuarios/list',
-                    deleteAction: '/usuarios/delete',
-                    updateAction: '/usuarios/update',
-                    createAction: '/usuarios/create'
+                    listAction: '/espacios/list',
+                    deleteAction: '/espacios/delete',
+                    updateAction: '/espacios/update',
+                    createAction: '/espacios/create'
                 },
                 fields: {
                     ID: {
@@ -73,60 +76,62 @@
                         edit: false,
                         list: false
                     },
-                    Nombre: {
-                        title: 'Nombre',
-                        width: '15%'
+                    Descripcion: {
+                        title: 'Descripcion',
+                        width: '10%'
                     },
-                    Nif: {
-                        title: 'Nif',
+                    Estado: {
+                        title: 'Estado',
+                        width: '8%',
+                        type: "radiobutton",
+                        options: { '0': 'Cerrado', '1': 'Abierto' }
+
+
+                    },
+                    Modo: {
+                        title: 'Modo',
+                        width: '15%',
+                        type: "radiobutton",
+                        options: { '0': 'Fijo', '1': 'Variable' }
+                    },
+                   
+                    Precio: {
+                        title: 'Precio',
                         width: '8%'
                     },
-                    Email: {
-                        title: 'Email',
-                        width: '15%'
+                    IDTipoevento: {
+                        title: 'Tipo evento',
+                        width: '8%',
+                        options: '/tiposeventos/getoptions'
                     },
-                    FechaNacimiento: {
-                        title: 'Fecha de Nacimiento',
-                        width: '7%',
-                        create: false,
-                        edit: false
+                    Aforo: {
+                        title: 'Aforo',
+                        width: '5%'
+                        
                     },
-                    Tipo: {
-                        title: 'IDUsuarioRol',
-                        width: '5%',
-                        type: 'radiobutton',
-                        options: '/usuariosRoles/getoptions'
+                    Fecha: {
+                        title: 'Fecha',
+                        width: '8%',
+                        type: "date",
+                        create: true,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
+                                         
                     },
-                    Telefono: {
-                        title: 'Teléfono',
-                        width: '8%'
-                    },
-                    SesionesBonos: {
-                        title: 'Sesiones Bono',
-                        width: '8%'
-                    },
-                    Newsletter: {
-                        title: 'Newsletter',
-                        width: '5%',
-                        type: 'radiobutton',
-                        options: { '0': 'Si', '1': 'No' }
-                    },
-                    FechaBaja: {
-                        title: 'Fecha Baja',
-                        width: '5%',
-                        create: false,
-                        edit: false
+                    NumeroReservaslimite: {
+                        title: 'Numero reservas',
+                        width: '6%'
                     }
                 }
             });
             //Load student list from server
-            $('#UsuarioTableContainer').jtable('load');
+            $('#EspaciosTableContainer').jtable('load');
         });
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-
+    
     {{ template "footer" }}
 </body>
-</html><!--usuario -->
+<!--espacios -->
 {{ end }}
