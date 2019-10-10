@@ -9,6 +9,7 @@ type Tusuario struct {
 	FechaNacimiento string
 	IDUsuarioRol    int
 	Telefono        string
+	Password        string
 	SesionesBonos   int
 	Newsletter      int
 	FechaBaja       string

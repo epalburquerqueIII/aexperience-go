@@ -30,6 +30,7 @@ func main() {
 	http.HandleFunc("/usuarios/create", controller.UsuariosCreate)
 	http.HandleFunc("/usuarios/update", controller.UsuariosUpdate)
 	http.HandleFunc("/usuarios/delete", controller.UsuariosDelete)
+	http.HandleFunc("/usuarios/register", controller.UsuariosDelete)
 	http.HandleFunc("/usuarios/getoptions", controller.Usuariosgetoptions)
 
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
@@ -127,6 +128,7 @@ func main() {
 	http.HandleFunc("/menuroles/update", controller.MenuRolesUpdate)
 	http.HandleFunc("/menuroles/delete", controller.MenuRolesDelete)
 	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
+
 	//Apis newsletter
 	http.HandleFunc("/newsletter", controller.Newsletter)
 	http.HandleFunc("/newsletter/list", controller.NewsletterList)
