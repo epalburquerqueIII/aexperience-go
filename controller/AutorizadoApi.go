@@ -12,8 +12,8 @@ import (
 )
 
 // Autorizado - Pantalla de tratamiento de Autorizados
-func Autorizado(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "autorizado", nil)
+func Autorizados(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "autorizados", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -194,11 +194,11 @@ func AutorizadoDelete(w http.ResponseWriter, r *http.Request) {
 // 	// 	// 	http.Redirect(w, r, "/", 301)
 // }
 
-// AutorizadogetNombreUsuario - Obtener nombres de usuarios para la tabla de autorizados
-func AutorizadogetNombreUsuario(w http.ResponseWriter, r *http.Request) {
+// Autorizadogetoptions obtiene nombre de la persona autorizada
+func Autorizadogetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.nombre")
+	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado from autorizados Order by autorizados.nombreAutorizado")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -211,7 +211,6 @@ func AutorizadogetNombreUsuario(w http.ResponseWriter, r *http.Request) {
 		}
 		vtabla = append(vtabla, elem)
 	}
-
 	var vtab model.Options
 	vtab.Result = "OK"
 	vtab.Options = vtabla

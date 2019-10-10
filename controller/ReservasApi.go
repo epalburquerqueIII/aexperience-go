@@ -165,80 +165,20 @@ func ReservasDelete(w http.ResponseWriter, r *http.Request) {
 	// 	// 	// 	http.Redirect(w, r, "/", 301)
 }
 
-//ReservasgetoptionsRoles Roles de usuarios
-func ReservasgetoptionsRoles(w http.ResponseWriter, r *http.Request) {
+// Reservasgetoptions saca las id de las reservas para la tabla pagos
+func Reservasgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre from usuarios Order by usuarios.id")
+	selDB, err := db.Query("SELECT reservas.id, reservas.fecha from reservas Order by reservas.id")
 	if err != nil {
-		util.ErrorApi(err.Error(), w, "")
+		panic(err.Error())
 	}
 	elem := model.Option{}
 	vtabla := []model.Option{}
 	for selDB.Next() {
 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
 		if err != nil {
-			util.ErrorApi(err.Error(), w, "")
-		}
-		vtabla = append(vtabla, elem)
-	}
-
-	var vtab model.Options
-	vtab.Result = "OK"
-	vtab.Options = vtabla
-	// create json response from struct
-	a, err := json.Marshal(vtab)
-	// Visualza
-	s := string(a)
-	fmt.Println(s)
-	w.Write(a)
-	defer db.Close()
-}
-
-//ReservasgetoptionsEspacios tabla de espacios
-func ReservasgetoptionsEspacios(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	selDB, err := db.Query("SELECT espacios.id, espacios.descripcion from espacios Order by espacios.id")
-	if err != nil {
-		util.ErrorApi(err.Error(), w, "")
-	}
-	elem := model.Option{}
-	vtabla := []model.Option{}
-	for selDB.Next() {
-		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-		if err != nil {
-			util.ErrorApi(err.Error(), w, "")
-		}
-		vtabla = append(vtabla, elem)
-	}
-
-	var vtab model.Options
-	vtab.Result = "OK"
-	vtab.Options = vtabla
-	// create json response from struct
-	a, err := json.Marshal(vtab)
-	// Visualza
-	s := string(a)
-	fmt.Println(s)
-	w.Write(a)
-	defer db.Close()
-}
-
-//ReservasgetoptionsAutorizado tabla de autorizados
-func ReservasgetoptionsAutorizado(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado from autorizados Order by autorizados.id")
-	if err != nil {
-		util.ErrorApi(err.Error(), w, "")
-	}
-	elem := model.Option{}
-	vtabla := []model.Option{}
-	for selDB.Next() {
-		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-		if err != nil {
-			util.ErrorApi(err.Error(), w, "")
+			panic(err.Error())
 		}
 		vtabla = append(vtabla, elem)
 	}

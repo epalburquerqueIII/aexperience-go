@@ -9,11 +9,12 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // ConsumoBonos Pantalla de tratamiento de ConsumoBonos
 func ConsumoBonos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "consumoBonos", nil)
+	error := tmpl.ExecuteTemplate(w, "consumobonos", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -29,7 +30,7 @@ func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT consumoBonos.id, consumoBonos.fecha, consumoBonos.sesiones, usuarios.nombre, espacios.descripcion, autorizados.nombreAutorizado FROM consumoBonos LEFT OUTER JOIN usuarios ON (usuarios.id = consumoBonos.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = consumoBonos.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = consumoBonos.idAutorizado) " + jtsort)
+	selDB, err := db.Query("SELECT consumoBonos.id, consumoBonos.fecha, consumoBonos.sesiones, idUsuario, usuarios.nombre, idEspacio, idAutorizado FROM consumoBonos LEFT OUTER JOIN usuarios ON usuarios.id = idUsuario " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -42,7 +43,7 @@ func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tconsumo{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&consu.ID, &consu.Fecha, &consu.Sesiones, &consu.IDUsuario, &consu.IDEspacio, &consu.IDAutorizado)
+		err = selDB.Scan(&consu.ID, &consu.Fecha, &consu.Sesiones, &consu.IDUsuario, &consu.NombreUsuario, &consu.IDEspacio, &consu.IDAutorizado)
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -74,11 +75,11 @@ func ConsumoBonosCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	consu := model.Tconsumo{}
 	if r.Method == "POST" {
-		consu.Fecha = r.FormValue("fecha")
-		consu.Sesiones, _ = strconv.Atoi(r.FormValue("sesiones"))
-		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("idUsuario"))
-		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("idEspacio"))
-		consu.IDAutorizado, _ = strconv.Atoi(r.FormValue("idAutorizado"))
+		consu.Fecha = util.DateSql(r.FormValue("Fecha"))
+		consu.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
+		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
+		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
+		consu.IDAutorizado, _ = strconv.Atoi(r.FormValue("IDAutorizado"))
 		insForm, err := db.Prepare("INSERT INTO consumoBonos(fecha, sesiones, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
@@ -116,7 +117,7 @@ func ConsumoBonosUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		consu.ID = int64(i)
-		consu.Fecha = r.FormValue("Fecha")
+		consu.Fecha = util.DateSql(r.FormValue("Fecha"))
 		consu.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
 		consu.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
 		consu.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
@@ -169,35 +170,5 @@ func ConsumoBonosUpdate(w http.ResponseWriter, r *http.Request) {
 // 	a, _ := json.Marshal(vrecord)
 // 	w.Write(a)
 
-// 	// 	// 	http.Redirect(w, r, "/", 301)
-// }
-
-// UsuariogetoptionsRoles Roles de usuario
-// func UsuariogetoptionsRoles(w http.ResponseWriter, r *http.Request) {
-
-// 	db := database.DbConn()
-// 	selDB, err := db.Query("SELECT usuarios_roles.id, usuarios_roles.nombre from usuarios_roles Order by usuarios_roles.id")
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	elem := model.Option{}
-// 	vtabla := []model.Option{}
-// 	for selDB.Next() {
-// 		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-// 		if err != nil {
-// 			panic(err.Error())
-// 		}
-// 		vtabla = append(vtabla, elem)
-// 	}
-
-// 	var vtab model.Options
-// 	vtab.Result = "OK"
-// 	vtab.Options = vtabla
-// 	// create json response from struct
-// 	a, err := json.Marshal(vtab)
-// 	// Visualza
-// 	s := string(a)
-// 	fmt.Println(s)
-// 	w.Write(a)
-// 	defer db.Close()
+//http.Redirect(w, r, "/", 301)
 // }

@@ -144,11 +144,11 @@ func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", 301)
 }
 
-// UsuarioRolesgetoptions Roles de usuario
+// UsuarioRolesgetoptions - Obtener nombres de usuarios para la tabla de autorizados
 func UsuarioRolesgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuariosRoles.id, usuariosRoles.nombre FROM usuariosRoles ORDER BY usuariosRoles.id")
+	selDB, err := db.Query("SELECT usuariosroles.id, usuariosroles.nombre from usuariosroles Order by usuariosroles.id")
 	if err != nil {
 		panic(err.Error())
 	}

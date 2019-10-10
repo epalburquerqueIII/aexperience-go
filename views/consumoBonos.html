@@ -1,4 +1,7 @@
-{{ define "consumoBonos" }}
+<!DOCTYPE html>
+<html lang="es">
+
+{{ define "consumobonos" }}
 
 
 {{ template "head" }}
@@ -11,12 +14,11 @@
 <!-- Add aditional link -->
 </head> <!-- fin de head -->
 
-<!-- Se habre un div en menu.html y header.html y se cierra en index -->
+<body>
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" }}
 {{ template "header" }}
 
-<body>
-    <!-- <h2> Registradas </h2> -->
     <div class="container">
       <div id="ConsumoBonosTableContainer"></div>
     </div>
@@ -26,6 +28,7 @@
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
                 loadingMessage: 'Cargando registros...',
                 noDataAvailable: 'No hay datos disponibles!',
+                addNewRecord: 'Crear nuevo registro',
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
                 save: 'Guardar',
@@ -51,9 +54,9 @@
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/consumoBonos/list',
-                    updateAction: '/consumoBonos/update',
-                    createAction: '/consumoBonos/create'
+                    listAction: '/consumobonos/list',
+                    updateAction: '/consumobonos/update',
+                    createAction: '/consumobonos/create'
                 },
                 fields: {
                     ID: {
@@ -76,15 +79,18 @@
                     },
                     IDUsuario: {
                         title: 'Usuario',
-                        width: '15%'
+                        width: '15%',
+                        options: "/usuarios/getoptions"
                     },
                     IDEspacio: {
                         title: 'Espacio',
-                        width: '8%'
+                        width: '8%',
+                        options: "/espacios/getoptions"
                     },
                     IDAutorizado: {
                         title: 'Autorizado',
-                        width: '8%'
+                        width: '8%',
+                        options: "/autorizados/getoptions"
                     }
                 }
             });
@@ -96,6 +102,6 @@
     </div><!--Cierre de Header-->
 
     {{ template "footer" }}
-{{ end }}
 </body>
-<!--usuario -->
+</html><!--consumoBonos -->
+{{ end }}
