@@ -129,5 +129,14 @@ func main() {
 	http.HandleFunc("/menuroles/delete", controller.MenuRolesDelete)
 	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
 
+	//Apis newsletter
+	http.HandleFunc("/newsletter", controller.Newsletter)
+	http.HandleFunc("/newsletter/list", controller.NewsletterList)
+	http.HandleFunc("/newsletter/create", controller.NewsletterCreate)
+	http.HandleFunc("/newsletter/update", controller.NewsletterUpdate)
+	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
+	// sumministra los nombres de los newsletter
+	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
+
 	http.ListenAndServe(":3000", nil)
 }
