@@ -66,19 +66,19 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 	reser := model.Treservas{}
 	if r.Method == "POST" {
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
-		reser.FechaPago = r.FormValue("FechaPago")
+		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		reser.IdUsuario, _ = strconv.Atoi(r.FormValue("IdUsuario"))
 		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 		reser.IdAutorizado, _ = strconv.Atoi(r.FormValue("IdAutorizado"))
 
-		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,CURDATE(),?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?,?)")
 
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Pago")
 		}
 
-		res, err1 := insForm.Exec(reser.Fecha, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
+		res, err1 := insForm.Exec(reser.Fecha, reser.FechaPago, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
 
 		if err1 != nil {
 			//panic(err1.Error())
@@ -123,12 +123,12 @@ func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 		reser.IdAutorizado, _ = strconv.Atoi(r.FormValue("IdAutorizado"))
 
-		insForm, err := db.Prepare("UPDATE reservas SET fecha=?, fechaPago=CURDATE(), hora=?, idUsuario=?, idEspacio =?, idAutorizado=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE reservas SET fecha=?, fechaPago=?, hora=?, idUsuario=?, idEspacio =?, idAutorizado=? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(reser.Fecha, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado, reser.Id)
+		insForm.Exec(reser.Fecha, reser.FechaPago, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado, reser.Id)
 		log.Printf("UPDATE: fecha: %s  | fechaPago: %s | hora:  %d\n", reser.Fecha, reser.FechaPago, reser.Hora)
 
 	}

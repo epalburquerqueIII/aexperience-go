@@ -120,7 +120,6 @@ func main() {
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
 
-<<<<<<< HEAD
 	//Apis menu roles
 	http.HandleFunc("/menuroles", controller.MenuRoles)
 	http.HandleFunc("/menuroles/list", controller.MenuRolesList)
@@ -128,7 +127,6 @@ func main() {
 	http.HandleFunc("/menuroles/update", controller.MenuRolesUpdate)
 	http.HandleFunc("/menuroles/delete", controller.MenuRolesDelete)
 	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
-=======
 	//Apis newsletter
 	http.HandleFunc("/newsletter", controller.Newsletter)
 	http.HandleFunc("/newsletter/list", controller.NewsletterList)
@@ -137,7 +135,6 @@ func main() {
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	// sumministra los nombres de los newsletter
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
->>>>>>> 4596be899b9c4ab0cc07c2a96aa75cc87e674944
 
 	http.ListenAndServe(":3000", nil)
 }
