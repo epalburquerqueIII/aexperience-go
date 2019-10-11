@@ -48,7 +48,7 @@ func UsuariosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tusuario{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.FechaNacimiento, &usu.IDUsuarioRol, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
+		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.FechaNacimiento, &usu.IDUsuarioRol, &usu.Telefono, &usu.Password, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
 		//Si no hay fecha de baja, este campo aparece como activo
 		if usu.FechaBaja == "0000-00-00" {
 			usu.FechaBaja = "Activo"
