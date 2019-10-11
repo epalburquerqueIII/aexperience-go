@@ -93,6 +93,16 @@ CREATE Table pagos (
     FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
     );
 
+CREATE Table pagosPendientes (
+    id integer AUTO_INCREMENT PRIMARY KEY,
+    idReserva integer,
+    fechaPago date NOT NULL,
+    idTipopago integer,
+    numeroTarjeta varchar(50) NOT NULL,
+    FOREIGN KEY (idReserva) REFERENCES reservas(id),
+    FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
+    );
+
 CREATE Table usuariosRoles (
  id integer PRIMARY KeY NOT NULL,
  nombre varchar(30)NOT NULL );
