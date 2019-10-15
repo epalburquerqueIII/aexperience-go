@@ -29,44 +29,37 @@
 
     <!-- Separacion del menu -->
     <hr class="sidebar-divider">
-
-    {{ with .Menu }}
-    {{ if eq .Despliega 1 }}
     {{ range . }}
-    <!-- Nav Item - Menu Desplegable -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-        aria-expanded="true" aria-controls="collapseUtilities">
-        <i class="{{ .Icono }}"></i>
-        <span>{{ .ParentTitle }}</span>
-      </a>
-      <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-          {{ range . }}
-          <a class="collapse-item" href="{{ .Enlace }}">{{ .NomEnlace }}</a>
-          {{ end }}
-        </div>
-      </div>
-    </li>
-    {{ end }}<!-- Cierre de range. -->
-
-    <!-- Separacion del Menu -->
+      {{ $vID := .ID }}
+      {{ $vParentTitle := .ParentTitle }}
+      {{ $vIcono := .Icono }}
+      {{ if eq .Despliega 0 }}
+        {{ range .Options }}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ .Enlace }}">
+              <i class="{{ $vIcono }}"></i>
+              <span>{{ $vParentTitle }}</span></a>
+          </li>
+        {{ end }}
+      {{ else }}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse{{ $vID }}" aria-expanded="true"
+              aria-controls="collapsePages">
+              <i class="{{ .Icono }}"></i>
+              <span>{{ .ParentTitle }}</span>
+            </a>
+              <div id="collapse{{ $vID }}" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                {{ range .Options }}
+                  <a class="collapse-item" href="{{ .Enlace }}">{{ .NomEnlace }}</a>
+                {{ end }}
+                </div>
+            </div>
+        </li>
+      {{ end }}<!-- Cierre del If -->
+      <!-- Separacion del menu -->
     <hr class="sidebar-divider">
-    {{ else }}
-    <!-- Nav Item - Menu Simple -->
-    <li class="nav-item">
-      <a class="nav-link" href="{{ .Enlace }}">
-        <i class="{{ .Icono }}"></i>
-        <span>{{ .ParentTitle }}</span>
-      </a>
-    </li>
-
-    <!-- Separacion del Menu -->
-    <hr class="sidebar-divider">
-
-    {{ end }}<!-- Cierre if -->
-    {{ end }}<!-- Cierre with .Menu -->
-
+    {{ end }} <!-- Cierre range . -->
     <!-- Sidebar Toggler (Sidebar) (Recoger Menu) -->
     <div class="text-center d-none d-md-inline">
       <button class="rounded-circle border-0" id="sidebarToggle"></button>
