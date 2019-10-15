@@ -18,7 +18,7 @@ var tmpl = template.Must(template.ParseGlob("views/*.html"))
 func index(w http.ResponseWriter, r *http.Request) {
 	menu := util.Menus(usertype)
 
-	error := tmpl.ExecuteTemplate(w, "index", menu)
+	error := tmpl.ExecuteTemplate(w, "index", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
