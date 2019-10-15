@@ -185,9 +185,9 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 		usu.IDUsuarioRol = 0
 		usu.SesionesBonos = 0
 		usu.Newsletter = 0
-		usu.FechaBaja = ""
+		usu.FechaBaja = "00-00-0000"
 
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newslatter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newsletter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
