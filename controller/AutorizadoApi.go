@@ -9,6 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util/mdtojson"
 )
 
 // Autorizado - Pantalla de tratamiento de Autorizados
@@ -221,4 +222,18 @@ func Autorizadogetoptions(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(s)
 	w.Write(a)
 	defer db.Close()
+}
+
+func GetEventosmdtojson(w http.ResponseWriter, r *http.Request) {
+
+	json, err := mdtojson.ProcessRepo("http://localhost:1313/content/eventos/", "./dir")
+
+	if json != "" {
+		fmt.Printf(json)
+	}
+	if err != nil {
+		panic(err.Error())
+
+	}
+	w.Write([]byte(json))
 }

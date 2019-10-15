@@ -63,6 +63,8 @@ func main() {
 	http.HandleFunc("/autorizados/update", controller.AutorizadoUpdate)
 	http.HandleFunc("/autorizados/delete", controller.AutorizadoDelete)
 	http.HandleFunc("/autorizados/getoptions", controller.Autorizadogetoptions)
+	//Eventos
+	http.HandleFunc("/eventos/getEventosmdtojson", controller.GetEventosmdtojson)
 
 	http.ListenAndServe(":3000", nil)
 }
