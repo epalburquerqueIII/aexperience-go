@@ -1,5 +1,4 @@
 //TODO dar de alta los usuarios que están de baja
-
 package controller
 
 import (
@@ -18,7 +17,8 @@ import (
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 // Usuario Pantalla de tratamiento de usuario
-func Usuario(w http.ResponseWriter, r *http.Request) {
+func Usuarios(w http.ResponseWriter, r *http.Request) {
+	//util.menus(0)
 	error := tmpl.ExecuteTemplate(w, "usuarios", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
@@ -26,7 +26,7 @@ func Usuario(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioList - json con los datos de clientes
-func UsuarioList(w http.ResponseWriter, r *http.Request) {
+func UsuariosList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -35,7 +35,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email,fechaNacimiento,idusuariorol, telefono, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -48,7 +48,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tusuario{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.FechaNacimiento, &usu.IDUsuarioRol, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
+		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.FechaNacimiento, &usu.IDUsuarioRol, &usu.Telefono, &usu.Password, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
 		//Si no hay fecha de baja, este campo aparece como activo
 		if usu.FechaBaja == "0000-00-00" {
 			usu.FechaBaja = "Activo"
@@ -84,7 +84,7 @@ func UsuarioList(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioCreate - Crear un Usuario
-func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
+func UsuariosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	usu := model.Tusuario{}
@@ -93,12 +93,13 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
 		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
-		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("IDUsuarioRol"))
+		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
+		usu.Password = r.FormValue("Password")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechanacimiento,idusuariorol, telefono, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idsusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -107,7 +108,7 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.Password, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -129,7 +130,7 @@ func UsuarioCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioUpdate Actualiza el usuario
-func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
+func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := model.Tusuario{}
 	if r.Method == "POST" {
@@ -139,12 +140,13 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
 		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
-		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("IDUsuarioRol"))
+		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
+		usu.Password = r.FormValue("Password")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, fechanacimiento=?, idusuariorol =?, telefono=?, sesionesBonos=?, newsletter=?, fechaBaja=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, fechanacimiento =?, idusuariorol =?, telefono=?, password=?, sesionesBonos=?, newsletter=?, fechaBaja=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -154,7 +156,7 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
+		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.Password, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
 		log.Println("UPDATE: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
 	}
 	defer db.Close()
@@ -167,35 +169,56 @@ func UsuarioUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// UsuarioDelete Borra usuario de la DB
-// func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
-// 	db := database.DbConn()
-// 	usu := r.FormValue("ID")
-// 	delForm, err := db.Prepare("DELETE FROM usuarios WHERE id=?")
-// 	if err != nil {
+// Usuarioregistro - registra un Usuario
+func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 
-// 		panic(err.Error())
-// 	}
-// 	_, err1 := delForm.Exec(usu)
-// 	if err1 != nil {
-// 		var verror model.Resulterror
-// 		verror.Result = "ERROR"
-// 		verror.Error = "Error Borrando usuario"
-// 		a, _ := json.Marshal(verror)
-// 		w.Write(a)
-// 	}
-// 	log.Println("DELETE")
-// 	defer db.Close()
-// 	var vrecord model.UsuarioRecord
-// 	vrecord.Result = "OK"
-// 	a, _ := json.Marshal(vrecord)
-// 	w.Write(a)
+	db := database.DbConn()
+	usu := model.Tusuario{}
+	if r.Method == "POST" {
+		usu.Nombre = r.FormValue("Nombre")
+		usu.Nif = r.FormValue("Nif")
+		usu.Email = r.FormValue("Email")
+		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.Telefono = r.FormValue("Telefono")
+		usu.Password = r.FormValue("Password")
 
-// 	// 	// 	http.Redirect(w, r, "/", 301)
-// }
+		usu.IDUsuarioRol = 0
+		usu.SesionesBonos = 0
+		usu.Newsletter = 0
+		usu.FechaBaja = ""
 
-//UsuarioDelete da de baja al usuario
-func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newslatter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
+		if err != nil {
+			var verror model.Resulterror
+			verror.Result = "ERROR"
+			verror.Error = "Error registrando Usuario"
+			a, _ := json.Marshal(verror)
+			w.Write(a)
+			panic(err.Error())
+		}
+		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.Password, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		if err1 != nil {
+			panic(err1.Error())
+		}
+		usu.ID, err1 = res.LastInsertId()
+		log.Println("INSERT: nombre: " + usu.Nombre + " | nif: " + usu.Nif + "| password:" + usu.Password)
+
+	}
+	var vrecord model.UsuarioRecord
+	vrecord.Result = "OK"
+	vrecord.Record = usu
+	a, _ := json.Marshal(vrecord)
+	s := string(a)
+	fmt.Println(s)
+
+	w.Write(a)
+
+	defer db.Close()
+	//	http.Redirect(w, r, "/", 301)
+}
+
+//UsuariosDelete da de baja al usuario
+func UsuariosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usu := r.FormValue("ID")
 	delForm, err := db.Prepare("UPDATE usuarios SET fechaBaja=CURDATE() WHERE id=?")
@@ -222,7 +245,7 @@ func UsuarioDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 // Usuariogetoptions - Obtener nombres de usuarios para la tabla de autorizados
-func Usuariogetoptions(w http.ResponseWriter, r *http.Request) {
+func Usuariosgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT usuarios.id, usuarios.nombre FROM usuarios ORDER BY usuarios.nombre")

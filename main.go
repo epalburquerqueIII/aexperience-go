@@ -30,12 +30,13 @@ func main() {
 	http.HandleFunc("/", index)
 
 	// Apis usuario
-	http.HandleFunc("/usuarios", controller.Usuario)
-	http.HandleFunc("/usuarios/list", controller.UsuarioList)
-	http.HandleFunc("/usuarios/create", controller.UsuarioCreate)
-	http.HandleFunc("/usuarios/update", controller.UsuarioUpdate)
-	http.HandleFunc("/usuarios/delete", controller.UsuarioDelete)
-	http.HandleFunc("/usuarios/getoptions", controller.Usuariogetoptions)
+	http.HandleFunc("/usuarios", controller.Usuarios)
+	http.HandleFunc("/usuarios/list", controller.UsuariosList)
+	http.HandleFunc("/usuarios/create", controller.UsuariosCreate)
+	http.HandleFunc("/usuarios/update", controller.UsuariosUpdate)
+	http.HandleFunc("/usuarios/delete", controller.UsuariosDelete)
+	http.HandleFunc("/usuarios/register", controller.UsuariosRegister)
+	http.HandleFunc("/usuarios/getoptions", controller.Usuariosgetoptions)
 
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
@@ -57,7 +58,7 @@ func main() {
 	http.HandleFunc("/bonos/update", controller.BonoUpdate)
 
 	// Apis autorizados
-	http.HandleFunc("/autorizados", controller.Autorizado)
+	http.HandleFunc("/autorizados", controller.Autorizados)
 	http.HandleFunc("/autorizados/list", controller.AutorizadoList)
 	http.HandleFunc("/autorizados/create", controller.AutorizadoCreate)
 	http.HandleFunc("/autorizados/update", controller.AutorizadoUpdate)
@@ -65,6 +66,91 @@ func main() {
 	http.HandleFunc("/autorizados/getoptions", controller.Autorizadogetoptions)
 	//Eventos
 	http.HandleFunc("/eventos/getEventosmdtojson", controller.GetEventosmdtojson)
+
+	http.HandleFunc("/reservas", controller.Reservas)
+	http.HandleFunc("/reservas/list", controller.ReservasList)
+	http.HandleFunc("/reservas/create", controller.ReservasCreate)
+	http.HandleFunc("/reservas/update", controller.ReservasUpdate)
+	http.HandleFunc("/reservas/delete", controller.ReservasDelete)
+	http.HandleFunc("/reservas/getoptions", controller.Reservasgetoptions)
+
+	// Apis pagos
+	http.HandleFunc("/pagos", controller.Pagos)
+	http.HandleFunc("/pagos/list", controller.PagosList)
+	http.HandleFunc("/pagos/create", controller.PagosCreate)
+	http.HandleFunc("/pagos/update", controller.PagosUpdate)
+	http.HandleFunc("/pagos/delete", controller.PagosDelete)
+
+	// Apis pagos pendientes
+	http.HandleFunc("/pagospendientes", controller.PagoPendientes)
+	http.HandleFunc("/pagospendientes/list", controller.PagoPendientesList)
+	http.HandleFunc("/pagospendientes/create", controller.PagoPendientesCreate)
+	http.HandleFunc("/pagospendientes/update", controller.PagoPendientesUpdate)
+	http.HandleFunc("/pagospendientes/delete", controller.PagoPendientesDelete)
+
+	// Apis roles de usuario
+	http.HandleFunc("/usuariosroles", controller.UsuarioRoles)
+	http.HandleFunc("/usuariosroles/list", controller.UsuarioRolesList)
+	http.HandleFunc("/usuariosroles/create", controller.UsuarioRolesCreate)
+	http.HandleFunc("/usuariosroles/update", controller.UsuarioRolesUpdate)
+	http.HandleFunc("/usuariosroles/delete", controller.UsuarioRolesDelete)
+	http.HandleFunc("/usuariosroles/getoptions", controller.UsuarioRolesgetoptions)
+
+	// Apis tiposPago
+	http.HandleFunc("/tipospagos", controller.TiposPago)
+	http.HandleFunc("/tipospagos/list", controller.TiposPagoList)
+	http.HandleFunc("/tipospagos/create", controller.TiposPagoCreate)
+	http.HandleFunc("/tipospagos/update", controller.TiposPagoUpdate)
+	http.HandleFunc("/tipospagos/delete", controller.TiposPagoDelete)
+	http.HandleFunc("/tipospagos/getoptions", controller.TiposPagogetoptions)
+
+	//Apis menus
+	http.HandleFunc("/menus", controller.Menus)
+	http.HandleFunc("/menus/list", controller.MenusList)
+	http.HandleFunc("/menus/create", controller.MenusCreate)
+	http.HandleFunc("/menus/update", controller.MenusUpdate)
+	http.HandleFunc("/menus/delete", controller.MenusDelete)
+	// sumministra los nombres de los menus
+	http.HandleFunc("/menus/getoptions", controller.MenusgetoptionsMenuParent)
+
+	// Apis tiposevento
+	http.HandleFunc("/tiposeventos", controller.Tiposevento)
+	http.HandleFunc("/tiposeventos/list", controller.TiposeventoList)
+	http.HandleFunc("/tiposeventos/create", controller.TiposeventoCreate)
+	http.HandleFunc("/tiposeventos/update", controller.TiposeventoUpdate)
+	http.HandleFunc("/tiposeventos/delete", controller.TiposeventoDelete)
+	http.HandleFunc("/tiposeventos/getoptions", controller.TiposeventogetOptions)
+
+	//Apis espacios
+	http.HandleFunc("/espacios", controller.Espacio)
+	http.HandleFunc("/espacios/list", controller.EspacioList)
+	http.HandleFunc("/espacios/create", controller.EspacioCreate)
+	http.HandleFunc("/espacios/update", controller.EspacioUpdate)
+	http.HandleFunc("/espacios/delete", controller.EspaciosDelete)
+	http.HandleFunc("/espacios/getoptions", controller.Espaciosgetoptions)
+
+	//Apis horarios
+	http.HandleFunc("/horarios", controller.Horarios)
+	http.HandleFunc("/horarios/list", controller.HorariosList)
+	http.HandleFunc("/horarios/create", controller.HorariosCreate)
+	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
+	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
+
+	//Apis menu roles
+	http.HandleFunc("/menuroles", controller.MenuRoles)
+	http.HandleFunc("/menuroles/list", controller.MenuRolesList)
+	http.HandleFunc("/menuroles/create", controller.MenuRolesCreate)
+	http.HandleFunc("/menuroles/update", controller.MenuRolesUpdate)
+	http.HandleFunc("/menuroles/delete", controller.MenuRolesDelete)
+	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
+	//Apis newsletter
+	http.HandleFunc("/newsletter", controller.Newsletter)
+	http.HandleFunc("/newsletter/list", controller.NewsletterList)
+	http.HandleFunc("/newsletter/create", controller.NewsletterCreate)
+	http.HandleFunc("/newsletter/update", controller.NewsletterUpdate)
+	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
+	// sumministra los nombres de los newsletter
+	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
 
 	http.ListenAndServe(":3000", nil)
 }

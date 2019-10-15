@@ -11,12 +11,19 @@ CREATE TABLE usuarios (
     nombre varchar(50) NOT NULL,
     nif varchar(30) NOT NULL,
     email varchar(30) NOT NULL,
+    fechaNacimiento date NOT NULL,
     tipo integer not null,
     telefono varchar(30) NOT NULL,
     sesionesBonos integer,
     newsletter tinyint,
     fechaBaja date
 );
+
+--Newsletter
+-- 0 = no
+-- 1 = si
+
+
 CREATE Table tiposPago (
     id integer AUTO_INCREMENT PRIMARY KEY,
     nombre varchar(30)
@@ -86,6 +93,16 @@ CREATE Table pagos (
     FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
     );
 
+CREATE Table pagosPendientes (
+    id integer AUTO_INCREMENT PRIMARY KEY,
+    idReserva integer,
+    fechaPago date NOT NULL,
+    idTipopago integer,
+    numeroTarjeta varchar(50) NOT NULL,
+    FOREIGN KEY (idReserva) REFERENCES reservas(id),
+    FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
+    );
+
 CREATE Table usuariosRoles (
  id integer PRIMARY KeY NOT NULL,
  nombre varchar(30)NOT NULL );
@@ -146,4 +163,24 @@ CREATE Table menuUsuariosRoles (
 
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (4, 1, 'Ajustes', 'fas fa-fw fa-cog', 'http://localhost:3000/ajustes', 'http.HandleFunc("/ajustes", controller.Ajustes)' );
 
-    
+
+ CREATE TABLE tiponoticias (
+	id integer auto_increment primary key,
+	nombre varchar(50) not nul)
+
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (1,'Deportes');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (2,'Cultura');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (3,'Eventos');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (4,'Noticias');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (5,'Música');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (6,'Actividades');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (7,'Ferias');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (8,'Naturaleza');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (9,'Fiestas Regionales');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (10,'Mancomunidad Lácara-Los Baldíos')
+
+CREATE TABLE newsletter (
+	id integer auto_increment primary key,
+	email varchar(50) not null,
+	idtiponoticias integer not null,
+	FOREIGN key (idtiponoticias) references tiponoticias(id))
