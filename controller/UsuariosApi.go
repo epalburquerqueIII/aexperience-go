@@ -182,7 +182,12 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, telefono, password) VALUES(?,?,?,?,?,?)")
+		usu.IDUsuarioRol = 0
+		usu.SesionesBonos = 0
+		usu.Newsletter = 0
+		usu.FechaBaja = ""
+
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newslatter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -191,7 +196,7 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.Telefono, usu.Password)
+		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.Password, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
 		if err1 != nil {
 			panic(err1.Error())
 		}
