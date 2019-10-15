@@ -12,6 +12,7 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
@@ -178,14 +179,14 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 
 		usu.IDUsuarioRol = 0
 		usu.SesionesBonos = 0
 		usu.Newsletter = 0
-		usu.FechaBaja = "00-00-0000"
+		usu.FechaBaja = util.DateSql("02-01-2006")
 
 		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newsletter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {

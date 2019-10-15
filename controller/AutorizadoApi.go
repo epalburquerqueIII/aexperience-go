@@ -9,12 +9,16 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 	"../util/mdtojson"
 )
 
+const usertype int = 0
+
 // Autorizado - Pantalla de tratamiento de Autorizados
 func Autorizado(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "autorizados", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "autorizados", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
