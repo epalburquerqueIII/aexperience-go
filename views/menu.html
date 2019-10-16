@@ -19,16 +19,6 @@
 
     <!-- Separacion del menu -->
     <hr class="sidebar-divider my-0">
-
-    <!-- Inicio -->
-    <li class="nav-item">
-      <a class="nav-link" href="index">
-        <i class="fas fa-fw fa-home"></i>
-        <span>Inicio</span></a>
-    </li>
-
-    <!-- Separacion del menu -->
-    <hr class="sidebar-divider">
     {{ range . }}
       {{ $vID := .ID }}
       {{ $vParentTitle := .ParentTitle }}
