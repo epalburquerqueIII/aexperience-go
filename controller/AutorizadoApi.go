@@ -10,7 +10,6 @@ import (
 	"../model"
 	"../model/database"
 	"../util"
-	"../util/mdtojson"
 )
 
 const usertype int = 0
@@ -226,18 +225,4 @@ func Autorizadosgetoptions(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(s)
 	w.Write(a)
 	defer db.Close()
-}
-
-func GetEventosmdtojson(w http.ResponseWriter, r *http.Request) {
-
-	json, err := mdtojson.ProcessRepo("http://localhost:1313/content/eventos/", "./dir")
-
-	if json != "" {
-		fmt.Printf(json)
-	}
-	if err != nil {
-		panic(err.Error())
-
-	}
-	w.Write([]byte(json))
 }
