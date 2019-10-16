@@ -12,8 +12,8 @@ import (
 	"../util"
 )
 
-// Tiposevento - Pantalla tipo de eventos
-func Tiposevento(w http.ResponseWriter, r *http.Request) {
+// Tiposeventos - Pantalla tipo de eventos
+func Tiposeventos(w http.ResponseWriter, r *http.Request) {
 	menu := util.Menus(usertype)
 	error := tmpl.ExecuteTemplate(w, "tiposevento", &menu)
 	if error != nil {
@@ -22,8 +22,8 @@ func Tiposevento(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// TiposeventoList - json con los datos de clientes
-func TiposeventoList(w http.ResponseWriter, r *http.Request) {
+// TiposeventosList - json con los datos de clientes
+func TiposeventosList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -71,8 +71,8 @@ func TiposeventoList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// TiposeventoCreate Crear un Autorizado
-func TiposeventoCreate(w http.ResponseWriter, r *http.Request) {
+// TiposeventosCreate Crear un Autorizado
+func TiposeventosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	tipo := model.Ttiposevento{}
@@ -108,8 +108,8 @@ func TiposeventoCreate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// TiposeventoUpdate Actualiza el Autorizado
-func TiposeventoUpdate(w http.ResponseWriter, r *http.Request) {
+// TiposeventosUpdate Actualiza el Autorizado
+func TiposeventosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	tipo := model.Ttiposevento{}
 	if r.Method == "POST" {
@@ -139,8 +139,8 @@ func TiposeventoUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-//TiposeventoDelete Borra Autorizado de la DB
-func TiposeventoDelete(w http.ResponseWriter, r *http.Request) {
+//TiposeventosDelete Borra Autorizado de la DB
+func TiposeventosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	tipo := r.FormValue("ID")
 	delForm, err := db.Prepare("DELETE FROM tiposevento WHERE id=?")
@@ -166,8 +166,8 @@ func TiposeventoDelete(w http.ResponseWriter, r *http.Request) {
 	// 	// 	http.Redirect(w, r, "/", 301)
 }
 
-// getoptions nombre tipo evento
-func TiposeventogetOptions(w http.ResponseWriter, r *http.Request) {
+// TiposeventosgetOptions nombre tipo evento
+func TiposeventosgetOptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT id, nombre from tiposevento Order by id")

@@ -15,7 +15,7 @@ import (
 // TiposPago Pantalla de tratamiento de TiposPagos
 func TiposPago(w http.ResponseWriter, r *http.Request) {
 	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "tiposPago", &menu)
+	error := tmpl.ExecuteTemplate(w, "tipospago", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -41,7 +41,7 @@ func TiposPagoList(w http.ResponseWriter, r *http.Request) {
 
 		err = selDB.Scan(&tip.Id, &tip.Nombre)
 		if err != nil {
-			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los tipos de pagos")
+			util.ErrorApi(err.Error(), w, "Error cargando el registros de los tipos de pagos")
 		}
 		res = append(res, tip)
 		i++
@@ -69,7 +69,7 @@ func TiposPagoCreate(w http.ResponseWriter, r *http.Request) {
 		tip.Nombre = r.FormValue("Nombre")
 		insForm, err := db.Prepare("INSERT INTO tiposPago(nombre) VALUES(?)")
 		if err != nil {
-			util.ErrorApi(err.Error(), w, "Error Insertando tipo de pago")
+			util.ErrorApi(err.Error(), w, "Error insertando tipo de pago")
 		}
 		res, err1 := insForm.Exec(tip.Nombre)
 		if err1 != nil {
@@ -104,7 +104,7 @@ func TiposPagoUpdate(w http.ResponseWriter, r *http.Request) {
 
 		insForm, err := db.Prepare("UPDATE tiposPago SET nombre=? WHERE id=?")
 		if err != nil {
-			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
+			util.ErrorApi(err.Error(), w, "Error actualizando Base de Datos")
 		}
 
 		insForm.Exec(tip.Nombre, tip.Id)
