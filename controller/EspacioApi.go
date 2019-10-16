@@ -16,7 +16,8 @@ import (
 
 // Espacio Pantalla de tratamiento de Espacio
 func Espacio(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "espacios", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "espacios", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

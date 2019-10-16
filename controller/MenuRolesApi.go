@@ -14,7 +14,8 @@ import (
 
 //MenuRoles - Pantalla de tratamiento
 func MenuRoles(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "menuroles", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "menuroles", &menu)
 	if error != nil {
 		fmt.Println("Error: ", error.Error)
 	}
