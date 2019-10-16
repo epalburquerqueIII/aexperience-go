@@ -12,7 +12,7 @@ CREATE TABLE usuarios (
     nif varchar(30) NOT NULL,
     email varchar(30) NOT NULL,
     fechaNacimiento date NOT NULL,
-    tipo integer not null,
+    idUsuarioRol integer not null,
     telefono varchar(30) NOT NULL,
     Password varchar(100) NOT NULL,
     sesionesBonos integer,
