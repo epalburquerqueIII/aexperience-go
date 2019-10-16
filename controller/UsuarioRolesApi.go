@@ -14,7 +14,8 @@ import (
 
 // UsuarioRoles Pantalla de tratamiento de usuario
 func UsuarioRoles(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "usuariosRoles", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "usuariosRoles", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

@@ -9,11 +9,13 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 // Tiposevento - Pantalla tipo de eventos
 func Tiposevento(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "tiposevento", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "tiposevento", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

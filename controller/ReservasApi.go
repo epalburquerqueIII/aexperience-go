@@ -14,7 +14,8 @@ import (
 
 // Reservas Pantalla de tratamiento de Reservas
 func Reservas(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "reservas", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "reservas", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

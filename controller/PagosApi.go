@@ -14,7 +14,8 @@ import (
 
 //Pagos Pantalla de tratamiento de Pagos
 func Pagos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "pagos", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "pagos", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

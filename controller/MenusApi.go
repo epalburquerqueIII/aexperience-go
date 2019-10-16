@@ -14,7 +14,8 @@ import (
 
 // Pantalla de tratamiento de Menus
 func Menus(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "menus", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "menus", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -150,6 +151,7 @@ func MenusDelete(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/", 301)
 }
+
 //MenusgetoptionsMenuParent
 func MenusgetoptionsMenuParent(w http.ResponseWriter, r *http.Request) {
 
