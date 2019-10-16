@@ -53,7 +53,7 @@
             };
             $('#MenuRolesTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de MenuRoles',
+                title: 'Roles por menú',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -76,9 +76,8 @@
                         edit: false,
                         list: false
                     },
-                    
                     IdMenu: {
-                        title: 'Menu',
+                        title: 'Menú',
                         width: '15%',
                         options: '/usuariosRoles/getoptionsmenu'
                     },
