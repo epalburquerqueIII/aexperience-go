@@ -14,6 +14,7 @@ CREATE TABLE usuarios (
     fechaNacimiento date NOT NULL,
     tipo integer not null,
     telefono varchar(30) NOT NULL,
+    Password varchar(100) NOT NULL,
     sesionesBonos integer,
     newsletter tinyint,
     fechaBaja date
@@ -129,6 +130,12 @@ CREATE Table menus (
     handleFunc varchar(50) NOT NULL,
     FOREIGN KEY (parentId) REFERENCES menuParent(id)
 );
+CREATE TABLE newsletter (
+	id integer auto_increment primary key,
+	email varchar(50) not null,
+	idtiponoticias integer not null,
+	FOREIGN key (idtiponoticias) references tiponoticias(id));
+
 CREATE Table menuUsuariosRoles (
     id integer AUTO_INCREMENT PRIMARY KEY,
     idMenu integer NOT NULL,
@@ -166,7 +173,7 @@ CREATE Table menuUsuariosRoles (
 
  CREATE TABLE tiponoticias (
 	id integer auto_increment primary key,
-	nombre varchar(50) not nul)
+	nombre varchar(50) not null);
 
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (1,'Deportes');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (2,'Cultura');
@@ -177,10 +184,6 @@ INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (6,'Actividades');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (7,'Ferias');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (8,'Naturaleza');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (9,'Fiestas Regionales');
-INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (10,'Mancomunidad Lácara-Los Baldíos')
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (10,'Mancomunidad Lácara-Los Baldíos');
 
-CREATE TABLE newsletter (
-	id integer auto_increment primary key,
-	email varchar(50) not null,
-	idtiponoticias integer not null,
-	FOREIGN key (idtiponoticias) references tiponoticias(id))
+
