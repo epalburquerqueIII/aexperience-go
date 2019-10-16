@@ -159,7 +159,7 @@ CREATE Table menuUsuariosRoles (
 
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 1, 'Iniciar sesión', 'fas fa-fw fa-user', 'http://localhost:3000/login', 'http.HandleFunc("/login", controller.Login)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 2, 'Registro', 'fas fa-fw fa-user', 'http://localhost:3000/registro', 'http.HandleFunc("/registro", controller.Registro)' );
-    INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 3, 'Recuperar Contraseña', 'fas fa-fw fa-user', 'http://localhost:3000/olvido-contrasena', 'http.HandleFunc("/olvido-contrasena", controller.Olvidocontrasena)' );
+    INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 3, 'Recuperar Contraseña', 'fas fa-fw fa-user', 'http://localhost:3000/recuperarcontrasena', 'http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)' );
 
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (4, 1, 'Ajustes', 'fas fa-fw fa-cog', 'http://localhost:3000/ajustes', 'http.HandleFunc("/ajustes", controller.Ajustes)' );
 

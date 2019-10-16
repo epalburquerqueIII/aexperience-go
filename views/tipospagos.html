@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "tiposPago" }}
+{{ define "tipospago" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -63,13 +63,13 @@
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/tipospagos/list',
-                    deleteAction: '/tipospagos/delete',
-                    updateAction: '/tipospagos/update',
-                    createAction: '/tipospagos/create'
+                    listAction: '/tipospago/list',
+                    deleteAction: '/tipospago/delete',
+                    updateAction: '/tipospago/update',
+                    createAction: '/tipospago/create'
                 },
                 fields: {
-                    Id: {
+                    ID: {
                         key: true,
                         create: false,
                         edit: false,
