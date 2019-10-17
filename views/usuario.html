@@ -15,7 +15,7 @@
 
 <body>
 <!-- Se abre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
+{{ template "menu" . }}
 {{ template "header" }}
 
     <div class="container">
@@ -64,7 +64,8 @@
                     listAction: '/usuarios/list',
                     deleteAction: '/usuarios/delete',
                     updateAction: '/usuarios/update',
-                    createAction: '/usuarios/create'
+                    createAction: '/usuarios/create',
+                    registerAction:'/usuarios/register'
                 },
                 fields: {
                     ID: {
@@ -85,14 +86,24 @@
                         title: 'Email',
                         width: '15%'
                     },
-                    Tipo: {
-                        title: 'Idusuariorol',
+                    FechaNacimiento: {
+                        title: 'Fecha de Nacimiento',
+                        width: '7%',
+                        type: 'date',
+                        displayFormat: 'dd-mm-yy'
+                    },
+                    IDUsuarioRol: {
+                        title: 'Rol',
                         width: '8%',
                         type: "radiobutton",
                         options: '/usuariosroles/getoptions'
                     },
                     Telefono: {
                         title: 'Teléfono',
+                        width: '8%'
+                    },
+                    Password: {
+                        title: 'Contraseña',
                         width: '8%'
                     },
                     SesionesBonos: {

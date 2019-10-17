@@ -12,14 +12,15 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 // Usuario Pantalla de tratamiento de usuario
 func Usuarios(w http.ResponseWriter, r *http.Request) {
-	//util.menus(0)
-	error := tmpl.ExecuteTemplate(w, "usuarios", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "usuarios", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -35,7 +36,7 @@ func UsuariosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, idusuariorol, telefono, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
+	selDB, err := db.Query("SELECT usuarios.id, nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password, sesionesbonos, newsletter, fechaBaja FROM usuarios " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -48,7 +49,7 @@ func UsuariosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tusuario{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.IdUsuarioRol, &usu.Telefono, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
+		err = selDB.Scan(&usu.ID, &usu.Nombre, &usu.Nif, &usu.Email, &usu.FechaNacimiento, &usu.IDUsuarioRol, &usu.Telefono, &usu.Password, &usu.SesionesBonos, &usu.Newsletter, &usu.FechaBaja)
 		//Si no hay fecha de baja, este campo aparece como activo
 		if usu.FechaBaja == "0000-00-00" {
 			usu.FechaBaja = "Activo"
@@ -56,8 +57,8 @@ func UsuariosList(w http.ResponseWriter, r *http.Request) {
 			//Formato de fecha en español cuando está de baja
 			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
 			usu.FechaBaja = t.Format("02-01-2006")
-
 		}
+
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -92,12 +93,14 @@ func UsuariosCreate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.IdUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
+		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
+		usu.Password = r.FormValue("Password")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, idsusuariorol, telefono, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -106,7 +109,7 @@ func UsuariosCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.IdUsuarioRol, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.Password, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -137,12 +140,14 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.IdUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
+		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
+		usu.Password = r.FormValue("Password")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, idusuariorol =?, telefono=?, sesionesBonos=?, newsletter=?, fechaBaja=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuarios SET nombre=?, nif=?, email=?, fechanacimiento =?, idusuariorol =?, telefono=?, password=?, sesionesBonos=?, newsletter=?, fechaBaja=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -152,7 +157,7 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.IdUsuarioRol, usu.Telefono, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
+		insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.Password, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja, usu.ID)
 		log.Println("UPDATE: nombre: " + usu.Nombre + " | nif: " + usu.Nif)
 	}
 	defer db.Close()
@@ -162,6 +167,54 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 
+	//	http.Redirect(w, r, "/", 301)
+}
+
+// Usuarioregistro - registra un Usuario
+func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
+
+	db := database.DbConn()
+	usu := model.Tusuario{}
+	if r.Method == "POST" {
+		usu.Nombre = r.FormValue("Nombre")
+		usu.Nif = r.FormValue("Nif")
+		usu.Email = r.FormValue("Email")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
+		usu.Telefono = r.FormValue("Telefono")
+		usu.Password = r.FormValue("Password")
+
+		usu.IDUsuarioRol = 0
+		usu.SesionesBonos = 0
+		usu.Newsletter = 0
+		usu.FechaBaja = util.DateSql("00-00-0000")
+
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newsletter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
+		if err != nil {
+			var verror model.Resulterror
+			verror.Result = "ERROR"
+			verror.Error = "Error registrando Usuario"
+			a, _ := json.Marshal(verror)
+			w.Write(a)
+			panic(err.Error())
+		}
+		res, err1 := insForm.Exec(usu.Nombre, usu.Nif, usu.Email, usu.FechaNacimiento, usu.IDUsuarioRol, usu.Telefono, usu.Password, usu.SesionesBonos, usu.Newsletter, usu.FechaBaja)
+		if err1 != nil {
+			panic(err1.Error())
+		}
+		usu.ID, err1 = res.LastInsertId()
+		log.Println("INSERT: nombre: " + usu.Nombre + " | nif: " + usu.Nif + "| password:" + usu.Password)
+
+	}
+	var vrecord model.UsuarioRecord
+	vrecord.Result = "OK"
+	vrecord.Record = usu
+	a, _ := json.Marshal(vrecord)
+	s := string(a)
+	fmt.Println(s)
+
+	w.Write(a)
+
+	defer db.Close()
 	//	http.Redirect(w, r, "/", 301)
 }
 
@@ -189,7 +242,7 @@ func UsuariosDelete(w http.ResponseWriter, r *http.Request) {
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 
-	// 	// 	http.Redirect(w, r, "/", 301)
+	//	http.Redirect(w, r, "/", 301)
 }
 
 // Usuariogetoptions - Obtener nombres de usuarios para la tabla de autorizados

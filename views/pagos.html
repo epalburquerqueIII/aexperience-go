@@ -17,7 +17,7 @@
 <body>
     
     <!-- Se habre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
+{{ template "menu" . }}
 {{ template "header" }}
 
     
@@ -94,10 +94,10 @@
                         title: 'Tipo de pago',
                         width: '20%',
                         type: 'combo',
-                        options: '/tipospagos/getoptions'
+                        options: '/tipospago/getoptions'
                     },
                     NumeroTarjeta: {
-                        title: 'Numero tarjeta',
+                        title: 'Nº de tarjeta',
                         width: '15%'
                     }
                 }

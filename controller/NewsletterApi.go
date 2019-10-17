@@ -14,7 +14,8 @@ import (
 
 // Pantalla de tratamiento de Newsletter
 func Newsletter(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "newsletter", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "newsletter", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
