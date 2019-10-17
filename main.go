@@ -119,7 +119,7 @@ func main() {
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
 
-	//Apis newsletter
+	//Apis Newsletter
 	http.HandleFunc("/newsletter", controller.Newsletter)
 	http.HandleFunc("/newsletter/list", controller.NewsletterList)
 	http.HandleFunc("/newsletter/create", controller.NewsletterCreate)
@@ -127,6 +127,9 @@ func main() {
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	// sumministra los nombres de los newsletter
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
+
+	//Radio button emailnewsletter
+	http.HandleFunc("/emailnewsletter", controller.EmailNewsletter)
 
 	http.ListenAndServe(":3000", nil)
 }

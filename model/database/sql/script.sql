@@ -145,6 +145,7 @@ CREATE Table menuUsuariosRoles (
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (2, 10, 'Pagos', 'fas fa-fw fa-file-signature', 'http://localhost:3000/pagos', 'http.HandleFunc("/pagos", controller.Pagos)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (2, 11, 'UsuariosRoles', 'fas fa-fw fa-file-signature', 'http://localhost:3000/usuariosRoles', 'http.HandleFunc("/usuariosRoles", controller.UsuariosRoles)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (2, 12, 'MenuUsuariosRoles', 'fas fa-fw fa-file-signature', 'http://localhost:3000/menuUsuariosRoles', 'http.HandleFunc("/menuUsuariosRoles", controller.MenuUsuariosRoles)' );
+    INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (2, 13, 'Newsletter', 'fas fa-fw fa-file-signature', 'http://localhost:3000/newsletter', 'http.HandleFunc("/newsletter", controller.Newsletter)' );
 
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 1, 'Iniciar sesión', 'fas fa-fw fa-user', 'http://localhost:3000/login', 'http.HandleFunc("/login", controller.Login)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 2, 'Registro', 'fas fa-fw fa-user', 'http://localhost:3000/registro', 'http.HandleFunc("/registro", controller.Registro)' );
@@ -161,7 +162,7 @@ INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (1,'Deportes');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (2,'Cultura');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (3,'Eventos');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (4,'Noticias');
-INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (5,'Música');
+INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (5,'Musica');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (6,'Actividades');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (7,'Ferias');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (8,'Naturaleza');

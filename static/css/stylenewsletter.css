@@ -1,0 +1,42 @@
+#title {
+    text-align: center;
+    color: #e41f18;
+}
+
+#body {
+    color: #000000;
+    background: #f5f5f5;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
+#boton{
+    background: #e41f18;
+    color: #fff;
+    background-color: #e41f18;
+    border-color: #e41f18;
+    width: 195px;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    float: center;
+    margin-right: 15px;
+  }
+
+#temas{
+    text-align: center;
+    font-size: 30px;
+}
+
+#form-container{
+    max-width: 500px;
+    padding: 10px;
+    background: white;
+}
+
+#espaciotema{
+    margin-left: 30px;
+}
+  

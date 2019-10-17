@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+{{ define "emailnewsletter" }}
+
+  <body id="body">
+    <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
+    <h1 id="title">Registro Newsletter</h1>
+    <form method="POST" action="insert">
+      <label id="temas"> Temas </label>
+      <br />
+      <br />
+      <input type="checkbox" name="Newsletter" value="Deportes"> Deportes
+      <input type="checkbox" name="Newsletter" value="Cultura" id="espaciotema"> Cultura
+      <input type="checkbox" name="Newsletter" value="Eventos" id="espaciotema"> Eventos<br><br>
+      <input type="checkbox" name="Newsletter" value="Noticias" Checked> Noticias
+      <input type="checkbox" name="Newsletter" value="Musica" id="espaciotema"> Música
+      <input type="checkbox" name="Newsletter" value="Actividades" id="espaciotema"> Actividades<br><br>
+      <input type="checkbox" name="Newsletter" value="Ferias"> Ferias
+      <input type="checkbox" name="Newsletter" value="Naturaleza" id="espaciotema"> Naturaleza
+      <input type="checkbox" name="Newsletter" value="Fiestas Regionales" id="espaciotema"> Fiestas Regionales<br><br>
+      <input type="checkbox" name="Newsletter" value="Mancomunidad Lácara-Los Baldíos"> Mancomunidad Lácara-Los Baldíos<br>
+      <br />
+      <br />
+      <button type="submit" value="Submit" id="boton">Guardar</button>
+      <button type="cancel" value="Reset" id="boton">Cancelar</button>
+    </form>
+
+  </body>
+
+
+</html>
+{{ end }}
