@@ -129,9 +129,7 @@ func main() {
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
 
-<<<<<<< HEAD
 	//Apis Newsletter
-=======
 	//Apis menu roles
 	http.HandleFunc("/menuroles", controller.MenuRoles)
 	http.HandleFunc("/menuroles/list", controller.MenuRolesList)
@@ -141,7 +139,6 @@ func main() {
 	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
 
 	//Apis newsletter
->>>>>>> f025ad4cf7836807bdca25354c37e8abc6fa09e3
 	http.HandleFunc("/newsletter", controller.Newsletter)
 	http.HandleFunc("/newsletter/list", controller.NewsletterList)
 	http.HandleFunc("/newsletter/create", controller.NewsletterCreate)
@@ -149,10 +146,8 @@ func main() {
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
 
-<<<<<<< HEAD
 	//Radio button emailnewsletter
 	http.HandleFunc("/emailnewsletter", controller.EmailNewsletter)
-=======
 	// Otras apis
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
@@ -161,7 +156,6 @@ func main() {
 	http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)
 	http.HandleFunc("/paginavacia", controller.Paginavacia)
 	http.HandleFunc("/iva", controller.Iva)
->>>>>>> f025ad4cf7836807bdca25354c37e8abc6fa09e3
 
 	http.ListenAndServe(":3000", nil)
 }
