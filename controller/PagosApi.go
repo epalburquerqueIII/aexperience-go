@@ -31,7 +31,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagos.id, reservas.id, pagos.fechaPago, tipospago.id, numeroTarjeta FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagos.id, reservas.fechaPago, pagos.fechaPago, tipospago.nombre, numeroTarjeta FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -39,7 +39,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tpago{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaPago, &pag.IdTipopago, &pag.NumeroTarjeta)
+		err = selDB.Scan(&pag.Id, &pag.FechaReserva, &pag.FechaPago, &pag.TipoPago, &pag.NumeroTarjeta)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los Pagos")
 		}
