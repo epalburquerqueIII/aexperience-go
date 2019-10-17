@@ -14,16 +14,17 @@ import (
 	"../util"
 )
 
-// Espacio Pantalla de tratamiento de Espacio
-func Espacio(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "espacios", nil)
+// Espacios Pantalla de tratamiento de Espacio
+func Espacios(w http.ResponseWriter, r *http.Request) {
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "espacios", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// Espacio - json con los datos de Espacio
-func EspacioList(w http.ResponseWriter, r *http.Request) {
+// EspaciosList - json con los datos de Espacio
+func EspaciosList(w http.ResponseWriter, r *http.Request) {
 
 	var i int
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -74,8 +75,8 @@ func EspacioList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//EspacioCreate - Crear un Espacio
-func EspacioCreate(w http.ResponseWriter, r *http.Request) {
+//EspaciosCreate - Crear un Espacio
+func EspaciosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	esp := model.Tespacios{}
@@ -119,8 +120,8 @@ func EspacioCreate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// EspacioUpdate Actualiza el Espacio
-func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
+// EspaciosUpdate Actualiza el Espacio
+func EspaciosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	esp := model.Tespacios{}
 	if r.Method == "POST" {
@@ -157,7 +158,7 @@ func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-//EspaciosBaja da de baja al usuario
+// EspaciosDelete da de baja al usuario
 func EspaciosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	esp := r.FormValue("ID")
@@ -181,7 +182,7 @@ func EspaciosDelete(w http.ResponseWriter, r *http.Request) {
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 
-	// 	// 	http.Redirect(w, r, "/", 301)
+	//http.Redirect(w, r, "/", 301)
 }
 
 // Espaciosgetoptions nombre del espacio

@@ -12,14 +12,15 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 var tmpl = template.Must(template.ParseGlob("views/*.html"))
 
 // Usuario Pantalla de tratamiento de usuario
 func Usuarios(w http.ResponseWriter, r *http.Request) {
-	//util.menus(0)
-	error := tmpl.ExecuteTemplate(w, "usuarios", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "usuarios", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -56,8 +57,8 @@ func UsuariosList(w http.ResponseWriter, r *http.Request) {
 			//Formato de fecha en español cuando está de baja
 			t, _ := time.Parse("2006-01-02", usu.FechaBaja)
 			usu.FechaBaja = t.Format("02-01-2006")
-
 		}
+
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -92,14 +93,14 @@ func UsuariosCreate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idsusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -139,7 +140,7 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
@@ -178,16 +179,16 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 
 		usu.IDUsuarioRol = 0
 		usu.SesionesBonos = 0
 		usu.Newsletter = 0
-		usu.FechaBaja = ""
+		usu.FechaBaja = util.DateSql("00-00-0000")
 
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newslatter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newsletter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -241,7 +242,7 @@ func UsuariosDelete(w http.ResponseWriter, r *http.Request) {
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
 
-	// 	// 	http.Redirect(w, r, "/", 301)
+	//	http.Redirect(w, r, "/", 301)
 }
 
 // Usuariogetoptions - Obtener nombres de usuarios para la tabla de autorizados

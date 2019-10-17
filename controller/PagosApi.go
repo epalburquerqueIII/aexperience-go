@@ -14,7 +14,8 @@ import (
 
 //Pagos Pantalla de tratamiento de Pagos
 func Pagos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "pagos", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "pagos", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -34,8 +35,8 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	pag := model.Tpagos{}
-	res := []model.Tpagos{}
+	pag := model.Tpago{}
+	res := []model.Tpago{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaPago, &pag.IdTipopago, &pag.NumeroTarjeta)
@@ -46,7 +47,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.PagosRecords
+	var vrecords model.PagoRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -63,7 +64,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 func PagosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	pag := model.Tpagos{}
+	pag := model.Tpago{}
 	if r.Method == "POST" {
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
 		pag.FechaPago = r.FormValue("FechaPago")
@@ -81,7 +82,7 @@ func PagosCreate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("INSERT: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 
 	}
-	var vrecord model.PagosRecord
+	var vrecord model.PagoRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pag
 	a, _ := json.Marshal(vrecord)
@@ -97,7 +98,7 @@ func PagosCreate(w http.ResponseWriter, r *http.Request) {
 // PagosUpdate Actualiza los pagos
 func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	pag := model.Tpagos{}
+	pag := model.Tpago{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		pag.Id = int64(i)
@@ -114,7 +115,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()
-	var vrecord model.PagosRecord
+	var vrecord model.PagoRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pag
 	a, _ := json.Marshal(vrecord)
@@ -137,7 +138,7 @@ func PagosDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.PagosRecord
+	var vrecord model.PagoRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)

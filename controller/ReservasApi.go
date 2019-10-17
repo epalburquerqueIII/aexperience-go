@@ -14,7 +14,8 @@ import (
 
 // Reservas Pantalla de tratamiento de Reservas
 func Reservas(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "reservas", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "reservas", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -34,8 +35,8 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	reser := model.Treservas{}
-	res := []model.Treservas{}
+	reser := model.Treserva{}
+	res := []model.Treserva{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.FechaPago, &reser.Hora, &reser.IdUsuario, &reser.IdEspacio, &reser.IdAutorizado)
@@ -63,7 +64,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	reser := model.Treservas{}
+	reser := model.Treserva{}
 	if r.Method == "POST" {
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
 		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
@@ -104,7 +105,7 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 // ReservasUpdate Actualiza las reservas
 func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	reser := model.Treservas{}
+	reser := model.Treserva{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		reser.Id = int64(i)
