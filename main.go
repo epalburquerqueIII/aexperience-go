@@ -129,6 +129,7 @@ func main() {
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
 
+	//Apis Newsletter
 	//Apis menu roles
 	http.HandleFunc("/menuroles", controller.MenuRoles)
 	http.HandleFunc("/menuroles/list", controller.MenuRolesList)
@@ -145,6 +146,8 @@ func main() {
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
 
+	//Radio button emailnewsletter
+	http.HandleFunc("/emailnewsletter", controller.EmailNewsletter)
 	// Otras apis
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)

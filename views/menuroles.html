@@ -70,21 +70,22 @@
                     createAction: '/menuroles/create'
                 },
                 fields: {
-                    Id: {
+                    ID: {
                         key: true,
                         create: false,
                         edit: false,
                         list: false
                     },
-                    IdMenu: {
-                        title: 'Menú',
+                    
+                    IDMenu: {
+                        title: 'Menu',
                         width: '15%',
-                        options: '/usuariosRoles/getoptionsmenu'
+                        options: '/menus/getoptions'
                     },
-                    IdUsuarioRoles: {
+                    IDUsuarioRoles: {
                         title: 'Usuario',
                         width: '8%',
-                        options: '/usuariosRoles/getoptions'
+                        options: '/usuariosroles/getoptions'
                     }
                 }
             });

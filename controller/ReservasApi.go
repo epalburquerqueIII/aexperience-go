@@ -31,15 +31,15 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT reservas.id, reservas.fecha, reservas.fechaPago, reservas.hora, usuarios.id, espacios.id, autorizados.id FROM reservas LEFT OUTER JOIN usuarios ON (usuarios.id = reservas.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = reservas.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = reservas.idAutorizado) " + jtsort)
+	selDB, err := db.Query("SELECT reservas.id, reservas.fecha, reservas.fechaPago, reservas.hora, usuarios.id, usuarios.nombre, espacios.id, espacios.descripcion, autorizados.id,autorizados.nombreAutorizado FROM reservas LEFT OUTER JOIN usuarios ON (usuarios.id = reservas.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = reservas.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = reservas.idAutorizado) " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	reser := model.Treservas{}
-	res := []model.Treservas{}
+	reser := model.Treserva{}
+	res := []model.Treserva{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.FechaPago, &reser.Hora, &reser.IdUsuario, &reser.IdEspacio, &reser.IdAutorizado)
+		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.FechaPago, &reser.Hora, &reser.IdUsuario, &reser.UsuarioNombre, &reser.IdEspacio, &reser.EspacioNombre, &reser.IdAutorizado, &reser.AutorizadoNombre)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando registros de Reservas")
 		}
@@ -64,7 +64,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	reser := model.Treservas{}
+	reser := model.Treserva{}
 	if r.Method == "POST" {
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
 		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
@@ -105,7 +105,7 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 // ReservasUpdate Actualiza las reservas
 func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	reser := model.Treservas{}
+	reser := model.Treserva{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		reser.Id = int64(i)
