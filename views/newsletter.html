@@ -93,9 +93,14 @@
 
     {{ template "footer" }}
 
-    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-</body>
-<!--newsletter -->
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
+</body><!--newsletter -->
 </html>
 {{ end }}
