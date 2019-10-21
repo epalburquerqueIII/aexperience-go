@@ -14,7 +14,7 @@
 </head> <!-- fin de head -->
 
 <!-- Se habre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
+{{ template "menu" . }}
 {{ template "header" }}
 
 
@@ -53,7 +53,7 @@
             };
             $('#EspaciosTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Espacios',
+                title: 'Espacios',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -94,7 +94,7 @@
                         type: "radiobutton",
                         options: { '0': 'Fijo', '1': 'Variable' }
                     },
-                   
+
                     Precio: {
                         title: 'Precio',
                         width: '8%'
@@ -107,16 +107,16 @@
                     Aforo: {
                         title: 'Aforo',
                         width: '5%'
-                        
+
                     },
                     Fecha: {
                         title: 'Fecha',
                         width: '8%',
-                        type: "date",
+                        type: 'date',
                         create: true,
                         edit: true,
-                        displayFormat: "dd-mm-yy"
-                                         
+                        displayFormat: 'dd-mm-yy'
+
                     },
                     NumeroReservaslimite: {
                         title: 'Numero reservas',
@@ -130,8 +130,16 @@
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
+
     {{ template "footer" }}
-</body>
-<!--espacios -->
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
+</body><!--espacios -->
 {{ end }}

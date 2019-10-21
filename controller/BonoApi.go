@@ -9,11 +9,13 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
 //Bonos Pantalla de tratamiento de Bonos
 func Bonos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "bonos", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "bonos", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

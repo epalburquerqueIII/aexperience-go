@@ -12,16 +12,17 @@ import (
 	"../util"
 )
 
-//PagoPendientes Pantalla de tratamiento de Pagos
-func PagoPendientes(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "pagosPendientes", nil)
+//PagosPendientes Pantalla de tratamiento de Pagos
+func PagosPendientes(w http.ResponseWriter, r *http.Request) {
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "pagosPendientes", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// PagoPendientesList - json con los datos de los pagos
-func PagoPendientesList(w http.ResponseWriter, r *http.Request) {
+// PagosPendientesList - json con los datos de los pagos
+func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -59,8 +60,8 @@ func PagoPendientesList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// PagosCreate Crear un Pago
-func PagoPendientesCreate(w http.ResponseWriter, r *http.Request) {
+// PagosPendientesCreate Crear un Pago
+func PagosPendientesCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	pagopend := model.TpagosPendientes{}
@@ -94,8 +95,8 @@ func PagoPendientesCreate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// PagoPendienteUpdate Actualiza los pagos pendientes
-func PagoPendientesUpdate(w http.ResponseWriter, r *http.Request) {
+// PagosPendientesUpdate Actualiza los pagos pendientes
+func PagosPendientesUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pagopend := model.TpagosPendientes{}
 	if r.Method == "POST" {
@@ -122,8 +123,8 @@ func PagoPendientesUpdate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//PagosDelete Borra pagos de la DB
-func PagoPendientesDelete(w http.ResponseWriter, r *http.Request) {
+//PagosPendientesDelete Borra pagos de la DB
+func PagosPendientesDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pagopend := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM pagosPendientes WHERE id=?")
