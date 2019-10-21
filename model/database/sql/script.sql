@@ -12,7 +12,7 @@ CREATE TABLE usuarios (
     nif varchar(30) NOT NULL,
     email varchar(30) NOT NULL,
     fechaNacimiento date NOT NULL,
-    tipo integer not null,
+    idUsuarioRol integer not null,
     telefono varchar(30) NOT NULL,
     sesionesBonos integer,
     newsletter tinyint,
@@ -183,4 +183,12 @@ CREATE TABLE newsletter (
 	id integer auto_increment primary key,
 	email varchar(50) not null,
 	idtiponoticias integer not null,
-	FOREIGN key (idtiponoticias) references tiponoticias(id))
+	FOREIGN key (idtiponoticias) references tiponoticias(id));
+CREATE TABLE pagosBonos (
+    id integer auto_increment not null PRIMARY KEY,
+    idUsuario integer not null,
+    fechaCompra date not null,
+    fechaPago date,
+    sesiones integer not null,
+    FOREIGN key (idUsuario) references usuarios(id)
+);
