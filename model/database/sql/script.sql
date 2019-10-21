@@ -159,7 +159,7 @@ CREATE Table menuUsuariosRoles (
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 4, 'Espacios', 'fas fa-fw fa-file-signature', 'http://localhost:3000/espacios', 'http.HandleFunc("/espacios", controller.Espacios)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 5, 'Reservas', 'fas fa-fw fa-file-signature', 'http://localhost:3000/reservas', 'http.HandleFunc("/reservas", controller.Reservas)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 6, 'Horarios', 'fas fa-fw fa-file-signature', 'http://localhost:3000/horarios', 'http.HandleFunc("/horarios", controller.Horarios)' );
-    INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 7, 'Tipos de pago', 'fas fa-fw fa-file-signature', 'http://localhost:3000/tipospago', 'http.HandleFunc("/tipospago", controller.TiposPago)' );
+     
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 8, 'Tipos de eventos', 'fas fa-fw fa-file-signature', 'http://localhost:3000/tiposeventos', 'http.HandleFunc("/tiposeventos", controller.Tiposeventos)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 9, 'Bonos', 'fas fa-fw fa-file-signature', 'http://localhost:3000/bonos', 'http.HandleFunc("/bonos", controller.Bonos)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 10, 'Pagos', 'fas fa-fw fa-file-signature', 'http://localhost:3000/pagos', 'http.HandleFunc("/pagos", controller.Pagos)' );
@@ -170,6 +170,7 @@ CREATE Table menuUsuariosRoles (
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (4, 1, 'Iniciar sesión', 'fas fa-fw fa-user', 'http://localhost:3000/login', 'http.HandleFunc("/login", controller.Login)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (4, 2, 'Registro', 'fas fa-fw fa-user', 'http://localhost:3000/registro', 'http.HandleFunc("/registro", controller.Registro)' );
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (4, 3, 'Recuperar Contraseña', 'fas fa-fw fa-user', 'http://localhost:3000/recuperarcontrasena', 'http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)' );
+    INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (3, 14, 'Pagos Pendientes', 'fas fa-fw fa-file-signature', 'http://localhost:3000/pagospendientes', 'http.HandleFunc("/pagospendientes", controller.PagosPendientes)' )
 
     INSERT INTO `menus` (`parentId`,`orden`, `titulo`, `icono`, `url`, `handleFunc`) VALUES (5, 1, 'Ajustes', 'fas fa-fw fa-cog', 'http://localhost:3000/ajustes', 'http.HandleFunc("/ajustes", controller.Ajustes)' );
 
@@ -188,12 +189,3 @@ INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (7,'Ferias');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (8,'Naturaleza');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (9,'Fiestas Regionales');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (10,'Mancomunidad Lácara-Los Baldíos');
-
-CREATE TABLE pagosBonos (
-    id integer auto_increment not null PRIMARY KEY,
-    idUsuario integer not null,
-    fechaCompra date not null,
-    fechaPago date,
-    sesiones integer not null,
-    FOREIGN key (idUsuario) references usuarios(id)
-);
