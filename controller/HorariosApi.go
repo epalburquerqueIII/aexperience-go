@@ -14,7 +14,9 @@ import (
 
 // Horarios Pantalla de tratamiento de los horarios
 func Horarios(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "horarios", nil)
+	menu := util.Menus(usertype)
+
+	error := tmpl.ExecuteTemplate(w, "horarios", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
