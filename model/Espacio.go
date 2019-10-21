@@ -1,7 +1,7 @@
 package model
 
 // Tespacio es la estructura para espacios
-type Tespacios struct {
+type Tespacio struct {
 	ID                   int64
 	Descripcion          string
 	Estado               int
