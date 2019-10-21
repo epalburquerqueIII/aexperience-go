@@ -73,7 +73,7 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 		reser.IdAutorizado, _ = strconv.Atoi(r.FormValue("IdAutorizado"))
 
-		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,CURDATE(),?,?,?,?)")
 
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Pago")

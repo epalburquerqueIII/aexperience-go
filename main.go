@@ -81,6 +81,7 @@ func main() {
 	http.HandleFunc("/pagospendientes/create", controller.PagosPendientesCreate)
 	http.HandleFunc("/pagospendientes/update", controller.PagosPendientesUpdate)
 	http.HandleFunc("/pagospendientes/delete", controller.PagosPendientesDelete)
+	//http.HandleFunc("/pagospendientes/getoptions", controller.TiposPagogetoptions)
 
 	// Apis roles de usuario
 	http.HandleFunc("/usuariosroles", controller.UsuariosRoles)
