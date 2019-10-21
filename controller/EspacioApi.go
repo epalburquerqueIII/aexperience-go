@@ -43,8 +43,8 @@ func EspaciosList(w http.ResponseWriter, r *http.Request) {
 		w.Write(a)
 		panic(err.Error())
 	}
-	esp := model.Tespacios{}
-	res := []model.Tespacios{}
+	esp := model.Tespacio{}
+	res := []model.Tespacio{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&esp.ID, &esp.Descripcion, &esp.Estado, &esp.Modo, &esp.Precio, &esp.IDTipoevento, &esp.Aforo, &esp.Fecha, &esp.NumeroReservaslimite)
@@ -79,7 +79,7 @@ func EspaciosList(w http.ResponseWriter, r *http.Request) {
 func EspaciosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	esp := model.Tespacios{}
+	esp := model.Tespacio{}
 	if r.Method == "POST" {
 
 		esp.Descripcion = r.FormValue("Descripcion")
@@ -123,7 +123,7 @@ func EspaciosCreate(w http.ResponseWriter, r *http.Request) {
 // EspaciosUpdate Actualiza el Espacio
 func EspaciosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	esp := model.Tespacios{}
+	esp := model.Tespacio{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		esp.ID = int64(i)
