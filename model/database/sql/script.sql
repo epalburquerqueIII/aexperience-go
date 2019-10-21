@@ -188,4 +188,11 @@ INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (8,'Naturaleza');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (9,'Fiestas Regionales');
 INSERT INTO `tiponoticias`(`id`, `nombre`) VALUES (10,'Mancomunidad Lácara-Los Baldíos');
 
-
+CREATE TABLE pagosBonos (
+    id integer auto_increment not null PRIMARY KEY,
+    idUsuario integer not null,
+    fechaCompra date not null,
+    fechaPago date,
+    sesiones integer not null,
+    FOREIGN key (idUsuario) references usuarios(id)
+);
