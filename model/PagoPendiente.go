@@ -1,7 +1,7 @@
 package model
 
-// Tpagospendientes es la estructura para pagos
-type TpagosPendientes struct {
+// Tpagopendientes es la estructura para pagos
+type TpagoPendiente struct {
 	Id            int64
 	IdReserva     int
 	FechaPago     string

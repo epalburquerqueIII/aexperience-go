@@ -14,8 +14,7 @@ import (
 
 //PagosPendientes Pantalla de tratamiento de Pagos
 func PagosPendientes(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "pagosPendientes", &menu)
+	error := tmpl.ExecuteTemplate(w, "pagosPendientes", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -35,8 +34,8 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	pagopend := model.TpagosPendientes{}
-	res := []model.TpagosPendientes{}
+	pagopend := model.TpagoPendiente{}
+	res := []model.TpagoPendiente{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&pagopend.Id, &pagopend.IdReserva, &pagopend.FechaPago, &pagopend.IdTipopago, &pagopend.NumeroTarjeta)
@@ -47,7 +46,7 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.PagosPendientesRecords
+	var vrecords model.PagoPendienteRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -64,7 +63,7 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 func PagosPendientesCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	pagopend := model.TpagosPendientes{}
+	pagopend := model.TpagoPendiente{}
 	if r.Method == "POST" {
 		pagopend.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
 		pagopend.FechaPago = r.FormValue("FechaPago")
@@ -82,7 +81,7 @@ func PagosPendientesCreate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("INSERT: fechaPago: %s | idTipopago:  %d\n", pagopend.FechaPago, pagopend.IdTipopago)
 
 	}
-	var vrecord model.PagosPendientesRecord
+	var vrecord model.PagoPendienteRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pagopend
 	a, _ := json.Marshal(vrecord)
@@ -98,7 +97,7 @@ func PagosPendientesCreate(w http.ResponseWriter, r *http.Request) {
 // PagosPendientesUpdate Actualiza los pagos pendientes
 func PagosPendientesUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	pagopend := model.TpagosPendientes{}
+	pagopend := model.TpagoPendiente{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		pagopend.Id = int64(i)
@@ -115,7 +114,7 @@ func PagosPendientesUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pagopend.FechaPago, pagopend.IdTipopago)
 	}
 	defer db.Close()
-	var vrecord model.PagosPendientesRecord
+	var vrecord model.PagoPendienteRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pagopend
 	a, _ := json.Marshal(vrecord)
@@ -138,7 +137,7 @@ func PagosPendientesDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.PagosPendientesRecord
+	var vrecord model.PagoPendienteRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
