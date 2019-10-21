@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{{ define "pagosbonos" }}
+
+
+{{ template "head" }}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AExperience</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+{{ template "linkjtable" }}
+<!-- Add aditional link -->
+</head> <!-- fin de head -->
+
+<body>
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
+{{ template "menu" . }}
+{{ template "header" }}
+
+    <div class="container">
+      <div id="PagosBonosTableContainer"></div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var spanishMessages =  {
+                serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
+                loadingMessage: 'Cargando registros...',
+                noDataAvailable: 'No hay datos disponibles!',
+                addNewRecord: 'Crear nuevo registro',
+                editRecord: 'Editar registro',
+                areYouSure: '¿Confirma?',
+                save: 'Guardar',
+                saving: 'Guardando',
+                cancel: 'Cancelar',
+                error: 'Error',
+                close: 'Cerrar',
+                cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
+                pagingInfo: 'Mostrando registros {0} a {1} de {2}',
+                pageSizeChangeLabel: 'Registros por página',
+                gotoPageLabel: 'Ir a página'
+            };
+            $('#PagosBonosTableContainer').jtable({
+                messages: spanishMessages, //Lozalize
+                title: 'Pagos de Bonos',
+                paging: true, //Enable paging
+                pageSize: 10, //Set page size (default: 10)
+                sorting: true, //Enable sorting
+                defaultSorting: 'Fecha ASC', //Set default sorting
+                //selecting: true, //Enable selecting
+                //multiselect: true, //Allow multiple selecting
+                //selectingCheckboxes: true, //Show checkboxes on first column
+                //selectOnRowClick: false, //Enable this to only select using checkboxes
+                // Ver como aplicar selección en pagina jtables.org
+                actions: {
+                    listAction: '/pagosbonos/list',
+                    updateAction: '/pagosbonos/update',
+                    createAction: '/pagosbonos/create'
+                },
+                fields: {
+                    ID: {
+                        key: true,
+                        create: false,
+                        edit: false,
+                        list: false
+                    },
+                    IDUsuario: {
+                        title: 'Usuario',
+                        width: '15%',
+                        options: "/usuarios/getoptions"
+                    },
+                    FechaCompra: {
+                        title: 'Fecha de Compra',
+                        width: '8%',
+                        type: "date",
+                        displayFormat: "dd-mm-yy"
+                    },
+                    FechaPago: {
+                        title: 'Fecha de Pago',
+                        width: '8%',
+                        type: "date",
+                        displayFormat: "dd-mm-yy"
+                    },
+                    Sesiones: {
+                        title: 'Sesiones',
+                        width: '8%'
+                    }
+                }
+            });
+            //Load student list from server
+            $('#ConsumoBonosTableContainer').jtable('load');
+        });
+    </script>
+        </div><!--Cierre de menu-->
+    </div><!--Cierre de Header-->
+
+    {{ template "footer" }}
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
+</body>
+</html><!--pagosBonos -->
+{{ end }}
