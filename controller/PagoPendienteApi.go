@@ -12,8 +12,8 @@ import (
 	"../util"
 )
 
-//PagoPendientes Pantalla de tratamiento de Pagos
-func PagoPendientes(w http.ResponseWriter, r *http.Request) {
+//PagoPendiente Pantalla de tratamiento de Pagos
+func PagoPendiente(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "pagosPendientes", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
@@ -34,8 +34,8 @@ func PagoPendientesList(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	pagopend := model.TpagosPendientes{}
-	res := []model.TpagosPendientes{}
+	pagopend := model.TpagoPendiente{}
+	res := []model.TpagoPendiente{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&pagopend.Id, &pagopend.IdReserva, &pagopend.FechaPago, &pagopend.IdTipopago, &pagopend.NumeroTarjeta)
@@ -46,7 +46,7 @@ func PagoPendientesList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.PagosPendientesRecords
+	var vrecords model.PagoPendienteRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -59,11 +59,11 @@ func PagoPendientesList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// PagosCreate Crear un Pago
-func PagoPendientesCreate(w http.ResponseWriter, r *http.Request) {
+// PagoCreate Crear un Pago
+func PagoPendienteCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	pagopend := model.TpagosPendientes{}
+	pagopend := model.TpagoPendiente{}
 	if r.Method == "POST" {
 		pagopend.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
 		pagopend.FechaPago = r.FormValue("FechaPago")
@@ -81,7 +81,7 @@ func PagoPendientesCreate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("INSERT: fechaPago: %s | idTipopago:  %d\n", pagopend.FechaPago, pagopend.IdTipopago)
 
 	}
-	var vrecord model.PagosPendientesRecord
+	var vrecord model.PagoPendienteRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pagopend
 	a, _ := json.Marshal(vrecord)
@@ -95,9 +95,9 @@ func PagoPendientesCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 // PagoPendienteUpdate Actualiza los pagos pendientes
-func PagoPendientesUpdate(w http.ResponseWriter, r *http.Request) {
+func PagoPendienteUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	pagopend := model.TpagosPendientes{}
+	pagopend := model.TpagoPendiente{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		pagopend.Id = int64(i)
@@ -114,7 +114,7 @@ func PagoPendientesUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pagopend.FechaPago, pagopend.IdTipopago)
 	}
 	defer db.Close()
-	var vrecord model.PagosPendientesRecord
+	var vrecord model.PagoPendienteRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pagopend
 	a, _ := json.Marshal(vrecord)
@@ -123,7 +123,7 @@ func PagoPendientesUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 //PagosDelete Borra pagos de la DB
-func PagoPendientesDelete(w http.ResponseWriter, r *http.Request) {
+func PagoPendienteDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pagopend := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM pagosPendientes WHERE id=?")
@@ -137,7 +137,7 @@ func PagoPendientesDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.PagosPendientesRecord
+	var vrecord model.PagoPendienteRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)

@@ -13,7 +13,7 @@ import (
 )
 
 // UsuarioRoles Pantalla de tratamiento de usuario
-func UsuarioRoles(w http.ResponseWriter, r *http.Request) {
+func UsuarioRol(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "usuariosRoles", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
@@ -21,7 +21,7 @@ func UsuarioRoles(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioRolesList - json con los datos de clientes
-func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
+func UsuarioRolList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -34,8 +34,8 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	usuR := model.TusuariosRoles{}
-	res := []model.TusuariosRoles{}
+	usuR := model.TusuarioRol{}
+	res := []model.TusuarioRol{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&usuR.ID, &usuR.Nombre)
@@ -51,7 +51,7 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.UsuariosRolesRecords
+	var vrecords model.UsuarioRolRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -65,10 +65,10 @@ func UsuarioRolesList(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioRolesCreate - Crear un rol Usuario
-func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
+func UsuarioRolCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	usuR := model.TusuariosRoles{}
+	usuR := model.TusuarioRol{}
 	if r.Method == "POST" {
 		usuR.Nombre = r.FormValue("Nombre")
 		insForm, err := db.Prepare("INSERT INTO usuariosRoles(nombre) VALUES(?)")
@@ -83,7 +83,7 @@ func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
 		log.Println("INSERT: nombre: " + usuR.Nombre)
 
 	}
-	var vrecord model.UsuariosRolesRecord
+	var vrecord model.UsuarioRolRecord
 	vrecord.Result = "OK"
 	vrecord.Record = usuR
 	a, _ := json.Marshal(vrecord)
@@ -97,9 +97,9 @@ func UsuarioRolesCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioRolesUpdate Actualiza el rol de usuario
-func UsuarioRolesUpdate(w http.ResponseWriter, r *http.Request) {
+func UsuarioRolUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	usuR := model.TusuariosRoles{}
+	usuR := model.TusuarioRol{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		usuR.ID = int64(i)
@@ -113,7 +113,7 @@ func UsuarioRolesUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Println("UPDATE: nombre: " + usuR.Nombre)
 	}
 	defer db.Close()
-	var vrecord model.UsuariosRolesRecord
+	var vrecord model.UsuarioRolRecord
 	vrecord.Result = "OK"
 	vrecord.Record = usuR
 	a, _ := json.Marshal(vrecord)
@@ -123,7 +123,7 @@ func UsuarioRolesUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuarioRolesDelete Borra rol de usuario de la DB
-func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
+func UsuarioRolDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usuR := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM usuariosRoles WHERE id=?")
@@ -136,7 +136,7 @@ func UsuarioRolesDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.UsuariosRolesRecord
+	var vrecord model.UsuarioRolRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
