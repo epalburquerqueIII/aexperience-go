@@ -20,8 +20,8 @@ func PagoPendiente(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// PagosPendientesList - json con los datos de los pagos
-func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
+// PagoPendienteList - json con los datos de los pagos
+func PagoPendienteList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
