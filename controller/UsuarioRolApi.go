@@ -12,16 +12,16 @@ import (
 	"../util"
 )
 
-// UsuarioRol Pantalla de tratamiento de usuario
-func UsuarioRol(w http.ResponseWriter, r *http.Request) {
+// UsuariosRoles Pantalla de tratamiento de usuario
+func UsuariosRoles(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "usuariosRoles", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// UsuarioRolList - json con los datos de clientes
-func UsuarioRolList(w http.ResponseWriter, r *http.Request) {
+// UsuariosRolesList - json con los datos de clientes
+func UsuariosRolesList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -64,8 +64,8 @@ func UsuarioRolList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// UsuarioRolCreate - Crear un rol Usuario
-func UsuarioRolCreate(w http.ResponseWriter, r *http.Request) {
+// UsuariosRolesCreate - Crear un rol Usuario
+func UsuariosRolesCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	usuR := model.TusuarioRol{}
@@ -96,8 +96,8 @@ func UsuarioRolCreate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// UsuarioRolUpdate Actualiza el rol de usuario
-func UsuarioRolUpdate(w http.ResponseWriter, r *http.Request) {
+// UsuariosRolesUpdate Actualiza el rol de usuario
+func UsuariosRolesUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usuR := model.TusuarioRol{}
 	if r.Method == "POST" {
@@ -122,8 +122,8 @@ func UsuarioRolUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// UsuarioRolDelete Borra rol de usuario de la DB
-func UsuarioRolDelete(w http.ResponseWriter, r *http.Request) {
+// UsuariosRolesDelete Borra rol de usuario de la DB
+func UsuariosRolesDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	usuR := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM usuariosRoles WHERE id=?")

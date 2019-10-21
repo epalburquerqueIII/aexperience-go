@@ -12,16 +12,16 @@ import (
 	"../util"
 )
 
-//PagoPendiente Pantalla de tratamiento de Pagos
-func PagoPendiente(w http.ResponseWriter, r *http.Request) {
+//PagosPendientes Pantalla de tratamiento de Pagos
+func PagosPendientes(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "pagosPendientes", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// PagoPendienteList - json con los datos de los pagos
-func PagoPendienteList(w http.ResponseWriter, r *http.Request) {
+// PagosPendientesList - json con los datos de los pagos
+func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -59,8 +59,8 @@ func PagoPendienteList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// PagoCreate Crear un Pago
-func PagoPendienteCreate(w http.ResponseWriter, r *http.Request) {
+// PagosPendientesCreate Crear un Pago
+func PagosPendientesCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	pagopend := model.TpagoPendiente{}
@@ -94,8 +94,8 @@ func PagoPendienteCreate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// PagoPendienteUpdate Actualiza los pagos pendientes
-func PagoPendienteUpdate(w http.ResponseWriter, r *http.Request) {
+// PagosPendientesUpdate Actualiza los pagos pendientes
+func PagosPendientesUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pagopend := model.TpagoPendiente{}
 	if r.Method == "POST" {
@@ -122,8 +122,8 @@ func PagoPendienteUpdate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//PagoDelete Borra pagos de la DB
-func PagoPendienteDelete(w http.ResponseWriter, r *http.Request) {
+//PagosPendientesDelete Borra pagos de la DB
+func PagosPendientesDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pagopend := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM pagosPendientes WHERE id=?")
