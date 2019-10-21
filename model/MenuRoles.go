@@ -2,7 +2,7 @@ package model
 
 // Tmenuroles es la estructura para espacios
 type Tmenuroles struct {
-	Id             int64
-	IdMenu         int
-	IdUsuarioRoles int
+	ID             int64
+	IDMenu         int
+	IDUsuarioRoles int
 }

@@ -50,7 +50,7 @@
             };
             $('#TiposeventoTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Evento',
+                title: 'Eventos',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -78,16 +78,23 @@
                     },
                 }
             });
-                
             //Load student list from server
             $('#TiposeventoTableContainer').jtable('load');
         });
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
+
     {{ template "footer" }}
-    
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
 </body>
 </html><!--tipoevento -->
 {{ end }}

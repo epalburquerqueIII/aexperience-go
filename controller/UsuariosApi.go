@@ -93,14 +93,14 @@ func UsuariosCreate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idsusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -140,7 +140,7 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
@@ -186,7 +186,7 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 		usu.IDUsuarioRol = 0
 		usu.SesionesBonos = 0
 		usu.Newsletter = 0
-		usu.FechaBaja = util.DateSql("02-01-2006")
+		usu.FechaBaja = util.DateSql("00-00-0000")
 
 		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newsletter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {

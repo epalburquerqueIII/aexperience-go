@@ -94,10 +94,10 @@
                         title: 'Tipo de pago',
                         width: '20%',
                         type: 'combo',
-                        options: '/tipospagos/getoptions'
+                        options: '/tipospago/getoptions'
                     },
                     NumeroTarjeta: {
-                        title: 'Numero tarjeta',
+                        title: 'Nº de tarjeta',
                         width: '15%'
                     }
                 }
@@ -108,13 +108,17 @@
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
+
     {{ template "footer" }}
 
-    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
 
-    
 </body>
 </html>
 {{ end }}

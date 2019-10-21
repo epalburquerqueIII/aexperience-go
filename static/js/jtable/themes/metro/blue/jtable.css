@@ -332,23 +332,23 @@ div.jtable-main-container > div.jtable-title div.jtable-toolbar {
   position: absolute;
 }
 div.jtable-main-container > div.jtable-title div.jtable-toolbar span.jtable-toolbar-item {
-  background-color: #1571d7;
+  background-color: #0c73e5;
   color: white;
 }
 div.jtable-main-container > div.jtable-title div.jtable-toolbar span.jtable-toolbar-item.jtable-toolbar-item-add-record span.jtable-toolbar-item-icon {
   background-image: url('../../metro/add.png');
 }
 div.jtable-main-container > div.jtable-title div.jtable-toolbar span.jtable-toolbar-item.jtable-toolbar-item-hover {
-  background-color: #1c78de;
+  background-color: #318df4;
   padding-bottom: 6px;
 }
 div.jtable-main-container > table.jtable {
-  border: 1px solid #2d89ef;
+  border: 1px solid #1880f3;
   border-collapse: collapse;
   border-spacing: 0;
 }
 div.jtable-main-container > table.jtable > thead {
-  background-color: #2d89ef;
+  background-color: #1880f3;
 }
 div.jtable-main-container > table.jtable > thead th {
   font-family: 'Segoe UI Semilight', 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
@@ -419,7 +419,7 @@ div.jtable-main-container > table.jtable > tbody > tr.jtable-row-updated {
   background-color: #60bcff;
 }
 div.jtable-main-container > table.jtable > tbody > tr.jtable-row-deleting {
-  background-color: #e51400;
+  background-color: #cd100b;
   color: #fff;
 }
 div.jtable-main-container > table.jtable > tbody > tr.jtable-child-row > td {
@@ -427,11 +427,11 @@ div.jtable-main-container > table.jtable > tbody > tr.jtable-child-row > td {
   background-color: #fff;
 }
 div.jtable-main-container > div.jtable-bottom-panel {
-  background-color: #1c78de;
+  background-color: #0b67cd;
   color: #fff;
   min-height: 22.900000000000002px;
   font-size: 13px;
-  border: 1px solid #2d89ef;
+  border: 1px solid #0b67cd;
   border-top: none;
 }
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list {
@@ -444,7 +444,7 @@ div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-pa
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-previous,
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-next,
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-active {
-  background-color: #2d89ef;
+  background-color: #1880f3;
   margin: 1px;
   padding: 2px 5px;
   color: #fff;
@@ -454,16 +454,16 @@ div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-pa
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-last:hover,
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-previous:hover,
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-next:hover {
-  background-color: #4fabff;
+  background-color: #318df4;
 }
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-disabled {
   opacity: 0.75;
   filter: alpha(opacity=50);
-  color: #ccc;
+  color: #fff;
   cursor: default;
 }
 div.jtable-main-container > div.jtable-bottom-panel .jtable-page-list .jtable-page-number-disabled:hover {
-  background-color: #2d89ef;
+  background-color: #318df4;
 }
 div.jtable-main-container > div.jtable-bottom-panel span.jtable-page-info {
   display: inline-block;

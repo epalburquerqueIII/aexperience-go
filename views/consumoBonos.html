@@ -43,7 +43,7 @@
             };
             $('#ConsumoBonosTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Consumo de Bono',
+                title: 'Consumo de Bonos',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -98,10 +98,19 @@
             $('#ConsumoBonosTableContainer').jtable('load');
         });
     </script>
-     </div><!--Cierre de menu-->
+        </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 
     {{ template "footer" }}
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
 </body>
 </html><!--consumoBonos -->
 {{ end }}
