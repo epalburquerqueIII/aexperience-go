@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 {{ define "iva" }}
 
 <!-- Se habre un div en menu.html y header.html y se cierra en index -->
 {{ template "head" }}
 
+</head>
+
 <body id="page-top">
 
   <!-- Se habre un div en menu.html y header.html y se cierra en index -->
-  {{ template "menu" }}
+  {{ template "menu" . }}
   {{ template "header" }}
 
   <!-- Begin Page Content -->

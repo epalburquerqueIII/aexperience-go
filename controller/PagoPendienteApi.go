@@ -12,16 +12,23 @@ import (
 	"../util"
 )
 
+<<<<<<< HEAD:controller/PagoPendienteApi.go
 //PagoPendiente Pantalla de tratamiento de Pagos
 func PagoPendiente(w http.ResponseWriter, r *http.Request) {
 	error := tmpl.ExecuteTemplate(w, "pagosPendientes", nil)
+=======
+//PagosPendientes Pantalla de tratamiento de Pagos
+func PagosPendientes(w http.ResponseWriter, r *http.Request) {
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "pagosPendientes", &menu)
+>>>>>>> 88f079b90526f367195d1b21aba9b19433e26557:controller/PagosPendientesApi.go
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// PagoPendientesList - json con los datos de los pagos
-func PagoPendientesList(w http.ResponseWriter, r *http.Request) {
+// PagosPendientesList - json con los datos de los pagos
+func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -59,8 +66,13 @@ func PagoPendientesList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
+<<<<<<< HEAD:controller/PagoPendienteApi.go
 // PagoCreate Crear un Pago
 func PagoPendienteCreate(w http.ResponseWriter, r *http.Request) {
+=======
+// PagosPendientesCreate Crear un Pago
+func PagosPendientesCreate(w http.ResponseWriter, r *http.Request) {
+>>>>>>> 88f079b90526f367195d1b21aba9b19433e26557:controller/PagosPendientesApi.go
 
 	db := database.DbConn()
 	pagopend := model.TpagoPendiente{}
@@ -94,8 +106,13 @@ func PagoPendienteCreate(w http.ResponseWriter, r *http.Request) {
 
 }
 
+<<<<<<< HEAD:controller/PagoPendienteApi.go
 // PagoPendienteUpdate Actualiza los pagos pendientes
 func PagoPendienteUpdate(w http.ResponseWriter, r *http.Request) {
+=======
+// PagosPendientesUpdate Actualiza los pagos pendientes
+func PagosPendientesUpdate(w http.ResponseWriter, r *http.Request) {
+>>>>>>> 88f079b90526f367195d1b21aba9b19433e26557:controller/PagosPendientesApi.go
 	db := database.DbConn()
 	pagopend := model.TpagoPendiente{}
 	if r.Method == "POST" {
@@ -122,7 +139,7 @@ func PagoPendienteUpdate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//PagosDelete Borra pagos de la DB
+//PagoDelete Borra pagos de la DB
 func PagoPendienteDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pagopend := r.FormValue("Id")

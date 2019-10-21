@@ -15,7 +15,7 @@
 
 <body>
 <!-- Se abre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" }}
+{{ template "menu" . }}
 {{ template "header" }}
 
     <div class="container">
@@ -89,11 +89,11 @@
                     FechaNacimiento: {
                         title: 'Fecha de Nacimiento',
                         width: '7%',
-                        create: false,
-                        edit: false
+                        type: 'date',
+                        displayFormat: 'dd-mm-yy'
                     },
-                    Tipo: {
-                        title: 'Idusuariorol',
+                    IDUsuarioRol: {
+                        title: 'Rol',
                         width: '8%',
                         type: "radiobutton",
                         options: '/usuariosroles/getoptions'
@@ -132,6 +132,15 @@
     </div><!--Cierre de Header-->
 
     {{ template "footer" }}
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
 </body>
 </html><!--usuario -->
 {{ end }}

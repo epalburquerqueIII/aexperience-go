@@ -14,7 +14,8 @@ import (
 
 //MenuRoles - Pantalla de tratamiento
 func MenuRoles(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "menuroles", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "menuroles", &menu)
 	if error != nil {
 		fmt.Println("Error: ", error.Error)
 	}
@@ -30,7 +31,7 @@ func MenuRolesList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menuUsuariosRoles.id, idMenu, idUsuarioRoles FROM menuUsuariosRoles " + jtsort)
+	selDB, err := db.Query("SELECT id, idMenu, idUsuarioRoles FROM menuusuariosroles " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -40,7 +41,7 @@ func MenuRolesList(w http.ResponseWriter, r *http.Request) {
 
 		err = selDB.Scan(&menuroles.ID, &menuroles.IDMenu, &menuroles.IDUsuarioRoles)
 		if err != nil {
-			util.ErrorApi(err.Error(), w, "Error Cargando datos de menus")
+			util.ErrorApi(err.Error(), w, "Error Cargando datos de menu roles")
 		}
 		res = append(res, menuroles)
 		i++
@@ -64,8 +65,8 @@ func MenuRolesCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	menurol := model.Tmenuroles{}
 	if r.Method == "POST" {
-		menurol.IDMenu, _ = strconv.Atoi(r.FormValue("idMenu"))
-		menurol.IDUsuarioRoles, _ = strconv.Atoi(r.FormValue("idUsuarioRoles"))
+		menurol.IDMenu, _ = strconv.Atoi(r.FormValue("IDMenu"))
+		menurol.IDUsuarioRoles, _ = strconv.Atoi(r.FormValue("IDUsuarioRoles"))
 
 		insForm, err := db.Prepare("INSERT INTO menuusuariosroles(idMenu, idUsuarioRoles) VALUES(?,?)")
 
@@ -77,7 +78,7 @@ func MenuRolesCreate(w http.ResponseWriter, r *http.Request) {
 			panic(err1.Error())
 		}
 		menurol.ID, err1 = res.LastInsertId()
-		log.Printf("INSERT: IDMenu: %d | idUsuarioRoles: %d\n", menurol.IDMenu, menurol.IDUsuarioRoles)
+		log.Printf("INSERT: IdMenu: %d | idUsuarioRoles: %d\n", menurol.IDMenu, menurol.IDUsuarioRoles)
 
 	}
 	var vrecord model.MenuRolesRecord
@@ -98,18 +99,18 @@ func MenuRolesUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	menurol := model.Tmenuroles{}
 	if r.Method == "POST" {
-		i, _ := strconv.Atoi(r.FormValue("Id"))
+		i, _ := strconv.Atoi(r.FormValue("ID"))
 		menurol.ID = int64(i)
-		menurol.IDMenu, _ = strconv.Atoi(r.FormValue("idMenu"))
-		menurol.IDUsuarioRoles, _ = strconv.Atoi(r.FormValue("idUsuarioRoles"))
+		menurol.IDMenu, _ = strconv.Atoi(r.FormValue("IDMenu"))
+		menurol.IDUsuarioRoles, _ = strconv.Atoi(r.FormValue("IDUsuarioRoles"))
 
-		insForm, err := db.Prepare("UPDATE menuusuariosroles SET idMenu=?, idUsuarioRoles=? WHERE menuUsuariosRoles.ID=?")
+		insForm, err := db.Prepare("UPDATE menuusuariosroles SET idMenu=?, idUsuarioRoles=? WHERE menuusuariosroles.Id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
 		insForm.Exec(menurol.IDMenu, menurol.IDUsuarioRoles, menurol.ID)
-		log.Printf("UPDATE: IDMenu: %d | idUsuarioRoles: %d\n", menurol.IDMenu, menurol.IDUsuarioRoles)
+		log.Printf("UPDATE: IdMenu: %d | idUsuarioRoles: %d\n", menurol.IDMenu, menurol.IDUsuarioRoles)
 	}
 	defer db.Close()
 	var vrecord model.MenuRolesRecord
@@ -124,7 +125,7 @@ func MenuRolesUpdate(w http.ResponseWriter, r *http.Request) {
 //MenuRolesDelete - Borra de la DB
 func MenuRolesDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	menurol := r.FormValue("Id")
+	menurol := r.FormValue("ID")
 	delForm, err := db.Prepare("DELETE FROM menuusuariosroles WHERE id=?")
 	log.Println(menurol)
 	if err != nil {
@@ -148,7 +149,7 @@ func MenuRolesDelete(w http.ResponseWriter, r *http.Request) {
 func MenuRolesGetOptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT id, idMenu, idUsuarioRoles from menuUsuariosRoles Order by id")
+	selDB, err := db.Query("SELECT menuusuariosroles.id, idMenu, idUsuarioRoles from menuusuariosroles Order by menuusuariosroles.id")
 	if err != nil {
 		panic(err.Error())
 	}

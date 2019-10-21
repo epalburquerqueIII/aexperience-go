@@ -3,19 +3,19 @@
 
 {{ define "autorizados" }}
 
-    {{ template "head" }}
+{{ template "head" }}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AExperience</title>
     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-    {{ template "linkjtable" }}
+{{ template "linkjtable" }}
     <!-- Add aditional link -->
-    </head> <!-- fin de head -->
+</head> <!-- fin de head -->
 
 <body>
     <!-- Se abre un div en menu.html y header.html y se cierra en index -->
-    {{ template "menu" }}
+    {{ template "menu" . }}
     {{ template "header" }}
 
     <div class="container">
@@ -50,7 +50,7 @@
             };
             $('#AutorizadoTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Autorizados',
+                title: 'Autorizados',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -74,12 +74,12 @@
                         list: false
                     },
                     IDUsuario: {
-                        title: 'Nombre',
+                        title: 'Usuario',
                         width: '20%',
                         options: '/usuarios/getoptions'
                     },
                     NombreAutorizado: {
-                        title: 'Nombre del Autorizado',
+                        title: 'Autorizado',
                         width: '20%'
                     },
                     Nif: {
@@ -95,6 +95,15 @@
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
     {{ template "footer" }}
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
 </body>
 </html><!-- autorizado -->
 {{ end }}
