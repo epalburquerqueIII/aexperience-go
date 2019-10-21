@@ -1,7 +1,7 @@
 package model
 
-// Tmenu es la estructura para el menú simple
-type Tmenu struct {
+// Tmenuconfig es la estructura para el menú simple
+type Tmenuconfig struct {
 	ID          int
 	Icono       string
 	ParentTitle string

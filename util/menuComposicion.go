@@ -8,7 +8,7 @@ import (
 const menudesplegable = 1
 
 // Menus Estructura de menu para template
-func Menus(usertype int) []model.Tmenu {
+func Menus(usertype int) []model.Tmenuconfig {
 	var ant string = ""
 	var i int = -1
 	db := database.DbConn()
@@ -16,8 +16,8 @@ func Menus(usertype int) []model.Tmenu {
 	if err != nil {
 		panic(err.Error())
 	}
-	menu := model.Tmenu{}
-	res := []model.Tmenu{}
+	menu := model.Tmenuconfig{}
+	res := []model.Tmenuconfig{}
 
 	submenu := model.Tmenudesplegable{}
 
