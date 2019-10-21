@@ -138,12 +138,6 @@ func main() {
 	http.HandleFunc("/menuroles/delete", controller.MenuRolesDelete)
 	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
 
-	// Apis PagosBonos
-	http.HandleFunc("/pagosbonos", controller.PagosBonos)
-	http.HandleFunc("/pagosbonos/list", controller.PagosBonosList)
-	http.HandleFunc("/pagosbonos/create", controller.PagosBonosCreate)
-	http.HandleFunc("/pagosbonos/update", controller.PagosBonosUpdate)
-
 	//Apis newsletter
 	http.HandleFunc("/newsletter", controller.Newsletter)
 	http.HandleFunc("/newsletter/list", controller.NewsletterList)
