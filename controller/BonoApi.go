@@ -128,7 +128,7 @@ func BonoUpdate(w http.ResponseWriter, r *http.Request) {
 			panic(err.Error())
 		}
 
-		insForm.Exec(bon.Sesiones, bon.Precio, bon.ID)
+		insForm.Exec(bon.Precio, bon.Sesiones, bon.ID)
 		log.Printf("UPDATE: id: %d | precio: %d\n", bon.ID, bon.Precio)
 
 	}
