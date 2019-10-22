@@ -57,7 +57,7 @@
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Sesiones ASC', //Set default sorting
+                defaultSorting: 'FechaPago ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -82,9 +82,13 @@
                         type: 'combo',
                         options: '/reservas/getoptions'
                     },
-                    Sesiones: {
-                        title: 'Sesiones',
-                        width: '15%'
+                    FechaPago: {
+                        title: 'Fecha',
+                        width: '15%',
+                        type: "date",
+                        create: false,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
                     },
                     IdTipopago: {
                         title: 'Tipo de pago',
