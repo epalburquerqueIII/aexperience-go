@@ -141,3 +141,30 @@ func BonoUpdate(w http.ResponseWriter, r *http.Request) {
 
 	//	http.Redirect(w, r, "/", 301)
 }
+
+// BonoDelete Borra bono de la DB
+func BonoDelete(w http.ResponseWriter, r *http.Request) {
+	db := database.DbConn()
+	usu := r.FormValue("ID")
+	delForm, err := db.Prepare("DELETE FROM bonos WHERE id=?")
+	if err != nil {
+
+		panic(err.Error())
+	}
+	_, err1 := delForm.Exec(usu)
+	if err1 != nil {
+		var verror model.Resulterror
+		verror.Result = "ERROR"
+		verror.Error = "Error Borrando bono"
+		a, _ := json.Marshal(verror)
+		w.Write(a)
+	}
+	log.Println("DELETE")
+	defer db.Close()
+	var vrecord model.BonoRecord
+	vrecord.Result = "OK"
+	a, _ := json.Marshal(vrecord)
+	w.Write(a)
+
+	http.Redirect(w, r, "/", 301)
+}
