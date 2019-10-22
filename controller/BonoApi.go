@@ -72,42 +72,42 @@ func BonoList(w http.ResponseWriter, r *http.Request) {
 }
 
 // BonoCreate Crear un Bono
-// func BonoCreate(w http.ResponseWriter, r *http.Request) {
+func BonoCreate(w http.ResponseWriter, r *http.Request) {
 
-// 	db := database.DbConn()
-// 	bon := model.Tbono{}
-// 	if r.Method == "POST" {
-// 		bon.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
-// 		bon.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
-// 		insForm, err := db.Prepare("INSERT INTO bonos(precio, sesiones) VALUES(?,?)")
-// 		if err != nil {
-// 			var verror model.Resulterror
-// 			verror.Result = "ERROR"
-// 			verror.Error = "Error Insertando Bono"
-// 			a, _ := json.Marshal(verror)
-// 			w.Write(a)
-// 			panic(err.Error())
-// 		}
-// 		res, err1 := insForm.Exec(bon.Precio, bon.Sesiones)
-// 		if err1 != nil {
-// 			panic(err1.Error())
-// 		}
-// 		bon.Precio, err1 = res.LastInsertId()
-// 		log.Println("INSERT: precio: " + bon.Precio + " | sesiones: " + bon.Sesiones)
+	db := database.DbConn()
+	bon := model.Tbono{}
+	if r.Method == "POST" {
+		bon.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
+		bon.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
+		insForm, err := db.Prepare("INSERT INTO bonos(precio, sesiones) VALUES(?,?)")
+		if err != nil {
+			var verror model.Resulterror
+			verror.Result = "ERROR"
+			verror.Error = "Error Insertando Bono"
+			a, _ := json.Marshal(verror)
+			w.Write(a)
+			panic(err.Error())
+		}
+		res, err1 := insForm.Exec(bon.Precio, bon.Sesiones)
+		if err1 != nil {
+			panic(err1.Error())
+		}
+		bon.ID, err1 = res.LastInsertId()
+		log.Printf("INSERT: precio: %d | sesiones: %d\n", bon.Precio, bon.Sesiones)
 
-// 	}
-// 	var vrecord model.BonoRecord
-// 	vrecord.Result = "OK"
-// 	vrecord.Record = bon
-// 	a, _ := json.Marshal(vrecord)
-// 	s := string(a)
-// 	fmt.Println(s)
+	}
+	var vrecord model.BonoRecord
+	vrecord.Result = "OK"
+	vrecord.Record = bon
+	a, _ := json.Marshal(vrecord)
+	s := string(a)
+	fmt.Println(s)
 
-// 	w.Write(a)
+	w.Write(a)
 
-// 	defer db.Close()
-// 	//	http.Redirect(w, r, "/", 301)
-// }
+	defer db.Close()
+	//	http.Redirect(w, r, "/", 301)
+}
 
 // BonoUpdate Actualiza el bono
 func BonoUpdate(w http.ResponseWriter, r *http.Request) {
