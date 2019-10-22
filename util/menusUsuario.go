@@ -5,7 +5,7 @@ import (
 )
 
 // MenusUsuario Opciones del usuario en WEB y APP
-func MenusUsuario(usertype int) model.Tmenus {
-	var a model.Tmenus
+func MenusUsuario(usertype int) model.Tmenu {
+	var a model.Tmenu
 	return a
 }
