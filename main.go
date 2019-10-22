@@ -47,7 +47,9 @@ func main() {
 	// Apis bono
 	http.HandleFunc("/bonos", controller.Bonos)
 	http.HandleFunc("/bonos/list", controller.BonoList)
+	http.HandleFunc("/bonos/create", controller.BonoCreate)
 	http.HandleFunc("/bonos/update", controller.BonoUpdate)
+	http.HandleFunc("/bonos/delete", controller.BonoDelete)
 
 	// Apis autorizados
 	http.HandleFunc("/autorizados", controller.Autorizados)

@@ -35,8 +35,8 @@ func TiposPagoList(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	tip := model.TtiposPago{}
-	res := []model.TtiposPago{}
+	tip := model.TtipoPago{}
+	res := []model.TtipoPago{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&tip.Id, &tip.Nombre)
@@ -47,7 +47,7 @@ func TiposPagoList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.TiposPagoRecords
+	var vrecords model.TipoPagoRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -64,7 +64,7 @@ func TiposPagoList(w http.ResponseWriter, r *http.Request) {
 func TiposPagoCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	tip := model.TtiposPago{}
+	tip := model.TtipoPago{}
 	if r.Method == "POST" {
 		tip.Nombre = r.FormValue("Nombre")
 		insForm, err := db.Prepare("INSERT INTO tiposPago(nombre) VALUES(?)")
@@ -79,7 +79,7 @@ func TiposPagoCreate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("INSERT: nombre: " + tip.Nombre)
 
 	}
-	var vrecord model.TiposPagoRecord
+	var vrecord model.TipoPagoRecord
 	vrecord.Result = "OK"
 	vrecord.Record = tip
 	a, _ := json.Marshal(vrecord)
@@ -96,7 +96,7 @@ func TiposPagoCreate(w http.ResponseWriter, r *http.Request) {
 // TiposPagoUpdate Actualiza el tipo de pago
 func TiposPagoUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	tip := model.TtiposPago{}
+	tip := model.TtipoPago{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		tip.Id = int64(i)
@@ -108,10 +108,10 @@ func TiposPagoUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 
 		insForm.Exec(tip.Nombre, tip.Id)
-		log.Printf("UPDATE: nombre: " + tip.Nombre)
+		log.Printf("UPDATE: id: %d | nombre: %s\n", tip.Id, tip.Nombre)
 	}
 	defer db.Close()
-	var vrecord model.TiposPagoRecord
+	var vrecord model.TipoPagoRecord
 	vrecord.Result = "OK"
 	vrecord.Record = tip
 	a, _ := json.Marshal(vrecord)
@@ -135,7 +135,7 @@ func TiposPagoDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.TiposPagoRecord
+	var vrecord model.TipoPagoRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)

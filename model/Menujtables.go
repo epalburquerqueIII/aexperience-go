@@ -1,14 +1,14 @@
 package model
 
 // MenusRecords estructura para comunicar con jtable
-type MenusRecords struct {
+type MenuRecords struct {
 	Result           string `json:"Result"`
 	TotalRecordCount int
-	Records          []Tmenus
+	Records          []Tmenu
 }
 
 // MenusRecord estructura para comunicar con jtable
-type MenusRecord struct {
+type MenuRecord struct {
 	Result string `json:"Result"`
-	Record Tmenus
+	Record Tmenu
 }
