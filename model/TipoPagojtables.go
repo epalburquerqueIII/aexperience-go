@@ -1,14 +1,14 @@
 package model
 
 // TiposPagoRecords estructura para comunicar con jtable
-type TiposPagoRecords struct {
+type TipoPagoRecords struct {
 	Result           string `json:"Result"`
 	TotalRecordCount int
-	Records          []TtiposPago
+	Records          []TtipoPago
 }
 
 // TiposPagoRecords estructura para comunicar con jtable
-type TiposPagoRecord struct {
+type TipoPagoRecord struct {
 	Result string `json:"Result"`
-	Record TtiposPago
+	Record TtipoPago
 }
