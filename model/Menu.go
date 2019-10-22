@@ -1,7 +1,7 @@
 package model
 
 // TMenus es la estructura para usuario
-type Tmenus struct {
+type Tmenu struct {
 	Id         int64
 	ParentId   int
 	Orden      int
