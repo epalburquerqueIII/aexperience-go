@@ -118,7 +118,7 @@ func BonoUpdate(w http.ResponseWriter, r *http.Request) {
 		bon.ID = int64(i)
 		bon.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
 		bon.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
-		insForm, err := db.Prepare("UPDATE bonos SET sesiones=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE bonos SET precio =?, sesiones=? WHERE id=?")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
