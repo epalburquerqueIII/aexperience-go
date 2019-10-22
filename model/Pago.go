@@ -5,7 +5,7 @@ type Tpago struct {
 	Id            int64
 	IdReserva     int
 	FechaReserva  string
-	FechaPago     string
+	Sesiones      int
 	IdTipopago    int
 	TipoPago      string
 	NumeroTarjeta string

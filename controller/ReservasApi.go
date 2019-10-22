@@ -67,19 +67,19 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 	reser := model.Treserva{}
 	if r.Method == "POST" {
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
-		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
+		reser.FechaPago = r.FormValue("FechaPago")
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		reser.IdUsuario, _ = strconv.Atoi(r.FormValue("IdUsuario"))
 		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 		reser.IdAutorizado, _ = strconv.Atoi(r.FormValue("IdAutorizado"))
 
-		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,CURDATE(),?,?,?,?)")
 
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Pago")
 		}
 
-		res, err1 := insForm.Exec(reser.Fecha, reser.FechaPago, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
+		res, err1 := insForm.Exec(reser.Fecha, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
 
 		if err1 != nil {
 			//panic(err1.Error())
@@ -149,7 +149,7 @@ func ReservasDelete(w http.ResponseWriter, r *http.Request) {
 	reser := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM reservas WHERE id=?")
 	if err != nil {
-		//panic(err.Error())
+		panic(err.Error())
 		util.ErrorApi(err.Error(), w, "")
 	}
 	_, err1 := delForm.Exec(reser)
