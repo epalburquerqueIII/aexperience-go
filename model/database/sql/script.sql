@@ -1,5 +1,6 @@
 CREATE Table bonos (
-    precio integer PRIMARY KEY,
+    id integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    precio integer,
     sesiones integer NOT NULL
     );
 INSERT INTO `bonos` (`precio`, `sesiones`) VALUES (10, 12);
