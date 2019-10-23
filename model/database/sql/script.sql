@@ -37,6 +37,8 @@ CREATE Table tiposEvento (
     id integer AUTO_INCREMENT PRIMARY KEY,
     nombre varchar(30)
     );
+
+    -- tabla de espacios y eventos
 CREATE Table espacios (
     id integer AUTO_INCREMENT PRIMARY KEY, 
     descripcion varchar(50), 
