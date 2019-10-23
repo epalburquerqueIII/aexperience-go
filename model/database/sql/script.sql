@@ -67,7 +67,7 @@ CREATE Table consumoBonos (
 CREATE Table reservas (
     id integer AUTO_INCREMENT PRIMARY KEY,
     fecha date NOT NULL,
-    fechaPago date NOT NULL,
+    Sesiones integer,
     hora integer,
     idUsuario integer,
     idEspacio integer,
