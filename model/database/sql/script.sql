@@ -1,11 +1,14 @@
 CREATE Table bonos (
-    id integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    precio integer,
+    id integer NOT NULL PRIMARY KEY,
+    precio float,
     sesiones integer NOT NULL
     );
-INSERT INTO `bonos` (`precio`, `sesiones`) VALUES (10, 12);
-INSERT INTO `bonos` (`precio`, `sesiones`) VALUES (25, 25);
-INSERT INTO `bonos` (`precio`, `sesiones`) VALUES (50, 70);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (0, 10, 12);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (1, 25, 25);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (2, 50, 70);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (3, 3, 1);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (4, 1.5, 1);
+
 
 CREATE TABLE usuarios (
     id int AUTO_INCREMENT PRIMARY KEY,
