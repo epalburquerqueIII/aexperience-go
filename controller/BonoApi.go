@@ -77,9 +77,11 @@ func BonoCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	bon := model.Tbono{}
 	if r.Method == "POST" {
-		bon.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
+		i, _ := strconv.Atoi(r.FormValue("ID"))
+		bon.ID = int64(i)
+		bon.Precio, _ = strconv.ParseFloat(r.FormValue("Precio"), 64)
 		bon.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
-		insForm, err := db.Prepare("INSERT INTO bonos(precio, sesiones) VALUES(?,?)")
+		insForm, err := db.Prepare("INSERT INTO bonos(id, precio, sesiones) VALUES(?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -88,7 +90,7 @@ func BonoCreate(w http.ResponseWriter, r *http.Request) {
 			w.Write(a)
 			panic(err.Error())
 		}
-		res, err1 := insForm.Exec(bon.Precio, bon.Sesiones)
+		res, err1 := insForm.Exec(bon.ID, bon.Precio, bon.Sesiones)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -116,7 +118,7 @@ func BonoUpdate(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		bon.ID = int64(i)
-		bon.Precio, _ = strconv.Atoi(r.FormValue("Precio"))
+		bon.Precio, _ = strconv.ParseFloat(r.FormValue("Precio"), 64)
 		bon.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
 		insForm, err := db.Prepare("UPDATE bonos SET precio =?, sesiones=? WHERE id=?")
 		if err != nil {
