@@ -195,3 +195,43 @@ func Reservasgetoptions(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 	defer db.Close()
 }
+
+// ReservarBono Crear una reserva de Bono
+func ReservarBono(w http.ResponseWriter, r *http.Request) {
+
+	db := database.DbConn()
+	reser := model.Treserva{}
+	if r.Method == "POST" {
+		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
+		reser.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
+		reser.IdUsuario, _ = strconv.Atoi(r.FormValue("IdUsuario"))
+		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
+
+		insForm, err := db.Prepare("INSERT INTO reservas(fecha, sesiones, idUsuario, idEspacio) VALUES(?,?,?,?)")
+
+		if err != nil {
+			util.ErrorApi(err.Error(), w, "Error Insertando Reserva de Bono")
+		}
+
+		res, err1 := insForm.Exec(reser.Fecha, reser.Sesiones, reser.IdUsuario, reser.IdEspacio)
+
+		if err1 != nil {
+			//panic(err1.Error())
+			util.ErrorApi(err.Error(), w, "")
+		}
+		reser.Id, err1 = res.LastInsertId()
+		log.Printf("INSERT: sesiones: %d | idUsuario:  %d\n ", reser.Sesiones, reser.idUsuario)
+
+	}
+	var vrecord model.ReservasRecord
+	vrecord.Result = "OK"
+	vrecord.Record = reser
+	a, _ := json.Marshal(vrecord)
+	s := string(a)
+	fmt.Println(s)
+
+	w.Write(a)
+
+	defer db.Close()
+	//	http.Redirect(w, r, "/", 301)
+}
