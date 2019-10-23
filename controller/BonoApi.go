@@ -95,7 +95,7 @@ func BonoCreate(w http.ResponseWriter, r *http.Request) {
 			panic(err1.Error())
 		}
 		bon.ID, err1 = res.LastInsertId()
-		log.Printf("INSERT: precio: %d | sesiones: %d\n", bon.Precio, bon.Sesiones)
+		log.Printf("INSERT: precio: %d | sesiones: %.2f\n", bon.Precio, bon.Sesiones)
 
 	}
 	var vrecord model.BonoRecord
@@ -131,7 +131,7 @@ func BonoUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 
 		insForm.Exec(bon.Precio, bon.Sesiones, bon.ID)
-		log.Printf("UPDATE: id: %d | precio: %d\n", bon.ID, bon.Precio)
+		log.Printf("UPDATE: id: %d | precio: %.2f\n", bon.ID, bon.Precio)
 
 	}
 	defer db.Close()
