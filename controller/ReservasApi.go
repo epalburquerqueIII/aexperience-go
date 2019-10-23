@@ -149,7 +149,7 @@ func ReservasDelete(w http.ResponseWriter, r *http.Request) {
 	reser := r.FormValue("Id")
 	delForm, err := db.Prepare("DELETE FROM reservas WHERE id=?")
 	if err != nil {
-		//panic(err.Error())
+		panic(err.Error())
 		util.ErrorApi(err.Error(), w, "")
 	}
 	_, err1 := delForm.Exec(reser)
