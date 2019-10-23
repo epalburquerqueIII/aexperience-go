@@ -31,7 +31,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT reservas.id, reservas.fecha, reservas.fechaPago, reservas.hora, usuarios.id, usuarios.nombre, espacios.id, espacios.descripcion, autorizados.id,autorizados.nombreAutorizado FROM reservas LEFT OUTER JOIN usuarios ON (usuarios.id = reservas.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = reservas.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = reservas.idAutorizado) " + jtsort)
+	selDB, err := db.Query("SELECT reservas.id, reservas.fecha, reservas.hora, usuarios.id, usuarios.nombre, espacios.id, espacios.descripcion, autorizados.id,autorizados.nombreAutorizado FROM reservas LEFT OUTER JOIN usuarios ON (usuarios.id = reservas.idUsuario) LEFT OUTER JOIN espacios ON (espacios.id = reservas.idEspacio) LEFT OUTER JOIN autorizados ON (autorizados.id = reservas.idAutorizado) " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -39,7 +39,7 @@ func ReservasList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Treserva{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.FechaPago, &reser.Hora, &reser.IdUsuario, &reser.UsuarioNombre, &reser.IdEspacio, &reser.EspacioNombre, &reser.IdAutorizado, &reser.AutorizadoNombre)
+		err = selDB.Scan(&reser.Id, &reser.Fecha, &reser.Hora, &reser.IdUsuario, &reser.UsuarioNombre, &reser.IdEspacio, &reser.EspacioNombre, &reser.IdAutorizado, &reser.AutorizadoNombre)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando registros de Reservas")
 		}
@@ -67,26 +67,26 @@ func ReservasCreate(w http.ResponseWriter, r *http.Request) {
 	reser := model.Treserva{}
 	if r.Method == "POST" {
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
-		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
+		//reser.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		reser.IdUsuario, _ = strconv.Atoi(r.FormValue("IdUsuario"))
 		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 		reser.IdAutorizado, _ = strconv.Atoi(r.FormValue("IdAutorizado"))
 
-		insForm, err := db.Prepare("INSERT INTO reservas(fecha, fechaPago, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,CURDATE(),?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO reservas(fecha, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?)")
 
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Pago")
 		}
 
-		res, err1 := insForm.Exec(reser.Fecha, reser.FechaPago, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
+		res, err1 := insForm.Exec(reser.Fecha, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
 
 		if err1 != nil {
 			//panic(err1.Error())
 			util.ErrorApi(err.Error(), w, "")
 		}
 		reser.Id, err1 = res.LastInsertId()
-		log.Printf("INSERT: fecha: %s | fechaPago: %s | hora:  %d\n ", reser.Fecha, reser.FechaPago, reser.Hora)
+		log.Printf("INSERT: fecha: %s | hora:  %d\n ", reser.Fecha, reser.Hora)
 
 	}
 	var vrecord model.ReservasRecord
@@ -118,19 +118,19 @@ func ReservasUpdate(w http.ResponseWriter, r *http.Request) {
 		format = "2006-01-02"
 		reser.Fecha = t.Format(format) */
 
-		reser.FechaPago = util.DateSql(r.FormValue("FechaPago"))
+		//reser.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
 		reser.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
 		reser.IdUsuario, _ = strconv.Atoi(r.FormValue("IdUsuario"))
 		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 		reser.IdAutorizado, _ = strconv.Atoi(r.FormValue("IdAutorizado"))
 
-		insForm, err := db.Prepare("UPDATE reservas SET fecha=?, fechaPago=?, hora=?, idUsuario=?, idEspacio =?, idAutorizado=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE reservas SET fecha=?, hora=?, idUsuario=?, idEspacio =?, idAutorizado=? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(reser.Fecha, reser.FechaPago, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado, reser.Id)
-		log.Printf("UPDATE: fecha: %s  | fechaPago: %s | hora:  %d\n", reser.Fecha, reser.FechaPago, reser.Hora)
+		insForm.Exec(reser.Fecha, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado, reser.Id)
+		log.Printf("UPDATE: fecha: %s  | hora:  %d\n", reser.Fecha, reser.Hora)
 
 	}
 	defer db.Close()
