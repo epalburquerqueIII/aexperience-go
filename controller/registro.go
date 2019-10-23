@@ -1,15 +1,20 @@
 package controller
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+
+	"../model"
+	"../model/database"
+	"../util"
 )
-	
-}
-func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
- error := tmpl.ExecuteTemplate(w, "registro", nil)
-     if error != nil {
-	fmt.Println("Error ", error.Error)
+
+func Registro(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "registro", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
 	}
 	db := database.DbConn()
 	usu := model.Tusuario{}
