@@ -204,16 +204,19 @@ func ReservarBono(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
 		reser.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
-		reser.IdUsuario, _ = strconv.Atoi(r.FormValue("IdUsuario"))
-		reser.IdEspacio, _ = strconv.Atoi(r.FormValue("IdEspacio"))
 
-		insForm, err := db.Prepare("INSERT INTO reservas(fecha, sesiones, idUsuario, idEspacio) VALUES(?,?,?,?)")
+		reser.Hora = 0
+		reser.IdUsuario = 18
+		reser.IdEspacio = 1
+		reser.IdAutorizado = 3
+
+		insForm, err := db.Prepare("INSERT INTO reservas(fecha, sesiones, hora, idUsuario, idEspacio, idAutorizado) VALUES(CURDATE(),?,?,?,?,?)")
 
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Reserva de Bono")
 		}
 
-		res, err1 := insForm.Exec(reser.Fecha, reser.Sesiones, reser.IdUsuario, reser.IdEspacio)
+		res, err1 := insForm.Exec(reser.Fecha, reser.Sesiones, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
 
 		if err1 != nil {
 			//panic(err1.Error())
