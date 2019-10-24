@@ -220,7 +220,7 @@ func ReservarBono(w http.ResponseWriter, r *http.Request) {
 			util.ErrorApi(err.Error(), w, "")
 		}
 		reser.Id, err1 = res.LastInsertId()
-		log.Printf("INSERT: sesiones: %d | idUsuario:  %d\n ", reser.Sesiones, reser.idUsuario)
+		log.Printf("INSERT: sesiones: %d | idUsuario:  %d\n ", reser.Sesiones, reser.IdUsuario)
 
 	}
 	var vrecord model.ReservasRecord
