@@ -123,7 +123,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//PagosDelete Borra pagos de la DB
+//PagosDelete Borra pagos de la DB/
 func PagosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pag := r.FormValue("Id")

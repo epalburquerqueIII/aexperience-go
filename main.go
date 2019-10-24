@@ -47,7 +47,9 @@ func main() {
 	// Apis bono
 	http.HandleFunc("/bonos", controller.Bonos)
 	http.HandleFunc("/bonos/list", controller.BonoList)
+	http.HandleFunc("/bonos/create", controller.BonoCreate)
 	http.HandleFunc("/bonos/update", controller.BonoUpdate)
+	http.HandleFunc("/bonos/delete", controller.BonoDelete)
 
 	// Apis autorizados
 	http.HandleFunc("/autorizados", controller.Autorizados)
@@ -67,6 +69,7 @@ func main() {
 	http.HandleFunc("/reservas/update", controller.ReservasUpdate)
 	http.HandleFunc("/reservas/delete", controller.ReservasDelete)
 	http.HandleFunc("/reservas/getoptions", controller.Reservasgetoptions)
+	http.HandleFunc("/reservas/reservarbono", controller.ReservarBono)
 
 	// Apis pagos
 	http.HandleFunc("/pagos", controller.Pagos)
@@ -81,6 +84,7 @@ func main() {
 	http.HandleFunc("/pagospendientes/create", controller.PagosPendientesCreate)
 	http.HandleFunc("/pagospendientes/update", controller.PagosPendientesUpdate)
 	http.HandleFunc("/pagospendientes/delete", controller.PagosPendientesDelete)
+	//http.HandleFunc("/pagospendientes/getoptions", controller.TiposPagogetoptions)
 
 	// Apis roles de usuario
 	http.HandleFunc("/usuariosroles", controller.UsuariosRoles)
@@ -136,12 +140,6 @@ func main() {
 	http.HandleFunc("/menuroles/update", controller.MenuRolesUpdate)
 	http.HandleFunc("/menuroles/delete", controller.MenuRolesDelete)
 	http.HandleFunc("/menuroles/getoptions", controller.MenuRolesGetOptions)
-
-	// Apis PagosBonos
-	http.HandleFunc("/pagosbonos", controller.PagosBonos)
-	http.HandleFunc("/pagosbonos/list", controller.PagosBonosList)
-	http.HandleFunc("/pagosbonos/create", controller.PagosBonosCreate)
-	http.HandleFunc("/pagosbonos/update", controller.PagosBonosUpdate)
 
 	//Apis newsletter
 	http.HandleFunc("/newsletter", controller.Newsletter)

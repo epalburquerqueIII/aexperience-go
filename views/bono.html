@@ -46,7 +46,7 @@
                     paging: true, //Enable paging
                     pageSize: 10, //Set page size (default: 10)
                     sorting: true, //Enable sorting
-                    defaultSorting: 'Precio ASC', //Set default sorting
+                    defaultSorting: 'ID ASC', //Set default sorting
                     //selecting: true, //Enable selecting
                     //multiselect: true, //Allow multiple selecting
                     //selectingCheckboxes: true, //Show checkboxes on first column
@@ -54,17 +54,22 @@
                     // Ver como aplicar selección en pagina jtables.org
                     actions: {
                         listAction: '/bonos/list',
+                        createAction: '/bonos/create',
                         updateAction: '/bonos/update',
+                        deleteAction: '/bonos/delete',
                     },
                     fields: {
-                        Precio: {
+                        ID: {
+                            title: 'ID',
                             key: true,
-                            title: 'Precio',
-                            // width: '20%'
+                            create: true,
+                            edit: false
+                        },
+                        Precio: {
+                            title: 'Precio'
                         },
                         Sesiones: {
-                            title: 'Sesiones',
-                            // width: '8%'
+                            title: 'Sesiones'
                         }
                     }
                 });
