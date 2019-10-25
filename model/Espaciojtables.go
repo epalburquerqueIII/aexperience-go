@@ -4,11 +4,11 @@ package model
 type EspacioRecords struct {
 	Result           string `json:"Result"`
 	TotalRecordCount int
-	Records          []Tespacios
+	Records          []Tespacio
 }
 
 // EspacioRecord estructura para comunicar con jtable
 type EspacioRecord struct {
 	Result string `json:"Result"`
-	Record Tespacios
+	Record Tespacio
 }

@@ -2,6 +2,7 @@ package model
 
 // Tbono es la estructura para usuario
 type Tbono struct {
-	Precio   int
+	ID       int64
+	Precio   float64
 	Sesiones int
 }

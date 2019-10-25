@@ -14,8 +14,8 @@ import (
 	"../util"
 )
 
-// Espacios Pantalla de tratamiento de Espacio
-func Espacios(w http.ResponseWriter, r *http.Request) {
+// Espacio Pantalla de tratamiento de Espacio
+func Espacio(w http.ResponseWriter, r *http.Request) {
 	menu := util.Menus(usertype)
 	error := tmpl.ExecuteTemplate(w, "espacios", &menu)
 	if error != nil {
@@ -23,8 +23,8 @@ func Espacios(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// EspaciosList - json con los datos de Espacio
-func EspaciosList(w http.ResponseWriter, r *http.Request) {
+// EspacioList - json con los datos de Espacio
+func EspacioList(w http.ResponseWriter, r *http.Request) {
 
 	var i int
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -43,8 +43,8 @@ func EspaciosList(w http.ResponseWriter, r *http.Request) {
 		w.Write(a)
 		panic(err.Error())
 	}
-	esp := model.Tespacios{}
-	res := []model.Tespacios{}
+	esp := model.Tespacio{}
+	res := []model.Tespacio{}
 	for selDB.Next() {
 
 		err = selDB.Scan(&esp.ID, &esp.Descripcion, &esp.Estado, &esp.Modo, &esp.Precio, &esp.IDTipoevento, &esp.Aforo, &esp.Fecha, &esp.NumeroReservaslimite)
@@ -75,11 +75,11 @@ func EspaciosList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//EspaciosCreate - Crear un Espacio
-func EspaciosCreate(w http.ResponseWriter, r *http.Request) {
+//EspacioCreate - Crear un Espacio
+func EspacioCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	esp := model.Tespacios{}
+	esp := model.Tespacio{}
 	if r.Method == "POST" {
 
 		esp.Descripcion = r.FormValue("Descripcion")
@@ -120,10 +120,10 @@ func EspaciosCreate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// EspaciosUpdate Actualiza el Espacio
-func EspaciosUpdate(w http.ResponseWriter, r *http.Request) {
+// EspacioUpdate Actualiza el Espacio
+func EspacioUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	esp := model.Tespacios{}
+	esp := model.Tespacio{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("ID"))
 		esp.ID = int64(i)
@@ -158,8 +158,8 @@ func EspaciosUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// EspaciosDelete da de baja al usuario
-func EspaciosDelete(w http.ResponseWriter, r *http.Request) {
+// EspacioDelete da de baja al usuario
+func EspacioDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	esp := r.FormValue("ID")
 	delForm, err := db.Prepare("DELETE FROM espacios WHERE id=?")

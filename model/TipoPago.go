@@ -1,7 +1,7 @@
 package model
 
 // Estructura TtiposPago
-type TtiposPago struct {
+type TtipoPago struct {
 	Id     int64
 	Nombre string
 }
