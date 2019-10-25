@@ -78,9 +78,7 @@ func main() {
 	// Apis pagos pendientes
 	http.HandleFunc("/pagospendientes", controller.PagosPendientes)
 	http.HandleFunc("/pagospendientes/list", controller.PagosPendientesList)
-	http.HandleFunc("/pagospendientes/create", controller.PagosPendientesCreate)
-	http.HandleFunc("/pagospendientes/update", controller.PagosPendientesUpdate)
-	http.HandleFunc("/pagospendientes/delete", controller.PagosPendientesDelete)
+	http.HandleFunc("/pagospendientes/getoptions", controller.Pagospendientesgetoptions)
 
 	// Apis roles de usuario
 	http.HandleFunc("/usuariosroles", controller.UsuariosRoles)
@@ -129,7 +127,6 @@ func main() {
 	http.HandleFunc("/horarios/update", controller.HorariosUpdate)
 	http.HandleFunc("/horarios/delete", controller.HorariosDelete)
 
-	//Apis Newsletter
 	//Apis menu roles
 	http.HandleFunc("/menuroles", controller.MenuRoles)
 	http.HandleFunc("/menuroles/list", controller.MenuRolesList)

@@ -7,4 +7,5 @@ type TpagoPendiente struct {
 	FechaPago     string
 	IdTipopago    int
 	NumeroTarjeta string
+	Importe       float64
 }
