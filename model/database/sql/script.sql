@@ -107,6 +107,7 @@ CREATE Table pagosPendientes (
     fechaPago date NOT NULL,
     idTipopago integer,
     numeroTarjeta varchar(50) NOT NULL,
+    importe float NOT NULL, 
     FOREIGN KEY (idReserva) REFERENCES reservas(id),
     FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
     );
