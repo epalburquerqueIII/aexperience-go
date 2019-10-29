@@ -146,8 +146,11 @@ func main() {
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
 
-	//Radio button emailnewsletter
-	http.HandleFunc("/emailnewsletter", controller.EmailNewsletter)
+	//NewsLetter
+	http.HandleFunc("/emailnewsletter", controller.TipoNoticias)
+	http.HandleFunc("/emailnewsletter/list", controller.TipoNoticiasList)
+	http.HandleFunc("/newsletterguardar", controller.Newsletterguardar)
+
 	// Otras apis
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
