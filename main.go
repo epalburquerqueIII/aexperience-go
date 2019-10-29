@@ -23,6 +23,12 @@ func index(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error ", error.Error)
 	}
 }
+func registrar(w http.ResponseWriter, r *http.Request) {
+	err := tmpl.ExecuteTemplate(w, "registro", nil)
+	if err != nil {
+		panic(err.Error())
+	}
+}
 
 func main() {
 	log.Println("Server started on: http://localhost:3000")
@@ -154,7 +160,7 @@ func main() {
 	// Otras apis
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
-	http.HandleFunc("/registro", controller.Registro)
+	http.HandleFunc("/registro", controller.Register)
 	http.HandleFunc("/404", controller.Errorpag)
 	http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)
 	http.HandleFunc("/paginavacia", controller.Paginavacia)
