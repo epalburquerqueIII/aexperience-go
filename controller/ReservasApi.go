@@ -254,7 +254,7 @@ func ReservarBono(w http.ResponseWriter, r *http.Request) {
 			pago.FechaReserva = util.DateSql(r.FormValue("FechaReserva"))
 			pago.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 			pago.IdTipopago = 1
-			pago.Importe = strconv.ParseFloat(r.FormValue("importe"), 64)
+			pago.Importe, _ = strconv.ParseFloat(r.FormValue("importe"), 64)
 
 			insForm1, err1 := db.Prepare("INSERT INTO pagos(idReserva, fechaReserva, fechaPago, idTipopago, importe) VALUES(?,CURDATE(),CURDATE(),?,?)")
 
@@ -271,6 +271,9 @@ func ReservarBono(w http.ResponseWriter, r *http.Request) {
 			//Obtención de Sesiones del Usuario
 			// TODO: PASAR ID DEL USUARIO A TRAVÉS DEL LOGIN
 			selDB, err3 := db.Query("SELECT sesionesbonos FROM usuarios WHERE usuarios.id = ?")
+			if err3 != nil {
+				util.ErrorApi(err3.Error(), w, "Error en Select ")
+			}
 
 			usu := model.Tusuario{}
 			reser := model.Treserva{}
@@ -287,7 +290,12 @@ func ReservarBono(w http.ResponseWriter, r *http.Request) {
 				usu.ID = int64(i)
 				sesionesUsuario, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 
-				insForm, err := db.Prepare("UPDATE usuarios SET sesionesbonos=? WHERE usuarios.id=?")
+				insForm, err4 := db.Prepare("UPDATE usuarios SET sesionesbonos=? WHERE usuarios.id=?")
+				if err4 != nil {
+					util.ErrorApi(err4.Error(), w, "Error Actualizando Base de Datos")
+				}
+				insForm.Exec(usu.SesionesBonos, usu.ID)
+				log.Printf("UPDATE: ID: %d  | Sesiones:  %d\n", usu.ID, usu.SesionesBonos)
 			}
 
 		} else {
