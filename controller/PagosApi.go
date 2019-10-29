@@ -114,7 +114,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.NumeroTarjeta, pag.Importe, pag.Id)
+		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.Importe, pag.NumeroTarjeta, pag.Id)
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()
