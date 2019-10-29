@@ -95,6 +95,7 @@ CREATE Table pagos (
     idReserva integer,
     fechaPago date NOT NULL,
     idTipopago integer,
+    importe float,
     numeroTarjeta varchar(50) NOT NULL,
     FOREIGN KEY (idReserva) REFERENCES reservas(id),
     FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
