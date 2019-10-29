@@ -28,7 +28,7 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagospendientes.id, reservas.id, pagospendientes.fechaPago, tipospago.id, pagospendientes.numeroTarjeta, pagospendientes.importe FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagospendientes.id, reservas.id,reservas.fecha, pagospendientes.fechaPago, tipospago.id, tipospago.nombre, pagospendientes.numeroTarjeta, pagospendientes.importe FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -36,7 +36,7 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 	res := []model.TpagoPendiente{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&pagopend.Id, &pagopend.IdReserva, &pagopend.FechaPago, &pagopend.IdTipopago, &pagopend.NumeroTarjeta, &pagopend.Importe)
+		err = selDB.Scan(&pagopend.Id, &pagopend.IdReserva, &pagopend.ReservaNombre, &pagopend.FechaPago, &pagopend.IdTipopago, &pagopend.TipopagoNombre, &pagopend.NumeroTarjeta, &pagopend.Importe)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los Pagos")
 		}
