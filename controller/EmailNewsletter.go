@@ -61,6 +61,6 @@ func Newsletterguardar(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	http.Redirect(w, r, "http://localhost:1313/", 301)
+	http.Redirect(w, r, "http://192.168.0.3:1313/", 301)
 
 }
