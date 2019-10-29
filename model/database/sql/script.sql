@@ -1,11 +1,14 @@
 CREATE Table bonos (
-    id integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    precio integer,
+    id integer NOT NULL PRIMARY KEY,
+    precio float,
     sesiones integer NOT NULL
     );
-INSERT INTO `bonos` (`precio`, `sesiones`) VALUES (10, 12);
-INSERT INTO `bonos` (`precio`, `sesiones`) VALUES (25, 25);
-INSERT INTO `bonos` (`precio`, `sesiones`) VALUES (50, 70);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (0, 10, 12);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (1, 25, 25);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (2, 50, 70);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (3, 3, 1);
+INSERT INTO `bonos` (`id`, `precio`, `sesiones`) VALUES (4, 1.5, 1);
+
 
 CREATE TABLE usuarios (
     id int AUTO_INCREMENT PRIMARY KEY,
@@ -34,6 +37,8 @@ CREATE Table tiposEvento (
     id integer AUTO_INCREMENT PRIMARY KEY,
     nombre varchar(30)
     );
+
+    -- tabla de espacios y eventos
 CREATE Table espacios (
     id integer AUTO_INCREMENT PRIMARY KEY, 
     descripcion varchar(50), 
@@ -67,7 +72,7 @@ CREATE Table consumoBonos (
 CREATE Table reservas (
     id integer AUTO_INCREMENT PRIMARY KEY,
     fecha date NOT NULL,
-    fechaPago date NOT NULL,
+    Sesiones integer,
     hora integer,
     idUsuario integer,
     idEspacio integer,
@@ -90,6 +95,7 @@ CREATE Table pagos (
     idReserva integer,
     fechaPago date NOT NULL,
     idTipopago integer,
+    importe float,
     numeroTarjeta varchar(50) NOT NULL,
     FOREIGN KEY (idReserva) REFERENCES reservas(id),
     FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
@@ -101,6 +107,7 @@ CREATE Table pagosPendientes (
     fechaPago date NOT NULL,
     idTipopago integer,
     numeroTarjeta varchar(50) NOT NULL,
+    importe float NOT NULL, 
     FOREIGN KEY (idReserva) REFERENCES reservas(id),
     FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
     );

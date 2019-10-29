@@ -54,22 +54,22 @@
                     // Ver como aplicar selección en pagina jtables.org
                     actions: {
                         listAction: '/bonos/list',
+                        createAction: '/bonos/create',
                         updateAction: '/bonos/update',
+                        deleteAction: '/bonos/delete',
                     },
                     fields: {
                         ID: {
+                            title: 'ID',
                             key: true,
-                            title: 'Id',
-                            // width: '20%'
+                            create: true,
+                            edit: false
                         },
                         Precio: {
-                            key: true,
-                            title: 'Precio',
-                            // width: '20%'
+                            title: 'Precio'
                         },
                         Sesiones: {
-                            title: 'Sesiones',
-                            // width: '8%'
+                            title: 'Sesiones'
                         }
                     }
                 });

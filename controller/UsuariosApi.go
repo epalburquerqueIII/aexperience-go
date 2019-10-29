@@ -170,7 +170,15 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// Usuarioregistro - registra un Usuario
+// UsuariosUserRegister Pantalla para registrar un usuario
+func UsuariosUserRegister(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "usuarios/userregister", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
+// UsuarioRegister - registra un Usuario
 func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
@@ -183,9 +191,9 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 
-		usu.IDUsuarioRol = 0
+		usu.IDUsuarioRol = 1
 		usu.SesionesBonos = 0
-		usu.Newsletter = 0
+		usu.Newsletter = 1
 		usu.FechaBaja = util.DateSql("00-00-0000")
 
 		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newsletter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")

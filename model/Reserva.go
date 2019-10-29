@@ -4,7 +4,7 @@ package model
 type Treserva struct {
 	Id               int64
 	Fecha            string
-	FechaPago        string
+	Sesiones         int
 	Hora             int
 	IdUsuario        int
 	UsuarioNombre    string

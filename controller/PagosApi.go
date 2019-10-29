@@ -31,7 +31,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagos.id, reservas.id, reservas.fecha, pagos.Sesiones,tipospago.id ,tipospago.nombre, numeroTarjeta FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagos.id, reservas.id, reservas.fecha, pagos.fechaPago,tipospago.id ,tipospago.nombre,importe, numeroTarjeta FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -39,7 +39,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tpago{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaReserva, &pag.Sesiones, &pag.IdTipopago, &pag.TipoPago, &pag.NumeroTarjeta)
+		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaReserva, &pag.FechaPago, &pag.IdTipopago, &pag.TipoPago, &pag.Importe, &pag.NumeroTarjeta)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los Pagos")
 		}
@@ -67,19 +67,21 @@ func PagosCreate(w http.ResponseWriter, r *http.Request) {
 	pag := model.Tpago{}
 	if r.Method == "POST" {
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
-		pag.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
+		pag.FechaPago = r.FormValue("FechaPago")
 		pag.IdTipopago, _ = strconv.Atoi(r.FormValue("IdTipopago"))
+		//pag.Importe, _ = strconv.ParseFloat("Importe", 64)
+		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.NumeroTarjeta = r.FormValue("NumeroTarjeta")
-		insForm, err := db.Prepare("INSERT INTO pagos(idReserva, Sesiones, idTipopago, numeroTarjeta) VALUES(?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO pagos(idReserva, fechaPago, idTipopago, importe, numeroTarjeta) VALUES(?,CURDATE(),?,?,?)")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Pago")
 		}
-		res, err1 := insForm.Exec(pag.IdReserva, pag.Sesiones, pag.IdTipopago, pag.NumeroTarjeta)
+		res, err1 := insForm.Exec(pag.IdReserva, pag.IdTipopago, pag.Importe, pag.NumeroTarjeta)
 		if err1 != nil {
 			panic(err1.Error())
 		}
 		pag.Id, err1 = res.LastInsertId()
-		log.Printf("INSERT: Sesiones: %d | idTipopago:  %d\n", pag.Sesiones, pag.IdTipopago)
+		log.Printf("INSERT: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 
 	}
 	var vrecord model.PagoRecord
@@ -103,16 +105,17 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		pag.Id = int64(i)
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
-		pag.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
+		pag.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		pag.IdTipopago, _ = strconv.Atoi(r.FormValue("IdTipopago"))
+		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.NumeroTarjeta = r.FormValue("NumeroTarjeta")
-		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, Sesiones=?, idTipopago=?, numeroTarjeta =? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, fechaPago=?, idTipopago=?, importe=?, numeroTarjeta =? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(pag.IdReserva, pag.Sesiones, pag.IdTipopago, pag.NumeroTarjeta, pag.Id)
-		log.Printf("UPDATE: Sesiones: %d | idTipopago:  %d\n", pag.Sesiones, pag.IdTipopago)
+		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.NumeroTarjeta, pag.Importe, pag.Id)
+		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()
 	var vrecord model.PagoRecord
@@ -123,7 +126,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//PagosDelete Borra pagos de la DB
+//PagosDelete Borra pagos de la DB/
 func PagosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pag := r.FormValue("Id")

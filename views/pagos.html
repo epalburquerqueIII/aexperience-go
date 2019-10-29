@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="/static/css/style.css">
 {{ template "linkjtable" }}
 <!-- Add aditional link -->
-</head> <!-- fin de head -->
+</head> <!-- fin de head/ -->
 
 
 <body>
@@ -57,7 +57,7 @@
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'Sesiones ASC', //Set default sorting
+                defaultSorting: 'FechaPago ASC', //Set default sorting
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -82,15 +82,23 @@
                         type: 'combo',
                         options: '/reservas/getoptions'
                     },
-                    Sesiones: {
-                        title: 'Sesiones',
-                        width: '15%'
+                    FechaPago: {
+                        title: 'Fecha',
+                        width: '15%',
+                        type: "date",
+                        create: false,
+                        edit: true,
+                        displayFormat: "dd-mm-yy"
                     },
                     IdTipopago: {
                         title: 'Tipo de pago',
                         width: '20%',
                         type: 'combo',
                         options: '/tipospago/getoptions'
+                    },
+                    Importe: {
+                        title: 'Importe',
+                        width: '15%'
                     },
                     NumeroTarjeta: {
                         title: 'Nº de tarjeta',
