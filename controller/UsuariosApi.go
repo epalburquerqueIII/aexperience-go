@@ -170,7 +170,15 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// Usuarioregistro - registra un Usuario
+// UsuariosUserRegister Pantalla para registrar un usuario
+func UsuariosUserRegister(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "usuarios/userregister", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
+// UsuarioRegister - registra un Usuario
 func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()

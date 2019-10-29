@@ -23,6 +23,12 @@ func index(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Error ", error.Error)
 	}
 }
+func registrar(w http.ResponseWriter, r *http.Request) {
+	err := tmpl.ExecuteTemplate(w, "registro", nil)
+	if err != nil {
+		panic(err.Error())
+	}
+}
 
 func main() {
 	log.Println("Server started on: http://localhost:3000")
@@ -81,10 +87,7 @@ func main() {
 	// Apis pagos pendientes
 	http.HandleFunc("/pagospendientes", controller.PagosPendientes)
 	http.HandleFunc("/pagospendientes/list", controller.PagosPendientesList)
-	http.HandleFunc("/pagospendientes/create", controller.PagosPendientesCreate)
-	http.HandleFunc("/pagospendientes/update", controller.PagosPendientesUpdate)
-	http.HandleFunc("/pagospendientes/delete", controller.PagosPendientesDelete)
-	//http.HandleFunc("/pagospendientes/getoptions", controller.TiposPagogetoptions)
+	http.HandleFunc("/pagospendientes/getoptions", controller.Pagospendientesgetoptions)
 
 	// Apis roles de usuario
 	http.HandleFunc("/usuariosroles", controller.UsuariosRoles)
@@ -149,18 +152,21 @@ func main() {
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
 
+	//NewsLetter Tipo Noticias
+	http.HandleFunc("/emailnewsletter", controller.TipoNoticias)
+	http.HandleFunc("/emailnewsletter/list", controller.TipoNoticiasList)
+	http.HandleFunc("/newsletterguardar", controller.Newsletterguardar)
+
 	//Apis horas del dia
 	http.HandleFunc("/horasdia", controller.HorasDia)
 	http.HandleFunc("/horasdia/list", controller.HorasDiaList)
 	http.HandleFunc("/horasdia/create", controller.HorasDiaCreate)
 	http.HandleFunc("/horasdia/update", controller.HorasDiaUpdate)
 
-	//Radio button emailnewsletter
-	http.HandleFunc("/emailnewsletter", controller.EmailNewsletter)
 	// Otras apis
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
-	http.HandleFunc("/registro", controller.Registro)
+	http.HandleFunc("/registro", controller.Register)
 	http.HandleFunc("/404", controller.Errorpag)
 	http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)
 	http.HandleFunc("/paginavacia", controller.Paginavacia)
