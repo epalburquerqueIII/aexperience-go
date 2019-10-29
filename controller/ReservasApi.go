@@ -200,11 +200,13 @@ func Reservasgetoptions(w http.ResponseWriter, r *http.Request) {
 func ReservarBono(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
+
 	reser := model.Treserva{}
+	res := []model.Treserva{}
 	if r.Method == "POST" {
+		//Carga de datos de Reservas
 		reser.Fecha = util.DateSql(r.FormValue("Fecha"))
 		reser.Sesiones, _ = strconv.Atoi(r.FormValue("Sesiones"))
-
 		reser.Hora = 0
 		reser.IdUsuario = 18
 		reser.IdEspacio = 1
@@ -226,15 +228,83 @@ func ReservarBono(w http.ResponseWriter, r *http.Request) {
 		log.Printf("INSERT: sesiones: %d | idUsuario:  %d\n ", reser.Sesiones, reser.IdUsuario)
 
 	}
-	var vrecord model.ReservasRecord
-	vrecord.Result = "OK"
-	vrecord.Record = reser
-	a, _ := json.Marshal(vrecord)
-	s := string(a)
-	fmt.Println(s)
 
-	w.Write(a)
+	pago := model.Tpago{}
+	// Obtiene el ID de la reserva del bono en curso
+	//Verificación de usuario
+	selDB, err2 := db.Query("SELECT reservas.id FROM reservas WHERE idusuario=? ORDER BY reservas.fecha DESC LIMIT 1")
+	if err2 != nil {
+		util.ErrorApi(err2.Error(), w, "Error en Select ")
+	}
 
-	defer db.Close()
-	//	http.Redirect(w, r, "/", 301)
+	//Almacena ID en la estructura de Reservas
+	err2 = selDB.Scan(&reser.Id)
+	if err2 != nil {
+		util.ErrorApi(err2.Error(), w, "Error Cargando registros de Reservas")
+	}
+	res = append(res, reser)
+
+	//Pago en efectivo
+	if pago.IdTipopago == 1 {
+		//INSERCION DE DATOS
+		if r.Method == "POST" {
+			//Carga de datos para pagos
+			i, _ := strconv.Atoi(r.FormValue("IdReserva"))
+			reser.Id = int64(i)
+			pago.FechaReserva = util.DateSql(r.FormValue("FechaReserva"))
+			pago.FechaPago = util.DateSql(r.FormValue("FechaPago"))
+			pago.IdTipopago = 1
+			pago.Importe = strconv.ParseFloat(r.FormValue("importe"), 64)
+
+			insForm1, err1 := db.Prepare("INSERT INTO pagos(idReserva, fechaReserva, fechaPago, idTipopago, importe) VALUES(?,CURDATE(),CURDATE(),?,?)")
+
+			if err1 != nil {
+				util.ErrorApi(err1.Error(), w, "Error Insertando Pago")
+			}
+			res, err2 := insForm1.Exec(reser.Id, pago.FechaReserva, pago.FechaPago, pago.IdTipopago)
+			if err2 != nil {
+				panic(err1.Error())
+			}
+			pago.Id, err2 = res.LastInsertId()
+			log.Printf("INSERT: idReserva: %d | idTipopago:  %d\n", pago.IdReserva, pago.IdTipopago)
+
+			//Obtención de Sesiones del Usuario
+			// TODO: PASAR ID DEL USUARIO A TRAVÉS DEL LOGIN
+			selDB, err3 := db.Query("SELECT sesionesbonos FROM usuarios WHERE usuarios.id = ?")
+
+			usu := model.Tusuario{}
+			reser := model.Treserva{}
+
+			err3 = selDB.Scan(&usu.SesionesBonos)
+
+			var sesionesUsuario int = 0
+
+			sesionesUsuario = usu.SesionesBonos + reser.Sesiones
+
+			//Update ususarios
+			if r.Method == "POST" {
+				i, _ := strconv.Atoi(r.FormValue("ID"))
+				usu.ID = int64(i)
+				sesionesUsuario, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
+
+				insForm, err := db.Prepare("UPDATE usuarios SET sesionesbonos=? WHERE usuarios.id=?")
+			}
+
+		} else {
+			//Pago pendiente
+
+		}
+
+		var vrecord model.ReservasRecord
+		vrecord.Result = "OK"
+		vrecord.Record = reser
+		a, _ := json.Marshal(vrecord)
+		s := string(a)
+		fmt.Println(s)
+
+		w.Write(a)
+
+		defer db.Close()
+		//	http.Redirect(w, r, "/", 301)
+	}
 }
