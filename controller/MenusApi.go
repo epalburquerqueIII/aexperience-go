@@ -31,7 +31,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menus.id, parentId, menuParent.titulo, orden, menus.titulo, icono, url, handleFunc FROM menus LEFT OUTER JOIN menuParent ON (parentId = menuParent.id) " + jtsort)
+	selDB, err := db.Query("SELECT menus.id, parentId, menuparent.titulo, orden, menus.titulo, icono, url, handleFunc FROM menus LEFT OUTER JOIN menuparent ON (parentId = menuparent.id) " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
