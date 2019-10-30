@@ -31,7 +31,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menus.id, parentId, orden, titulo, icono, url, handleFunc FROM menus " + jtsort)
+	selDB, err := db.Query("SELECT menus.id, parentId, menuparent.titulo, orden, menus.titulo, icono, url, handleFunc FROM menus LEFT OUTER JOIN menuParent ON (parentId = menuParent.id) " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -39,7 +39,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tmenu{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HandleFunc)
+		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.MenuParent, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HandleFunc)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando datos de menus")
 		}
