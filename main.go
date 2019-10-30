@@ -43,6 +43,7 @@ func main() {
 	http.HandleFunc("/usuarios/delete", controller.UsuariosDelete)
 	http.HandleFunc("/usuarios/register", controller.UsuariosRegister)
 	http.HandleFunc("/usuarios/getoptions", controller.Usuariosgetoptions)
+	http.HandleFunc("/usuarios/registerUI", controller.UsuariosUIRegister)
 
 	// Apis consumoBonos
 	http.HandleFunc("/consumobonos", controller.ConsumoBonos)
@@ -166,7 +167,6 @@ func main() {
 	// Otras apis
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
-	http.HandleFunc("/registro", controller.Register)
 	http.HandleFunc("/404", controller.Errorpag)
 	http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)
 	http.HandleFunc("/paginavacia", controller.Paginavacia)
