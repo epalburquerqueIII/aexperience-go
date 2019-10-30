@@ -65,9 +65,7 @@
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
                     listAction: '/pagospendientes/list',
-                    deleteAction: '/pagospendientes/delete',
-                    updateAction: '/pagospendientes/update',
-                    createAction: '/pagospendientes/create'
+                    deleteAction: '/pagospendientes/getoptions'
                 },
                 fields: {
                     Id: {
@@ -78,26 +76,25 @@
                     },
                     IdReserva: {
                         title: 'Reserva',
-                        width: '10%',
-                        type: 'combo',
-                        options: '/reservas/getoptions'
+                        width: '10%'
+                       
                     },
                     FechaPago: {
                         title: 'Fecha',
                         width: '15%',
                         type: "date",
-                        create: false,
-                        edit: true,
                         displayFormat: "dd-mm-yy"
                     },
                     IdTipopago: {
                         title: 'Tipo de pago',
-                        width: '20%',
-                        type: 'combo',
-                        options: '/tipospago/getoptions'
+                        width: '20%'
                     },
                     NumeroTarjeta: {
                         title: 'Nº de tarjeta',
+                        width: '15%'
+                    },
+                    Importe: {
+                        title: 'Importe',
                         width: '15%'
                     }
                 }

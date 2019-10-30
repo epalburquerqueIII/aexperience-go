@@ -31,7 +31,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagos.id, reservas.id, reservas.fecha, pagos.fechaPago,tipospago.id ,tipospago.nombre,importe, numeroTarjeta FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagos.id, reservas.id, reservas.fecha, pagos.fechaPago,tipospago.id ,tipospago.nombre,pagos.importe, numeroTarjeta FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -114,7 +114,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.NumeroTarjeta, pag.Importe, pag.Id)
+		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.Importe, pag.NumeroTarjeta, pag.Id)
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()
