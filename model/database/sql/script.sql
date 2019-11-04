@@ -101,6 +101,7 @@ CREATE Table pagos (
     idTipopago integer,
     importe float,
     numeroTarjeta varchar(50) NOT NULL,
+    referencia varchar(50),
     FOREIGN KEY (idReserva) REFERENCES reservas(id),
     FOREIGN KEY (idTipopago) REFERENCES tiposPago(id)
     );

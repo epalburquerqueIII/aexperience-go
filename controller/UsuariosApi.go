@@ -171,8 +171,8 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 // UsuariosUserRegister Pantalla para registrar un usuario
-func UsuariosUserRegister(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "usuarios/userregister", nil)
+func UsuariosUIRegister(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "userregister", nil)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
