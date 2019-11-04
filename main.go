@@ -151,11 +151,12 @@ func main() {
 	http.HandleFunc("/newsletter/update", controller.NewsletterUpdate)
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
+	http.HandleFunc("/newsletter/newsletterguardar", controller.Newsletterguardar)
 
 	//NewsLetter Tipo Noticias
-	http.HandleFunc("/emailnewsletter", controller.TipoNoticias)
-	http.HandleFunc("/emailnewsletter/list", controller.TipoNoticiasList)
-	http.HandleFunc("/newsletterguardar", controller.Newsletterguardar)
+
+	http.HandleFunc("/tiponoticias", controller.TipoNoticias)
+	http.HandleFunc("/tiponoticias/list", controller.TipoNoticiasList)
 
 	//Apis horas del dia
 	http.HandleFunc("/horasdia", controller.HorasDia)

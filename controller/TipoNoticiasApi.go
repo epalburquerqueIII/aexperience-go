@@ -10,15 +10,6 @@ import (
 	"../util"
 )
 
-// // Pantalla de tratamiento
-// func TipoNoticias(w http.ResponseWriter, r *http.Request) {
-// 	menu := util.Menus(usertype)
-// 	error := tmpl.ExecuteTemplate(w, "emailnewsletter", &menu)
-// 	if error != nil {
-// 		fmt.Println("Error ", error.Error)
-// 	}
-// }
-
 // NoticiasList
 func TipoNoticiasList(w http.ResponseWriter, r *http.Request) {
 

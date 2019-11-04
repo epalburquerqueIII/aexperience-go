@@ -36,7 +36,7 @@ func TipoNoticias(w http.ResponseWriter, r *http.Request) {
 	}
 	parametros := datos{mceEmail, noticias}
 
-	error := tmpl.ExecuteTemplate(w, "emailnewsletter", &parametros)
+	error := tmpl.ExecuteTemplate(w, "tiponoticias", &parametros)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
