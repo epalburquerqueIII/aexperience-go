@@ -196,8 +196,8 @@ func Reservasgetoptions(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// ReservarBono Crear una reserva de Bono
-func ReservarBono(w http.ResponseWriter, r *http.Request) {
+// ComprarBono Crear una reserva de Bono
+func ComprarBono(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 
