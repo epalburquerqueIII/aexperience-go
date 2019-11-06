@@ -10,4 +10,5 @@ type Tpago struct {
 	TipoPago      string
 	Importe       float64
 	NumeroTarjeta string
+	Referencia    string
 }

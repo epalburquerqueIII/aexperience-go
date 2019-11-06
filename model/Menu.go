@@ -4,6 +4,7 @@ package model
 type Tmenu struct {
 	Id         int64
 	ParentId   int
+	MenuParent string
 	Orden      int
 	Titulo     string
 	Icono      string

@@ -1,30 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
-{{ define "emailnewsletter" }}
+{{ define "tiponoticias" }}
 
   <body id="body">
     <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
     <h1 id="title">Registro Newsletter</h1>
-    <form method="POST" action="insert">
-      <label id="temas">Temas</label>
+    <form method="POST" action="newsletter/newsletterguardar">
+        <input type="hidden" value="{{ .Email }}" name="EMAIL"  id="mce-EMAIL">
+        <label id="temas"><u>Temas</u></label>
       <br />
       <br />
-      <input type="checkbox" name="Newsletter" value="Deportes" Checked> Deportes
-      <input type="checkbox" name="Newsletter" value="Cultura" id="espaciotema" Checked> Cultura
-      <input type="checkbox" name="Newsletter" value="Eventos" id="espaciotema" Checked> Eventos<br><br>
-      <input type="checkbox" name="Newsletter" value="Noticias" Checked> Noticias
-      <input type="checkbox" name="Newsletter" value="Musica" id="espaciotema" Checked> Música
-      <input type="checkbox" name="Newsletter" value="Actividades" id="espaciotema" Checked> Actividades<br><br>
-      <input type="checkbox" name="Newsletter" value="Ferias" Checked> Ferias
-      <input type="checkbox" name="Newsletter" value="Naturaleza" id="espaciotema" Checked> Naturaleza
-      <input type="checkbox" name="Newsletter" value="Fiestas Regionales" id="espaciotema" Checked> Fiestas Regionales<br><br>
-      <input type="checkbox" name="Newsletter" value="Mancomunidad Lácara-Los Baldíos" Checked> Mancomunidad Lácara-Los Baldíos<br>
-      <br />
+      {{ range .Noticias }}
+         <input type="checkbox" name="ch{{ .Id }}" value="1"  Checked> {{ .Nombre }} <br><br>
+      {{ end}}
+      
+   <br />
       <br />
       <button type="submit" value="Submit" id="boton">Guardar</button>
-      <button type="cancel" value="Reset" id="boton">Cancelar</button>
+      <button type="cancel" value="Reset" id="boton" onClick="">Cancelar</button>
     </form>
-
   </body>
 
 </html>
