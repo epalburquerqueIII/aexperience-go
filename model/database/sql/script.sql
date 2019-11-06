@@ -30,9 +30,13 @@ CREATE TABLE usuarios (
 
 
 CREATE Table tiposPago (
-    id integer AUTO_INCREMENT PRIMARY KEY,
+    id integer PRIMARY KEY,
     nombre varchar(30)
     );
+INSERT INTO `tiposPago` (`id`, `nombre`) VALUES (1, "Efectivo");
+INSERT INTO `tiposPago` (`id`, `nombre`) VALUES (2, "Transferencia");
+
+
 CREATE Table tiposEvento (
     id integer AUTO_INCREMENT PRIMARY KEY,
     nombre varchar(30)

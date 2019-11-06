@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-{{ define "emailnewsletter" }}
+{{ define "tiponoticias" }}
 
   <body id="body">
     <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
     <h1 id="title">Registro Newsletter</h1>
-    <form method="POST" action="newsletterguardar">
+    <form method="POST" action="newsletter/newsletterguardar">
         <input type="hidden" value="{{ .Email }}" name="EMAIL"  id="mce-EMAIL">
         <label id="temas"><u>Temas</u></label>
       <br />
