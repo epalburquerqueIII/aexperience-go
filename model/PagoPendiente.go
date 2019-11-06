@@ -10,4 +10,5 @@ type TpagoPendiente struct {
 	TipopagoNombre string
 	NumeroTarjeta  string
 	Importe        float64
+	Referencia     string
 }
