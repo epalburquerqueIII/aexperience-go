@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "index" }}
+{{ define "restricted" }}
 
-{{ template "head" }}
+{{ template "head" . }}
 <!-- Add aditional link -->
 </head>
 
@@ -11,7 +11,7 @@
 <body id="page-top">
   <!-- Se habre un div en menu.html y header.html y se cierra en index -->
   {{ template "menu" }}
-  {{ template "header" }}
+  {{ template "header" . }}
 
 
   <!-- Contenido de la Pagina -->
