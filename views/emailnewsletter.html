@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+{{ define "tiponoticias" }}
+
+  <body id="body">
+    <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
+    <h1 id="title">Registro Newsletter</h1>
+    <form method="POST" action="newsletter/newsletterguardar">
+        <input type="hidden" value="{{ .Email }}" name="EMAIL"  id="mce-EMAIL">
+        <label id="temas"><u>Temas</u></label>
+      <br />
+      <br />
+      {{ range .Noticias }}
+         <input type="checkbox" name="ch{{ .Id }}" value="1"  Checked> {{ .Nombre }} <br><br>
+      {{ end}}
+      
+   <br />
+      <br />
+      <button type="submit" value="Submit" id="boton">Guardar</button>
+      <button type="cancel" value="Reset" id="boton" onClick="">Cancelar</button>
+    </form>
+  </body>
+
+</html>
+{{ end }}

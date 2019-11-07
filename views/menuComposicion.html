@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{{ define "menu" }}
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Logo -->
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Logo -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index">
+      <div>
+        <!-- <i class="fas fa-laugh-wink"></i> -->
+        <img src="../static/img/LogoApi.png" style="width: 100%;" />
+      </div>
+      <div class="sidebar-brand-text mx-3">AExperience</div>
+    </a>
+
+    <!-- Separacion del menu -->
+    <hr class="sidebar-divider my-0">
+    {{ range . }}
+      {{ $vID := .ID }}
+      {{ $vParentTitle := .ParentTitle }}
+      {{ $vIcono := .Icono }}
+      {{ if eq .Despliega 0 }}
+        {{ range .Options }}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ .Enlace }}">
+              <i class="{{ $vIcono }}"></i>
+              <span>{{ $vParentTitle }}</span></a>
+          </li>
+        {{ end }}
+      {{ else }}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse{{ $vID }}" aria-expanded="true"
+              aria-controls="collapsePages">
+              <i class="{{ .Icono }}"></i>
+              <span>{{ .ParentTitle }}</span>
+            </a>
+              <div id="collapse{{ $vID }}" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                {{ range .Options }}
+                  <a class="collapse-item" href="{{ .Enlace }}">{{ .NomEnlace }}</a>
+                {{ end }}
+                </div>
+            </div>
+        </li>
+      {{ end }}<!-- Cierre del If -->
+
+      <!-- Separacion del menu -->
+    <hr class="sidebar-divider">
+
+    {{ end }} <!-- Cierre range . -->
+
+    <!-- Sidebar Toggler (Sidebar) (Recoger Menu) -->
+    <div class="text-center d-none d-md-inline">
+      <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+  </ul><!-- End of Sidebar -->
+
+  <!-- Enlaces entre tablas -->
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+  <!-- Collapse menu -->
+  <script src="static/js/sb-admin-2.min.js" type="text/javascript"></script>
+
+{{ end }}<!-- Cierre define menu -->

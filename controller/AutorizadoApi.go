@@ -9,18 +9,22 @@ import (
 
 	"../model"
 	"../model/database"
+	"../util"
 )
 
-// Autorizado - Pantalla de tratamiento de Autorizados
+const usertype int = 0
+
+// Autorizados - Pantalla de tratamiento de Autorizados
 func Autorizados(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "autorizado", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "autorizados", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 }
 
-// AutorizadoList - json con los datos de clientes
-func AutorizadoList(w http.ResponseWriter, r *http.Request) {
+// AutorizadosList - json con los datos de clientes
+func AutorizadosList(w http.ResponseWriter, r *http.Request) {
 
 	var i int = 0
 	jtsort := r.URL.Query().Get("jtSorting")
@@ -68,8 +72,8 @@ func AutorizadoList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// AutorizadoCreate Crear un Autorizado
-func AutorizadoCreate(w http.ResponseWriter, r *http.Request) {
+// AutorizadosCreate Crear un Autorizado
+func AutorizadosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
 	auto := model.Tautorizado{}
@@ -107,8 +111,8 @@ func AutorizadoCreate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// AutorizadoUpdate Actualiza el Autorizado
-func AutorizadoUpdate(w http.ResponseWriter, r *http.Request) {
+// AutorizadosUpdate Actualiza el Autorizado
+func AutorizadosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	auto := model.Tautorizado{}
 	if r.Method == "POST" {
@@ -140,8 +144,8 @@ func AutorizadoUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-//AutorizadoDelete Borra Autorizado de la DB
-func AutorizadoDelete(w http.ResponseWriter, r *http.Request) {
+//AutorizadosDelete Borra Autorizado de la DB
+func AutorizadosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	auto := r.FormValue("ID")
 	delForm, err := db.Prepare("DELETE FROM autorizados WHERE id=?")
@@ -194,11 +198,11 @@ func AutorizadoDelete(w http.ResponseWriter, r *http.Request) {
 // 	// 	// 	http.Redirect(w, r, "/", 301)
 // }
 
-// AutorizadogetNombreUsuario - Obtener nombres de usuarios para la tabla de autorizados
-func Autorizadogetoptions(w http.ResponseWriter, r *http.Request) {
+// Autorizadosgetoptions obtiene nombre de la persona autorizada
+func Autorizadosgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado FROM autorizados ORDER BY autorizados.nombreAutorizado")
+	selDB, err := db.Query("SELECT autorizados.id, autorizados.nombreAutorizado from autorizados Order by autorizados.nombreAutorizado")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -211,7 +215,6 @@ func Autorizadogetoptions(w http.ResponseWriter, r *http.Request) {
 		}
 		vtabla = append(vtabla, elem)
 	}
-
 	var vtab model.Options
 	vtab.Result = "OK"
 	vtab.Options = vtabla

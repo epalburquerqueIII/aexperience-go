@@ -15,11 +15,9 @@
 
 <!-- Se habre un div en menu.html y header.html y se cierra en index -->
 
-
-
 <body>
 
-    {{ template "menu" }}
+    {{ template "menu" . }}
     {{ template "header" }}
 
     <!-- <h2> Registradas </h2> -->
@@ -55,7 +53,7 @@
             };
             $('#HorariosTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'horarios',
+                title: 'Horarios',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -94,7 +92,6 @@
                         create: true,
                         edit: true,
                         displayFormat: "dd-mm-yy"
-                       
                     },
                     Fechafinal: {
                         title: 'Fecha Final',
@@ -103,7 +100,6 @@
                         create: true,
                         edit: true,
                         displayFormat: "dd-mm-yy"
-                         
                     },
                     Hora: {
                         title: 'Hora',
@@ -117,9 +113,17 @@
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
+
     {{ template "footer" }}
-   
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
 </body><!--horarios -->
 </html>
 {{ end }}

@@ -7,10 +7,9 @@
 <!-- Add aditional link -->
 </head>
 
-
 <body id="page-top">
   <!-- Se habre un div en menu.html y header.html y se cierra en index -->
-  {{ template "menu" }}
+  {{ template "menu" . }}
   {{ template "header" . }}
 
 
@@ -313,23 +312,16 @@
       </div>
     </div>
 
-  </div>
-  <!-- /.container-fluid -->
+  </div><!-- /.container-fluid -->
 
   </div><!--Cierre de menu-->
   </div><!--Cierre de Header-->
-  
+
   <!-- Fin del contenido principal -->
 
   <!-- Pie de página -->
   {{ template "footer"}}
   <!-- Fin del pie de página -->
-
-  </div>
-  <!-- Fin del contenedor del contenido -->
-
-  </div>
-  <!-- Contenedor de fin de página -->
 
   <!-- Scroll al botón superior-->
   <a class="scroll-to-top rounded" href="#page-top">

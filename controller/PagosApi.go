@@ -14,7 +14,8 @@ import (
 
 //Pagos Pantalla de tratamiento de Pagos
 func Pagos(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "pagos", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "pagos", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -30,15 +31,15 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagos.id, reservas.id, pagos.fechaPago, tipospago.id, numeroTarjeta FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagos.id, reservas.id, reservas.fecha, pagos.fechaPago,tipospago.id ,tipospago.nombre,pagos.importe, numeroTarjeta, referencia FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	pag := model.Tpagos{}
-	res := []model.Tpagos{}
+	pag := model.Tpago{}
+	res := []model.Tpago{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaPago, &pag.IdTipopago, &pag.NumeroTarjeta)
+		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaReserva, &pag.FechaPago, &pag.IdTipopago, &pag.TipoPago, &pag.Importe, &pag.NumeroTarjeta, &pag.Referencia)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los Pagos")
 		}
@@ -46,7 +47,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.PagosRecords
+	var vrecords model.PagoRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -63,17 +64,20 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 func PagosCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	pag := model.Tpagos{}
+	pag := model.Tpago{}
 	if r.Method == "POST" {
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
 		pag.FechaPago = r.FormValue("FechaPago")
 		pag.IdTipopago, _ = strconv.Atoi(r.FormValue("IdTipopago"))
+		//pag.Importe, _ = strconv.ParseFloat("Importe", 64)
+		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.NumeroTarjeta = r.FormValue("NumeroTarjeta")
-		insForm, err := db.Prepare("INSERT INTO pagos(idReserva, fechaPago, idTipopago, numeroTarjeta) VALUES(?,CURDATE(),?,?)")
+		pag.Referencia = r.FormValue("Referencia")
+		insForm, err := db.Prepare("INSERT INTO pagos(idReserva, fechaPago, idTipopago, importe, numeroTarjeta, referencia) VALUES(?,CURDATE(),?,?,?,?)")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Pago")
 		}
-		res, err1 := insForm.Exec(pag.IdReserva, pag.IdTipopago, pag.NumeroTarjeta)
+		res, err1 := insForm.Exec(pag.IdReserva, pag.IdTipopago, pag.Importe, pag.NumeroTarjeta, pag.Referencia)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -81,7 +85,7 @@ func PagosCreate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("INSERT: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 
 	}
-	var vrecord model.PagosRecord
+	var vrecord model.PagoRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pag
 	a, _ := json.Marshal(vrecord)
@@ -97,24 +101,26 @@ func PagosCreate(w http.ResponseWriter, r *http.Request) {
 // PagosUpdate Actualiza los pagos
 func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	pag := model.Tpagos{}
+	pag := model.Tpago{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		pag.Id = int64(i)
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
 		pag.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		pag.IdTipopago, _ = strconv.Atoi(r.FormValue("IdTipopago"))
+		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.NumeroTarjeta = r.FormValue("NumeroTarjeta")
-		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, fechaPago=?, idTipopago=?, numeroTarjeta =? WHERE id=?")
+		pag.Referencia = r.FormValue("Referencia")
+		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, fechaPago=?, idTipopago=?, importe=?, numeroTarjeta=?, referencia=? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.NumeroTarjeta, pag.Id)
+		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.Importe, pag.NumeroTarjeta, pag.Referencia, pag.Id)
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()
-	var vrecord model.PagosRecord
+	var vrecord model.PagoRecord
 	vrecord.Result = "OK"
 	vrecord.Record = pag
 	a, _ := json.Marshal(vrecord)
@@ -122,7 +128,7 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//PagosDelete Borra pagos de la DB
+//PagosDelete Borra pagos de la DB/
 func PagosDelete(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	pag := r.FormValue("Id")
@@ -137,7 +143,7 @@ func PagosDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.PagosRecord
+	var vrecord model.PagoRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)
