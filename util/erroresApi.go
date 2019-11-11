@@ -1,8 +1,10 @@
 package util
+
 import (
 	"encoding/json"
-	"../model"
 	"net/http"
+
+	"../model"
 )
 
 // ErrorApi Centraliza la gestion de errores de API's

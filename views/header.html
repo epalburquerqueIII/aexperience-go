@@ -30,6 +30,10 @@
                 </div>
             </form>
 
+            <form id="CSRF" name="CSRF" method="POST" style="display: none;">
+                <input id="X-CSRF-Token-input" name="X-CSRF-Token" value="{{ .CsrfSecret }}" />          
+            </form>
+      
             <!-- Barra Superior - Barra de navegación -->
             <ul class="navbar-nav ml-auto">
 

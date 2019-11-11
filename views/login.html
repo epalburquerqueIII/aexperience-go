@@ -3,7 +3,24 @@
 
   {{ define "login" }}
 
-  {{ template "head" }}
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Iniciar Sesión</title>
+
+  <!-- Fuentes personalizadas para esta plantilla -->
+  <link href="static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Estilos personalizados para esta plantilla-->
+  <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/sha256-min.js"></script>
 
 </head>
 
@@ -26,12 +43,12 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">¡Bienvenido!</h1>
                   </div>
-                  <form class="user">
+                  <form class="user" id="fakeLogin" name="fakeLogin" onsubmit="return DoSubmit();">
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Introduzca la dirección de correo electrónico...">
+                      <input type="email" class="form-control form-control-user" name="email" aria-describedby="emailHelp" placeholder="Introduzca la dirección de correo electrónico...">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Contraseña">
+                      <input type="password" class="form-control form-control-user" name="password" placeholder="Contraseña">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -39,9 +56,7 @@
                         <label class="custom-control-label" for="customCheck">Recuérdame</label>
                       </div>
                     </div>
-                    <a href="index" class="btn btn-primary btn-user btn-block">
-                      Iniciar Sesión
-                    </a>
+                    <input type="Submit" value="Iniciar Sesión"  class="btn btn-primary btn-user btn-block">
                     <hr>
                     <a href="index" class="btn btn-google btn-user btn-block">
                       <i class="fab fa-google fa-fw"></i> Inicia sesión con Google
@@ -50,6 +65,14 @@
                       <i class="fab fa-facebook-f fa-fw"></i> Inicia sesión con Facebook
                     </a>
                   </form>
+                  <form style="display: none;" id="realLogin" name="realLogin" action="/login" method="POST">
+                    <input class="fullWidth" name="email" type="text" placeholder="email" />
+                    <input class="fullWidth" name="password" type="password" placeholder="password" />
+                  </form>
+                  <form id="restricted" name="restricted" action="/restricted" method="POST" style="display: none;">
+                    <input id="X-CSRF-Token-input" name="X-CSRF-Token" />
+                  </form>
+            
                   <hr>
                   <div class="text-center">
                     <a class="small" href="olvido-contrasena">¿Has olvidado tu contraseña?</a>
@@ -72,6 +95,30 @@
   {{ template "linkfooter" }}
 
 </body>
+
+<script>
+   
+  function DoSubmit(){
+    document.realLogin.email.value = document.fakeLogin.email.value;
+    document.realLogin.password.value = CryptoJS.SHA256(document.fakeLogin.password.value).toString(CryptoJS.enc.Hex);
+    $.ajax({
+      'type': 	'POST',
+      'url': 		'/login',
+      'data': 	$('#realLogin').serializeArray(),
+      success: function(data, textStatus, request) {
+        var token = request.getResponseHeader('X-CSRF-Token');
+        console.log("Success! The token is: ", token);
+        $("#X-CSRF-Token-input").val(token);
+        $("#restricted").submit();
+      },
+      error: function (request, textStatus, errorThrown) {
+        console.log("Error!", request.getResponseHeader('X-CSRF-Token'));
+      }
+    });
+
+    return false;
+}
+  </script>
 
 </html>
 

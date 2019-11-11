@@ -29,7 +29,7 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagospendientes.id, reservas.id,reservas.fecha, pagospendientes.fechaPago, tipospago.id, tipospago.nombre, pagospendientes.numeroTarjeta, pagospendientes.importe FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagospendientes.id, reservas.id ,reservas.fecha, pagospendientes.fechaPago, tipospago.id, tipospago.nombre, pagospendientes.numeroTarjeta, pagospendientes.importe FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -87,3 +87,50 @@ func Pagospendientesgetoptions(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 	defer db.Close()
 }
+
+//Confirmar el pago desde pago pendiente a pago e incrementar las sesiones por el IdReserva
+
+/* func confirmarpago(w http.ResponseWriter, r *http.Request) {
+	db := database.DbConn()
+	idPagopendiente := r.FormValue("Id")
+
+	//Obtener las sesiones de los usuarios de las reservas
+	selDB, err := db.Query("SELECT sesiones, Idusuario FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id)")
+	if err != nil {
+		panic(err.Error())
+	} else {
+		err = selDB.Scan(idPagopendiente)
+	}
+
+	//Traspasar los registros de pagos pendientes a pagos
+	sql := "INSERT INTO pagos (pagos.idReserva, pagos.fechapago, pagos.idTipopago, pagos.importe, pagos.numeroTarjeta) " +
+		"(SELECT  pagospendientes.idReserva,  pagospendientes.fechapago, pagospendientes.idTipopago, pagospendientes.numeroTarjeta, pagospendientes.importe " +
+		" FROM pagospendientes WHERE id = ? )"
+	copia, err := db.Prepare(sql)
+	if err != nil {
+		panic(err.Error())
+	} else {
+		copia.Exec(idPagopendiente)
+	}
+
+	//Incrementar las sesiones al usuario con el IDReserva
+	reser := model.Treserva{}
+	if reser.Sesiones != 0 {
+		// update	idusuario = sesiones + sesiones nuevas
+		insForm, err := db.Prepare("UPDATE usuario SET sesionesbono=? WHERE id=?")
+		if err != nil {
+			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
+		} else {
+			insForm.Exec(reser.Sesiones)
+			log.Printf("UPDATE: sesiones  %d", reser.Sesiones)
+		}
+	}
+
+	//Eliminación de los registros de pagos pendientes que han pasado a pagos definitivamente
+	delForm, err := db.Prepare("DELETE FROM pagosPendientes WHERE id=?")
+	if err != nil {
+		panic(err.Error())
+	} else {
+		delForm.Exec(idPagopendiente)
+	}
+} */
