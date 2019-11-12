@@ -341,8 +341,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona el consumo de bonos:
 	case "/consumobonos":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "consumobonos", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "consumobonos", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -355,8 +354,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los bonos:
 	case "/bonos":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "bonos", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "bonos", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -371,8 +369,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los autorizados:
 	case "/autorizados":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "autorizados", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "autorizados", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -393,8 +390,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona las reservas:
 	case "/reservas":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "reservas", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "reservas", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -413,8 +409,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los pagos pendientes:
 	case "/pagospendientes":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "pagospendientes", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "pagospendientes", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -425,8 +420,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los roles de usuario:
 	case "/usuariosroles":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "usuariosroles", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "usuariosroles", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -443,8 +437,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los tipos de pago:
 	case "/tipospago":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "tipospago", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "tipospago", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -461,8 +454,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los menús:
 	case "/menus":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "menus", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "menus", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -479,8 +471,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los tipos de eventos:
 	case "/tiposeventos":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "tiposeventos", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "tiposeventos", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -497,8 +488,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los espacios:
 	case "/espacios":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "espacios", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "espacios", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -515,8 +505,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los horarios:
 	case "/horarios":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "horarios", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "horarios", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -531,8 +520,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los roles de menú:
 	case "/menuroles":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "menuroles", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "menuroles", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -549,8 +537,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona el newsletter:
 	case "/newsletter":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "newsletter", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "newsletter", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -569,8 +556,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona el tipo de noticias:
 	case "/tiponoticias":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "tiponoticias", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "tiponoticias", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -579,8 +565,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona las horas del día:
 	case "/horasdia":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "horasdia", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "horasdia", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -593,32 +578,27 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona otras apis:
 	case "/estadisticas":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "estadisticas", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "estadisticas", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
 	case "/404":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "404", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "404", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
 	case "/recuperarcontrasena":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "recuperarcontrasena", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "recuperarcontrasena", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
 	case "/paginavacia":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "paginavacia", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "paginavacia", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
 	case "/iva":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "iva", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "iva", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
