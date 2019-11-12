@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+{{ define "horasreservables" }}
+  <body id="body">
+    <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
+    <h1 id="title">Reserva de horas</h1>
+    <form method="POST" action="/reservapabellonpista/create">
+      <label> Horarios </label> <br>
+      {{ range . }}
+       <input type="checkbox" name="ch{{ .ID }}" value="{{ .Hora }}" {{if eq .Reservado  1 }}Checked {{end}}>{{ .Hora }}</input><br>
+      {{ end }}
+   
+<br />
+  <br />
+  <button type="submit" value="Reservar" id="boton">Reservar</button>
+  
+</form>
+
+  </body>
+
+</html>
+{{ end }}

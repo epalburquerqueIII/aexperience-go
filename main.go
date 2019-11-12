@@ -1,34 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 
-	"./controller"
-	"./util"
+	"./model/authdb"
+	"./server"
+	"./server/middleware/myJwt"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const usertype int = 0
-
-var tmpl = template.Must(template.ParseGlob("views/*.html"))
-
-func index(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-
-	error := tmpl.ExecuteTemplate(w, "index", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-func registrar(w http.ResponseWriter, r *http.Request) {
-	err := tmpl.ExecuteTemplate(w, "registro", nil)
-	if err != nil {
-		panic(err.Error())
-	}
-}
+var host = "192.168.0.82"
+var port = "8088"
 
 func main() {
 	log.Println("Server started on: http://localhost:3000")
@@ -43,7 +26,6 @@ func main() {
 	http.HandleFunc("/usuarios/delete", controller.UsuariosDelete)
 	http.HandleFunc("/usuarios/register", controller.UsuariosRegister)
 	http.HandleFunc("/usuarios/getoptions", controller.Usuariosgetoptions)
-	http.HandleFunc("/usuarios/registerUI", controller.UsuariosUIRegister)
 
 	// Apis consumoBonos
 	http.HandleFunc("/consumobonos", controller.ConsumoBonos)
@@ -76,7 +58,7 @@ func main() {
 	http.HandleFunc("/reservas/update", controller.ReservasUpdate)
 	http.HandleFunc("/reservas/delete", controller.ReservasDelete)
 	http.HandleFunc("/reservas/getoptions", controller.Reservasgetoptions)
-	http.HandleFunc("/reservas/comprarbono", controller.ComprarBono)
+	http.HandleFunc("/reservas/reservarbono", controller.ReservarBono)
 
 	// Apis pagos
 	http.HandleFunc("/pagos", controller.Pagos)
@@ -88,7 +70,10 @@ func main() {
 	// Apis pagos pendientes
 	http.HandleFunc("/pagospendientes", controller.PagosPendientes)
 	http.HandleFunc("/pagospendientes/list", controller.PagosPendientesList)
-	http.HandleFunc("/pagospendientes/getoptions", controller.Pagospendientesgetoptions)
+	http.HandleFunc("/pagospendientes/create", controller.PagosPendientesCreate)
+	http.HandleFunc("/pagospendientes/update", controller.PagosPendientesUpdate)
+	http.HandleFunc("/pagospendientes/delete", controller.PagosPendientesDelete)
+	//http.HandleFunc("/pagospendientes/getoptions", controller.TiposPagogetoptions)
 
 	// Apis roles de usuario
 	http.HandleFunc("/usuariosroles", controller.UsuariosRoles)
@@ -152,26 +137,35 @@ func main() {
 	http.HandleFunc("/newsletter/update", controller.NewsletterUpdate)
 	http.HandleFunc("/newsletter/delete", controller.NewsletterDelete)
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
-	http.HandleFunc("/newsletter/newsletterguardar", controller.Newsletterguardar)
-
-	//NewsLetter Tipo Noticias
-
-	http.HandleFunc("/tiponoticias", controller.TipoNoticias)
-	http.HandleFunc("/tiponoticias/list", controller.TipoNoticiasList)
 
 	//Apis horas del dia
-	http.HandleFunc("/horasdia", controller.HorasDia)
-	http.HandleFunc("/horasdia/list", controller.HorasDiaList)
-	http.HandleFunc("/horasdia/create", controller.HorasDiaCreate)
-	http.HandleFunc("/horasdia/update", controller.HorasDiaUpdate)
+	http.HandleFunc("/reservapabellonpista", controller.ReservaPabellonPista)
+	http.HandleFunc("/horasdia", controller.HorasReservables)
+	http.HandleFunc("/reservapabellonpista/create", controller.HorasDiaCreate)
 
+	//Radio button emailnewsletter
+	http.HandleFunc("/emailnewsletter", controller.EmailNewsletter)
 	// Otras apis
 	http.HandleFunc("/estadisticas", controller.Estadisticas)
 	http.HandleFunc("/login", controller.Login)
+	http.HandleFunc("/registro", controller.Registro)
 	http.HandleFunc("/404", controller.Errorpag)
 	http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)
 	http.HandleFunc("/paginavacia", controller.Paginavacia)
 	http.HandleFunc("/iva", controller.Iva)
+	// init the DB
+	authdb.InitDB()
+	// init the JWTs
+	jwtErr := myJwt.InitJWT()
+	if jwtErr != nil {
+		log.Println("Error initializing the JWT's!")
+		log.Fatal(jwtErr)
+	}
 
-	http.ListenAndServe(":3000", nil)
+	// start the server
+	serverErr := server.StartServer(host, port)
+	if serverErr != nil {
+		log.Println("Error starting server!")
+		log.Fatal(serverErr)
+	}
 }

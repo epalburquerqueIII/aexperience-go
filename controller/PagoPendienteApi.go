@@ -3,7 +3,9 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"strconv"
 
 	"../model"
 	"../model/database"
@@ -12,7 +14,8 @@ import (
 
 //PagosPendientes Pantalla de tratamiento de Pagos
 func PagosPendientes(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "pagosPendientes", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "pagosPendientes", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
@@ -28,7 +31,7 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagospendientes.id, reservas.id,reservas.fecha, pagospendientes.fechaPago, tipospago.id, tipospago.nombre, pagospendientes.numeroTarjeta, pagospendientes.importe FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagospendientes.id, reservas.id ,reservas.fecha, pagospendientes.fechaPago, tipospago.id, tipospago.nombre, pagospendientes.numeroTarjeta, pagospendientes.importe FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -85,4 +88,53 @@ func Pagospendientesgetoptions(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(s)
 	w.Write(a)
 	defer db.Close()
+}
+
+// Pagospendientesconfirmarpago confirma un pago pendiente y lo pasa a pago
+func Pagospendientesconfirmarpago(w http.ResponseWriter, r *http.Request) {
+	db := database.DbConn()
+	idPagopendiente, _ := strconv.Atoi(r.FormValue("Id"))
+
+	var Sesiones int
+	var idUsuario int
+
+	//Obtener las sesiones de los usuarios de las reservas
+	selDB, err := db.Query("SELECT Sesiones, idUsuario FROM pagospendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) WHERE pagospendientes.id = ? ", idPagopendiente)
+	if err != nil {
+		panic(err.Error())
+	} else {
+
+		err = selDB.Scan(&Sesiones, &idUsuario)
+	}
+
+	//Traspasar los registros de pagos pendientes a pagos
+	sql := "INSERT INTO pagos (pagos.idReserva, pagos.fechapago, pagos.idTipopago, pagos.numeroTarjeta, pagos.importe) " +
+		"(SELECT  pagospendientes.idReserva,  pagospendientes.fechapago, pagospendientes.idTipopago, pagospendientes.numeroTarjeta, pagospendientes.importe " +
+		" FROM pagospendientes WHERE id = ? )"
+	copia, err := db.Prepare(sql)
+	if err != nil {
+		panic(err.Error())
+	} else {
+		copia.Exec(idPagopendiente)
+	}
+
+	//Incrementar las sesiones al usuario con el IDReserva
+	if Sesiones != 0 {
+		// update	idusuario = sesiones + sesiones nuevas
+		insForm, err := db.Prepare("UPDATE usuario SET sesionesbono=sesionesbono + ? WHERE id=?")
+		if err != nil {
+			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
+		} else {
+			insForm.Exec(Sesiones, idUsuario)
+			log.Printf("UPDATE: sesiones  %d", Sesiones)
+		}
+	}
+
+	//Eliminación de los registros de pagos pendientes que han pasado a pagos definitivamente
+	delForm, err := db.Prepare("DELETE FROM pagosPendientes WHERE id=?")
+	if err != nil {
+		panic(err.Error())
+	} else {
+		delForm.Exec(idPagopendiente)
+	}
 }

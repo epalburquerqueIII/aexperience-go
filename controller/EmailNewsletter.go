@@ -86,7 +86,16 @@ func TipoNoticias(w http.ResponseWriter, r *http.Request) {
 
 // Guardar tipo de noticias y email
 func Newsletterguardar(w http.ResponseWriter, r *http.Request) {
+	mceEmail := r.FormValue("EMAIL")
 	db := database.DbConn()
+	delForm, err := db.Prepare("DELETE FROM newsletter WHERE email = ?")
+	if err != nil {
+		panic(err.Error())
+	}
+	_, err = delForm.Exec(mceEmail)
+	if err != nil {
+		panic(err.Error())
+	}
 	if r.Method == "POST" {
 		for i := 1; i <= 10; i++ {
 			mceEmail := r.FormValue("EMAIL")
@@ -102,6 +111,6 @@ func Newsletterguardar(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+	// TODO cambiar address por variable global
 	http.Redirect(w, r, "http://192.168.0.3:1313/", 301)
-
 }
