@@ -16,9 +16,11 @@
 <!-- Se abre un div en newsletter.html y header.html y se cierra en index -->
 {{ template "menu" . }}
 {{ template "header" . }}
-    <div class="container">
+    <div class="container" onload='loadcontainer()'>
         <div id="NewsletterTableContainer"></div>
     </div>
+
+    {{ with .AuthWeb }}
 
     <script type="text/javascript">
     function loadcontainer(){
@@ -100,6 +102,7 @@
             $('#NewsletterTableContainer').jtable('load');
         });
     </script>
+    {{ end }} 
       </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 
