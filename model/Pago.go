@@ -8,6 +8,7 @@ type Tpago struct {
 	FechaPago     string
 	IdTipopago    int
 	TipoPago      string
-	Importe       float64
 	NumeroTarjeta string
+	Importe       float64
+	Referencia    string
 }

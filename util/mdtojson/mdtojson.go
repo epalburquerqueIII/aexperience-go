@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"../../model"
 	"../parse"
 )
 
@@ -23,7 +24,13 @@ func ProcessRepo(repoURL string, tmpDIR string) (string, error) {
 		return "", err
 	}
 
-	j, err := json.Marshal(md)
+	var vrecords model.EventosRecords
+	vrecords.Result = "OK"
+	vrecords.TotalRecordCount = len(md) - 1
+	vrecords.Records = md
+	// create json response from struct
+	j, err := json.Marshal(vrecords)
+
 	if err != nil {
 		return "", err
 	}
