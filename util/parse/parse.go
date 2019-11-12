@@ -9,6 +9,8 @@ import (
 	"regexp"
 	"strings"
 	s "strings"
+
+	"../../model"
 )
 
 var filePattern = regexp.MustCompile(`\.md$`)
@@ -19,21 +21,6 @@ type frontmatter struct {
 
 type mdFile struct {
 	filename string
-}
-
-// Parsed represents a single parsed file
-type Parsed struct {
-	Title         string `json:"title"`
-	Date          string `json:"date"`
-	Description   string `json:"description"`
-	Tipo          string `json:"tipo"`
-	Image         string `json:"image"`
-	Imageslide    string `json:"imageslide"`
-	Author        string `json:"author"`
-	Identificator string `json:"identificador"`
-	Categorias    string `json:"categorias"`
-	Tags          string `json:"tags"`
-	Body          string `json:"body"`
 }
 
 func readMDFiles(dir string) ([]mdFile, error) {
@@ -74,22 +61,24 @@ func analizalinea(linea string) (string, string) {
 		if a > 0 {
 			campo = linea[:a]
 			dato = strings.TrimSpace(linea[a+1:])
-			dato = dato[1 : len(dato)-1]
+			if dato[0] == '"' {
+				dato = dato[1 : len(dato)-1]
+			}
 		}
 	}
 	return campo, dato
 }
 
-//Files parses a directory of markdown files and converts them into Event
 // types
-func Files(dir string) ([]Parsed, error) {
+//Files parses a directory of markdown files and converts them into Event
+func Files(dir string) ([]model.Tevento, error) {
 	var lineas []string
 	var title, fecha string
 
 	var body string
 	var inicio, fin bool = false, false
 	var campo, dato, descripcion, tipos, imagen, slider, author, identificador, categorias, tags string
-	events := []Parsed{}
+	events := []model.Tevento{}
 	// Find event files in specified dir
 	eventFiles, err := readMDFiles(dir)
 	if err != nil {
@@ -99,6 +88,7 @@ func Files(dir string) ([]Parsed, error) {
 	//	eventFiles, err = sortFilesChronological(eventFiles)
 
 	for _, fichero := range eventFiles {
+		lineas = lineas[:0]
 		file, err := os.Open(dir + "/" + fichero.filename) // abre el archivo
 		scanner := bufio.NewScanner(file)                  // esto deberia escanearlo y analizar las lineas
 		for scanner.Scan() {
@@ -108,72 +98,75 @@ func Files(dir string) ([]Parsed, error) {
 			panic(err.Error())
 
 		}
-	}
-	for _, linea := range lineas {
+		file.Close()
+		inicio = false
+		fin = false
+		for _, linea := range lineas {
 
-		if inicio {
-			campo, dato = analizalinea(linea)
-			if linea == "---" {
-				fin = true
-				inicio = false
-			} else {
-				switch s.ToLower(campo) {
-				case "title":
-					title = dato
+			if inicio {
+				campo, dato = analizalinea(linea)
+				if linea == "---" {
+					fin = true
+					inicio = false
+				} else {
+					switch s.ToLower(campo) {
+					case "title":
+						title = dato
 
-				case "date":
-					fecha = dato
+					case "date":
+						fecha = dato
 
-				case "description":
-					descripcion = dato
+					case "description":
+						descripcion = dato
 
-				case "type":
-					tipos = dato
+					case "type":
+						tipos = dato
 
-				case "image":
-					imagen = dato
+					case "image":
+						imagen = dato
 
-				case "imageslider":
-					slider = dato
+					case "imageslide":
+						slider = dato
 
-				case "author":
-					author = dato
+					case "author":
+						author = dato
 
-				case "identifier":
-					identificador = dato
+					case "identifier":
+						identificador = dato
 
-				case "categories":
-					categorias = dato
+					case "categories":
+						categorias = dato
 
-				case "tags":
-					tags = dato
+					case "tags":
+						tags = dato
+					}
 				}
 			}
-		}
 
-		if fin {
-			body = body + linea
-		} else {
-			if linea == "---" {
-				inicio = true
+			if fin {
+				body = body + linea
+			} else {
+				if linea == "---" {
+					inicio = true
+				}
 			}
-		}
 
+		}
+		event := model.Tevento{
+			Title:         title,
+			Date:          fecha,
+			Description:   descripcion,
+			Tipo:          tipos,
+			Image:         imagen,
+			Imageslide:    slider,
+			Author:        author,
+			Identificator: identificador,
+			Categorias:    categorias,
+			Tags:          tags,
+			Body:          body,
+		}
+		events = append(events, event)
 	}
-	event := Parsed{
-		Title:         title,
-		Date:          fecha,
-		Description:   descripcion,
-		Tipo:          tipos,
-		Image:         imagen,
-		Imageslide:    slider,
-		Author:        author,
-		Identificator: identificador,
-		Categorias:    categorias,
-		Tags:          tags,
-		Body:          body,
-	}
-	events = append(events, event)
 
 	return events, err
 }
