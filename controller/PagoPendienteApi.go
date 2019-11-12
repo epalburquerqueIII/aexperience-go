@@ -3,7 +3,9 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"strconv"
 
 	"../model"
 	"../model/database"
@@ -87,22 +89,25 @@ func Pagospendientesgetoptions(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-//Confirmar el pago desde pago pendiente a pago e incrementar las sesiones por el IdReserva
-
-/* func confirmarpago(w http.ResponseWriter, r *http.Request) {
+// Pagospendientesconfirmarpago confirma un pago pendiente y lo pasa a pago
+func Pagospendientesconfirmarpago(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	idPagopendiente := r.FormValue("Id")
+	idPagopendiente, _ := strconv.Atoi(r.FormValue("Id"))
+
+	var Sesiones int
+	var idUsuario int
 
 	//Obtener las sesiones de los usuarios de las reservas
-	selDB, err := db.Query("SELECT sesiones, Idusuario FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id)")
+	selDB, err := db.Query("SELECT Sesiones, idUsuario FROM pagospendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) WHERE pagospendientes.id = ? ", idPagopendiente)
 	if err != nil {
 		panic(err.Error())
 	} else {
-		err = selDB.Scan(idPagopendiente)
+
+		err = selDB.Scan(&Sesiones, &idUsuario)
 	}
 
 	//Traspasar los registros de pagos pendientes a pagos
-	sql := "INSERT INTO pagos (pagos.idReserva, pagos.fechapago, pagos.idTipopago, pagos.importe, pagos.numeroTarjeta) " +
+	sql := "INSERT INTO pagos (pagos.idReserva, pagos.fechapago, pagos.idTipopago, pagos.numeroTarjeta, pagos.importe) " +
 		"(SELECT  pagospendientes.idReserva,  pagospendientes.fechapago, pagospendientes.idTipopago, pagospendientes.numeroTarjeta, pagospendientes.importe " +
 		" FROM pagospendientes WHERE id = ? )"
 	copia, err := db.Prepare(sql)
@@ -113,15 +118,14 @@ func Pagospendientesgetoptions(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//Incrementar las sesiones al usuario con el IDReserva
-	reser := model.Treserva{}
-	if reser.Sesiones != 0 {
+	if Sesiones != 0 {
 		// update	idusuario = sesiones + sesiones nuevas
-		insForm, err := db.Prepare("UPDATE usuario SET sesionesbono=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuario SET sesionesbono=sesionesbono + ? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		} else {
-			insForm.Exec(reser.Sesiones)
-			log.Printf("UPDATE: sesiones  %d", reser.Sesiones)
+			insForm.Exec(Sesiones, idUsuario)
+			log.Printf("UPDATE: sesiones  %d", Sesiones)
 		}
 	}
 
@@ -132,4 +136,4 @@ func Pagospendientesgetoptions(w http.ResponseWriter, r *http.Request) {
 	} else {
 		delForm.Exec(idPagopendiente)
 	}
-} */
+}

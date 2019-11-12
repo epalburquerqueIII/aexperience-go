@@ -89,6 +89,7 @@ func main() {
 	http.HandleFunc("/pagospendientes", controller.PagosPendientes)
 	http.HandleFunc("/pagospendientes/list", controller.PagosPendientesList)
 	http.HandleFunc("/pagospendientes/getoptions", controller.Pagospendientesgetoptions)
+	http.HandleFunc("/pagospendientes/confirmarpago", controller.Pagospendientesconfirmarpago)
 
 	// Apis roles de usuario
 	http.HandleFunc("/usuariosroles", controller.UsuariosRoles)
