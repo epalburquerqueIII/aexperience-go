@@ -19,6 +19,8 @@
 
     <!-- Separacion del menu -->
     <hr class="sidebar-divider my-0">
+    {{ with .Menus  }}
+      
     {{ range . }}
       {{ $vID := .ID }}
       {{ $vParentTitle := .ParentTitle }}
@@ -26,7 +28,7 @@
       {{ if eq .Despliega 0 }}
         {{ range .Options }}
           <li class="nav-item">
-            <a class="nav-link" href="{{ .Enlace }}">
+            <a class="nav-link" href="#" onclick="DoAction('{{ .Enlace }}')">
               <i class="{{ $vIcono }}"></i>
               <span>{{ $vParentTitle }}</span></a>
           </li>
@@ -41,7 +43,7 @@
               <div id="collapse{{ $vID }}" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                 {{ range .Options }}
-                  <a class="collapse-item" href="{{ .Enlace }}">{{ .NomEnlace }}</a>
+                  <a class="collapse-item" href="#" onclick="DoAction('{{ .Enlace }}')">{{ .NomEnlace }}</a>
                 {{ end }}
                 </div>
             </div>
@@ -52,6 +54,7 @@
     <hr class="sidebar-divider">
 
     {{ end }} <!-- Cierre range . -->
+  {{ end }}<!-- Cierre Menus -->
 
     <!-- Sidebar Toggler (Sidebar) (Recoger Menu) -->
     <div class="text-center d-none d-md-inline">
@@ -60,9 +63,20 @@
   </ul><!-- End of Sidebar -->
 
   <!-- Enlaces entre tablas -->
-  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
   <!-- Collapse menu -->
-  <script src="static/js/sb-admin-2.min.js"></script>
+  <script src="static/js/sb-admin-2.min.js" type="text/javascript"></script>
+
+  <script language="javascript"> 
+
+    function DoAction(destino){
+      $("#X-CSRF-Token-input").val(document.getElementsByName('csrf-token')[0].getAttribute('content'));
+      //En action ejecutamos el nombre de la funcion 
+      document.getElementById("CSRF").action = destino
+      $("#CSRF").submit();
+    }
+ 
+ </script>
 
 {{ end }}<!-- Cierre define menu -->

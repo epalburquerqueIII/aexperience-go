@@ -31,15 +31,15 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT menus.id, parentId, orden, titulo, icono, url, handleFunc FROM menus " + jtsort)
+	selDB, err := db.Query("SELECT menus.id, parentId, menuparent.titulo, orden, menus.titulo, icono, url, handleFunc FROM menus LEFT OUTER JOIN menuparent ON (parentId = menuparent.id) " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
-	menu := model.Tmenus{}
-	res := []model.Tmenus{}
+	menu := model.Tmenu{}
+	res := []model.Tmenu{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HandleFunc)
+		err = selDB.Scan(&menu.Id, &menu.ParentId, &menu.MenuParent, &menu.Orden, &menu.Titulo, &menu.Icono, &menu.Url, &menu.HandleFunc)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando datos de menus")
 		}
@@ -47,7 +47,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 		i++
 	}
 
-	var vrecords model.MenusRecords
+	var vrecords model.MenuRecords
 	vrecords.Result = "OK"
 	vrecords.TotalRecordCount = i
 	vrecords.Records = res
@@ -64,7 +64,7 @@ func MenusList(w http.ResponseWriter, r *http.Request) {
 func MenusCreate(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
-	menu := model.Tmenus{}
+	menu := model.Tmenu{}
 	if r.Method == "POST" {
 		menu.ParentId, _ = strconv.Atoi(r.FormValue("ParentId"))
 		menu.Orden, _ = strconv.Atoi(r.FormValue("Orden"))
@@ -85,7 +85,7 @@ func MenusCreate(w http.ResponseWriter, r *http.Request) {
 		log.Printf("INSERT: id: %d | parentId: %d\n", menu.Id, menu.ParentId)
 
 	}
-	var vrecord model.MenusRecord
+	var vrecord model.MenuRecord
 	vrecord.Result = "OK"
 	vrecord.Record = menu
 	a, _ := json.Marshal(vrecord)
@@ -101,7 +101,7 @@ func MenusCreate(w http.ResponseWriter, r *http.Request) {
 // MenusUpdate Actualiza el campo de Menus
 func MenusUpdate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
-	menu := model.Tmenus{}
+	menu := model.Tmenu{}
 	if r.Method == "POST" {
 		i, _ := strconv.Atoi(r.FormValue("Id"))
 		menu.Id = int64(i)
@@ -120,7 +120,7 @@ func MenusUpdate(w http.ResponseWriter, r *http.Request) {
 		log.Println("UPDATE: id: %d  | parentId: %d\n", menu.Id, menu.ParentId)
 	}
 	defer db.Close()
-	var vrecord model.MenusRecord
+	var vrecord model.MenuRecord
 	vrecord.Result = "OK"
 	vrecord.Record = menu
 	a, _ := json.Marshal(vrecord)
@@ -144,7 +144,7 @@ func MenusDelete(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Println("DELETE")
 	defer db.Close()
-	var vrecord model.MenusRecord
+	var vrecord model.MenuRecord
 	vrecord.Result = "OK"
 	a, _ := json.Marshal(vrecord)
 	w.Write(a)

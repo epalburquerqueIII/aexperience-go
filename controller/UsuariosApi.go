@@ -93,14 +93,14 @@ func UsuariosCreate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 		usu.SesionesBonos, _ = strconv.Atoi(r.FormValue("SesionesBonos"))
 		usu.Newsletter, _ = strconv.Atoi(r.FormValue("Newsletter"))
 		usu.FechaBaja = r.FormValue("FechaBaja")
-		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idsusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password, sesionesBonos, newsletter, fechaBaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
 			var verror model.Resulterror
 			verror.Result = "ERROR"
@@ -140,7 +140,7 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 		usu.Nombre = r.FormValue("Nombre")
 		usu.Nif = r.FormValue("Nif")
 		usu.Email = r.FormValue("Email")
-		usu.FechaNacimiento = r.FormValue("FechaNacimiento")
+		usu.FechaNacimiento = util.DateSql(r.FormValue("FechaNacimiento"))
 		usu.IDUsuarioRol, _ = strconv.Atoi(r.FormValue("idUsuarioRol"))
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
@@ -170,7 +170,15 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// Usuarioregistro - registra un Usuario
+// UsuariosUserRegister Pantalla para registrar un usuario
+func UsuariosUIRegister(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "userregister", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
+// UsuarioRegister - registra un Usuario
 func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
@@ -183,10 +191,10 @@ func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 		usu.Telefono = r.FormValue("Telefono")
 		usu.Password = r.FormValue("Password")
 
-		usu.IDUsuarioRol = 0
+		usu.IDUsuarioRol = 1
 		usu.SesionesBonos = 0
-		usu.Newsletter = 0
-		usu.FechaBaja = util.DateSql("02-01-2006")
+		usu.Newsletter = 1
+		usu.FechaBaja = util.DateSql("00-00-0000")
 
 		insForm, err := db.Prepare("INSERT INTO usuarios(nombre, nif, email, fechaNacimiento, idusuariorol, telefono, password,sesionesbonos,newsletter,fechabaja) VALUES(?,?,?,?,?,?,?,?,?,?)")
 		if err != nil {
@@ -245,7 +253,7 @@ func UsuariosDelete(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// Usuariogetoptions - Obtener nombres de usuarios para la tabla de autorizados
+// Usuariosgetoptions - Obtener nombres de usuarios para la tabla de autorizados
 func Usuariosgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
@@ -273,4 +281,30 @@ func Usuariosgetoptions(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(s)
 	w.Write(a)
 	defer db.Close()
+}
+
+// GetUsuario Get user to login
+func GetUsuario(email string) (bool, int, string, string, int) {
+
+	var tipo, userid int
+	var passwd, username string
+	var found bool
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT ID,nombre,password,idusuariorol FROM usuarios where email = ?", email)
+	if err != nil {
+		var verror model.Resulterror
+		verror.Result = "ERROR"
+		verror.Error = "Error buscando datos"
+		panic(err.Error())
+	}
+	for selDB.Next() {
+		found = true
+		err = selDB.Scan(&userid, &username, &passwd, &tipo)
+	}
+	defer db.Close()
+	if found {
+		return found, userid, username, passwd, tipo
+	} else {
+		return false, -1, "", "", 1
+	}
 }

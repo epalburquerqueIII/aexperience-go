@@ -31,13 +31,13 @@
                 loadingMessage: 'Cargando registros...',
                 noDataAvailable: '¡No hay datos disponibles!',
                 addNewRecord: 'Crear nuevo registro',
-                editRecord: 'Editar registro',
+                editRecord: '¿Desea confirmar el pago?',
                 areYouSure: '¿Confirma?',
                 deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
                // deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
+                cancel: 'Cancelar',
                 save: 'Guardar',
                 saving: 'Guardando',
-                cancel: 'Cancelar',
                 deleteText: 'Eliminar',
                 //deleteText: 'Dar de baja',
                 deleting: 'Eliminando',
@@ -57,17 +57,16 @@
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
+                columnSelectable: true,
                 defaultSorting: 'Nombre ASC', //Set default sorting
-                //selecting: true, //Enable selecting
+                selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
                 actions: {
                     listAction: '/pagospendientes/list',
-                    deleteAction: '/pagospendientes/delete',
-                    updateAction: '/pagospendientes/update',
-                    createAction: '/pagospendientes/create'
+                    updateAction: '/pagospendientes/confirmarpago'
                 },
                 fields: {
                     Id: {
@@ -79,26 +78,37 @@
                     IdReserva: {
                         title: 'Reserva',
                         width: '10%',
-                        type: 'combo',
-                        options: '/reservas/getoptions'
+                        options: '/reservas/getoptions',
+                        //type: "date",
+                        displayFormat: "dd-mm-yy",
+                        readonly: true
                     },
                     FechaPago: {
                         title: 'Fecha',
-                        width: '15%',
+                        width: '10%',
                         type: "date",
-                        create: false,
-                        edit: true,
-                        displayFormat: "dd-mm-yy"
+                        displayFormat: "dd-mm-yy",
+                        readonly: true
                     },
                     IdTipopago: {
                         title: 'Tipo de pago',
-                        width: '20%',
-                        type: 'combo',
-                        options: '/tipospagos/getoptions'
+                        width: '15%',
+                        options: '/tipospago/getoptions',
+                        readonly: true
                     },
                     NumeroTarjeta: {
-                        title: 'Numero tarjeta',
-                        width: '15%'
+                        title: 'Nº de tarjeta',
+                        width: '15%',
+                        readonly: true
+                    },
+                    Importe: {
+                        title: 'Importe',
+                        width: '10%',
+                        readonly: true,
+                    },
+                    Referencia: {
+                        title: 'Referencia',
+                        width: '15%',
                     }
                 }
             });
@@ -108,14 +118,17 @@
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
+
     {{ template "footer" }}
 
-    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
 
-    
 </body>
 </html>
 {{ end }}
-

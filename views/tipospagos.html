@@ -52,7 +52,7 @@
             };
             $('#TiposPagoTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Tipos de Pago',
+                title: 'Tipos de Pago',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
@@ -69,7 +69,7 @@
                     createAction: '/tipospago/create'
                 },
                 fields: {
-                    ID: {
+                    Id: {
                         key: true,
                         create: false,
                         edit: false,
@@ -87,12 +87,17 @@
     </script>
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-    
+
     {{ template "footer" }}
 
-    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-    
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
 </body>
 </html>
 {{ end }}
