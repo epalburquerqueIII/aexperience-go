@@ -70,15 +70,105 @@ func authHandler(next http.Handler) http.Handler {
 
 			switch r.URL.Path {
 			case "/restricted", "/deleteUser",
-				"/pagos",
+				"/pagos", //Pagos
 				"/pagos/list",
 				"/pagos/create",
 				"/pagos/update",
 				"/pagos/delete",
+				//"/usuarios", //Usuarios
+				"/usuarios/list",
+				"/usuarios/create",
+				"/usuarios/update",
+				//"/usuarios/delete",
+				"/usuarios/register",
+				"/usuarios/getoptions",
+				"/usuarios/registerUI",
+				"/consumobonos", //Consumo bonos
+				"/consumobonos/list",
+				"/consumobonos/create",
+				"/consumobonos/update",
+				"/bonos", //Bonos
+				"/bonos/list",
+				"/bonos/create",
+				"/bonos/update",
+				"/bonos/delete",
+				"/autorizados", //Autorizados
 				"/autorizados/list",
 				"/autorizados/create",
 				"/autorizados/update",
 				"/autorizados/delete",
+				"/autorizados/getoptions",
+				"/eventos/getEventosmdtojson", //Eventos
+				"/reservas",                   //Reservas
+				"/reservas/list",
+				"/reservas/create",
+				"/reservas/update",
+				"/reservas/delete",
+				"/reservas/getoptions",
+				"/reservas/comprarbono",
+				"/pagospendientes", //Pagos pendientes
+				"/pagospendientes/list",
+				"/pagospendientes/getoptions",
+				"/usuariosroles", //Roles de usuario
+				"/usuariosroles/list",
+				"/usuariosroles/create",
+				"/usuariosroles/update",
+				"/usuariosroles/delete",
+				"/usuariosroles/getoptions",
+				"/tipospago", //Tipos de pago
+				"/tipospago/list",
+				"/tipospago/create",
+				"/tipospago/update",
+				"/tipospago/delete",
+				"/tipospago/getoptions",
+				"/menus", //Menus
+				"/menus/list",
+				"/menus/create",
+				"/menus/update",
+				"/menus/delete",
+				"/menus/getoptions",
+				"/tiposeventos", //Tipo eventos
+				"/tiposeventos/list",
+				"/tiposeventos/create",
+				"/tiposeventos/update",
+				"/tiposeventos/delete",
+				"/tiposeventos/getoptions",
+				"/espacios", //Espacios
+				"/espacios/list",
+				"/espacios/create",
+				"/espacios/update",
+				"/espacios/delete",
+				"/espacios/getoptions",
+				"/horarios", //Horarios
+				"/horarios/list",
+				"/horarios/create",
+				"/horarios/update",
+				"/horarios/delete",
+				"/menuroles", //Menu roles
+				"/menuroles/list",
+				"/menuroles/create",
+				"/menuroles/update",
+				"/menuroles/delete",
+				"/menuroles/getoptions",
+				"/newsletter", //Newsletter
+				"/newsletter/list",
+				"/newsletter/create",
+				"/newsletter/update",
+				"/newsletter/delete",
+				"/newsletter/getoptions",
+				"/newsletter/newsletterguardar",
+				"/tiponoticias", //Tipo noticias
+				"/tiponoticias/list",
+				"/horasdia", //Horas del día
+				"/horasdia/list",
+				"/horasdia/create",
+				"/horasdia/update",
+				"/estadisticas", //Otras
+				"/login",
+				"/404",
+				"/recuperarcontrasena",
+				"/paginavacia",
+				"/iva",
 				"/usuarios":
 				//, "/logout"
 				// Login desde otra plataforma o segmento de red, no acabada
@@ -210,7 +300,9 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
-		// Gestiona los pagos
+
+	//--- GESTIONES ---
+	//Gestiona los pagos:
 	case "/pagos":
 		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
 		error := tmpl.ExecuteTemplate(w, "pagos", &templates.RestrictedPage{authweb, menu})
@@ -225,6 +317,65 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.PagosUpdate(w, r)
 	case "/pagos/delete":
 		controller.PagosDelete(w, r)
+
+	//Gestiona los usuarios:
+	case "/usuarios":
+		error := tmpl.ExecuteTemplate(w, "usuarios", &templates.RestrictedPage{authweb, menu})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/usuarios/list":
+		controller.UsuariosList(w, r)
+	case "/usuarios/create":
+		controller.UsuariosCreate(w, r)
+	case "/usuarios/update":
+		controller.UsuariosUpdate(w, r)
+	case "/usuarios/delete":
+		controller.UsuariosDelete(w, r)
+	case "/usuarios/register":
+		controller.UsuariosRegister(w, r)
+	case "/usuarios/getoptions":
+		controller.Usuariosgetoptions(w, r)
+	case "/usuarios/registerUI":
+		controller.UsuariosUIRegister(w, r)
+
+	//Gestiona el consumo de bonos:
+	case "/consumobonos":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "consumobonos", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/consumobonos/list":
+		controller.ConsumoBonosList(w, r)
+	case "/consumobonos/create":
+		controller.ConsumoBonosCreate(w, r)
+	case "/consumobonos/update":
+		controller.ConsumoBonosUpdate(w, r)
+
+	//Gestiona los bonos:
+	case "/bonos":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "bonos", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/bonos/list":
+		controller.BonoList(w, r)
+	case "/bonos/create":
+		controller.BonoCreate(w, r)
+	case "/bonos/update":
+		controller.BonoUpdate(w, r)
+	case "/bonos/delete":
+		controller.BonoDelete(w, r)
+
+	//Gestiona los autorizados:
+	case "/autorizados":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "autorizados", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
 	case "/autorizados/list":
 		controller.AutorizadosList(w, r)
 	case "/autorizados/create":
@@ -233,12 +384,246 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.AutorizadosUpdate(w, r)
 	case "/autorizados/delete":
 		controller.AutorizadosDelete(w, r)
-	case "/usuarios":
-		error := tmpl.ExecuteTemplate(w, "usuarios", &templates.RestrictedPage{authweb, menu})
+	case "/autorizados/getoptions":
+		controller.Autorizadosgetoptions(w, r)
+
+	//Gestiona los eventos:
+	case "/getEventosmdtojson":
+		controller.GetEventosmdtojson(w, r)
+
+	//Gestiona las reservas:
+	case "/reservas":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "reservas", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/reservas/list":
+		controller.ReservasList(w, r)
+	case "/reservas/create":
+		controller.ReservasCreate(w, r)
+	case "/reservas/update":
+		controller.ReservasUpdate(w, r)
+	case "/reservas/delete":
+		controller.ReservasDelete(w, r)
+	case "/reservas/getoptions":
+		controller.Reservasgetoptions(w, r)
+	case "/reservas/comprarbono":
+		controller.ComprarBono(w, r)
+
+	//Gestiona los pagos pendientes:
+	case "/pagospendientes":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "pagospendientes", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/pagospendientes/list":
+		controller.PagosPendientesList(w, r)
+	case "/pagospendientes/getoptions":
+		controller.Pagospendientesgetoptions(w, r)
+
+	//Gestiona los roles de usuario:
+	case "/usuariosroles":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "usuariosroles", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/usuariosroles/list":
+		controller.UsuariosRolesList(w, r)
+	case "/usuariosroles/create":
+		controller.UsuariosRolesCreate(w, r)
+	case "/usuariosroles/update":
+		controller.UsuariosRolesUpdate(w, r)
+	case "/usuariosroles/delete":
+		controller.UsuariosRolesDelete(w, r)
+	case "/usuariosroles/getoptions":
+		controller.UsuariosRolesgetoptions(w, r)
+
+	//Gestiona los tipos de pago:
+	case "/tipospago":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "tipospago", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/tipospago/list":
+		controller.TiposPagoList(w, r)
+	case "/tipospago/create":
+		controller.TiposPagoCreate(w, r)
+	case "/tipospago/update":
+		controller.TiposPagoUpdate(w, r)
+	case "/tipospago/delete":
+		controller.TiposPagoDelete(w, r)
+	case "/tipospago/getoptions":
+		controller.TiposPagogetoptions(w, r)
+
+	//Gestiona los menús:
+	case "/menus":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "menus", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/menus/list":
+		controller.MenusList(w, r)
+	case "/menus/create":
+		controller.MenusCreate(w, r)
+	case "/menus/update":
+		controller.MenusUpdate(w, r)
+	case "/menus/delete":
+		controller.MenusDelete(w, r)
+	case "/menus/getoptions":
+		controller.MenusgetoptionsMenuParent(w, r)
+
+	//Gestiona los tipos de eventos:
+	case "/tiposeventos":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "tiposeventos", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/tiposeventos/list":
+		controller.TiposeventosList(w, r)
+	case "/tiposeventos/create":
+		controller.TiposeventosCreate(w, r)
+	case "/tiposeventos/update":
+		controller.TiposeventosUpdate(w, r)
+	case "/tiposeventos/delete":
+		controller.TiposeventosDelete(w, r)
+	case "/tiposeventos/getoptions":
+		controller.TiposeventosgetOptions(w, r)
+
+	//Gestiona los espacios:
+	case "/espacios":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "espacios", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/espacios/list":
+		controller.EspacioList(w, r)
+	case "/espacios/create":
+		controller.EspacioCreate(w, r)
+	case "/espacios/update":
+		controller.EspacioUpdate(w, r)
+	case "/espacios/delete":
+		controller.EspacioDelete(w, r)
+	case "/espacios/getoptions":
+		controller.Espaciosgetoptions(w, r)
+
+	//Gestiona los horarios:
+	case "/horarios":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "horarios", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/horarios/list":
+		controller.HorariosList(w, r)
+	case "/horarios/create":
+		controller.HorariosCreate(w, r)
+	case "/horarios/update":
+		controller.HorariosUpdate(w, r)
+	case "/horarios/delete":
+		controller.HorariosDelete(w, r)
+
+	//Gestiona los roles de menú:
+	case "/menuroles":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "menuroles", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/menuroles/list":
+		controller.MenuRolesList(w, r)
+	case "/menuroles/create":
+		controller.MenuRolesCreate(w, r)
+	case "/menuroles/update":
+		controller.MenuRolesUpdate(w, r)
+	case "/menuroles/delete":
+		controller.MenuRolesDelete(w, r)
+	case "/menuroles/getoptions":
+		controller.MenuRolesGetOptions(w, r)
+
+	//Gestiona el newsletter:
+	case "/newsletter":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "newsletter", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/newsletter/list":
+		controller.NewsletterList(w, r)
+	case "/newsletter/create":
+		controller.NewsletterCreate(w, r)
+	case "/newsletter/update":
+		controller.NewsletterUpdate(w, r)
+	case "/newsletter/delete":
+		controller.NewsletterDelete(w, r)
+	case "/newsletter/getoptions":
+		controller.NewslettergetoptionsTipoNoticias(w, r)
+	case "/newsletter/newsletterguardar":
+		controller.Newsletterguardar(w, r)
+
+	//Gestiona el tipo de noticias:
+	case "/tiponoticias":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "tiponoticias", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/tiponoticias/list":
+		controller.TipoNoticiasList(w, r)
+
+	//Gestiona las horas del día:
+	case "/horasdia":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "horasdia", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/horasdia/list":
+		controller.HorasDiaList(w, r)
+	case "/horasdia/create":
+		controller.HorasDiaCreate(w, r)
+	case "/horasdia/update":
+		controller.HorasDiaUpdate(w, r)
+
+	//Gestiona otras apis:
+	case "/estadisticas":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "estadisticas", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/404":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "404", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/recuperarcontrasena":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "recuperarcontrasena", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/paginavacia":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "paginavacia", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		if error != nil {
+			log.Println("Error ", error.Error)
+		}
+	case "/iva":
+		csrfSecret := grabCsrfFromReq(r)
+		error := tmpl.ExecuteTemplate(w, "iva", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
 
+	//Gestiona el login:
 	case "/login":
 		switch r.Method {
 		case "GET":
