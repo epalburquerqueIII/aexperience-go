@@ -9,7 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var host = "192.168.0.21"
+var host = "192.168.0.82"
 var port = "8088"
 
 func main() {

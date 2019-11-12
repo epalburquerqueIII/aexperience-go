@@ -50,7 +50,7 @@ func authHandler(next http.Handler) http.Handler {
 		// do auth stuff
 		// include list of restricted paths, comma sep
 		// I'm including logout here, bc I don't want a baddie forcing my users to logout
-		activaRestricted := true
+		activaRestricted := false
 
 		requestCsrfToken := grabCsrfFromReq(r)
 		if r.URL.Path == "/autorizados/list" || r.URL.Path == "/pagos" {
@@ -164,7 +164,6 @@ func authHandler(next http.Handler) http.Handler {
 				"/horasdia/create",
 				"/horasdia/update",
 				"/estadisticas", //Otras
-				"/login",
 				"/404",
 				"/recuperarcontrasena",
 				"/paginavacia",
