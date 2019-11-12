@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-//PagosPendientes Pantalla de tratamiento de Pagos
-func PagosPendientes(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "pagosPendientes", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // PagosPendientesList - json con los datos de los pagos
 func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 

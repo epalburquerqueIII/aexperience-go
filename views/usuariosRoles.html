@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuariosRoles" }}
+{{ define "usuariosroles" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -21,9 +21,12 @@
 
 
     <!-- <h2> Registradas </h2> -->
-    <div class="container">
+    <div class="container" onload='loadcontainer()'>
         <div id="usuariosRolesTableContainer"></div>
     </div>
+
+    {{ with .AuthWeb }}
+
     <script type="text/javascript">
         $(document).ready(function () {
             var spanishMessages = {
@@ -91,6 +94,7 @@
             $('#usuariosRolesTableContainer').jtable('load');
         });
     </script>
+    {{ end }} 
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 

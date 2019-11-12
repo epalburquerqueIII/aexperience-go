@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-//Pagos Pantalla de tratamiento de Pagos
-func Pagos(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "pagos", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // PagosList - json con los datos de los pagos
 func PagosList(w http.ResponseWriter, r *http.Request) {
 

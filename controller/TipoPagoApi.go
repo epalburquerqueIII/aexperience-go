@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-// TiposPago Pantalla de tratamiento de TiposPagos
-func TiposPago(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "tipospago", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // TiposPagoList - json con los datos de clientes
 func TiposPagoList(w http.ResponseWriter, r *http.Request) {
 

@@ -24,10 +24,10 @@ type RestrictedPage struct {
 	Menus   []model.Tmenuconfig
 }
 
-var templates = template.Must(template.ParseGlob("./views/*"))
+var templates = template.Must(template.ParseGlob("./views/*.html"))
 
 func RenderTemplate(w http.ResponseWriter, tmpl string, p interface{}) {
-	err := templates.ExecuteTemplate(w, tmpl+".html", p)
+	err := templates.ExecuteTemplate(w, tmpl, p)
 	if err != nil {
 		log.Printf("Temlate error here: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)

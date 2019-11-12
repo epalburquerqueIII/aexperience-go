@@ -21,6 +21,10 @@
     <div class='container'  onload='loadcontainer()'>
         <div id="UsuarioTableContainer"></div>
     </div>
+
+    {{ with .AuthWeb }}
+
+
     <script type="text/javascript">
     function loadcontainer(){
     var token = request.getResponseHeader('X-CSRF-Token');
@@ -62,6 +66,10 @@
                 sorting: true, //Enable sorting
                 defaultSorting: 'Nif ASC', //Set default sorting
                 token : '{{ .CsrfSecret }}',
+                security:
+                {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                },
                 actions: {
                     listAction: '/usuarios/list',
                     deleteAction: '/usuarios/delete',
@@ -130,6 +138,7 @@
             $('#UsuarioTableContainer').jtable('load');
         });
     </script>
+    {{ end }} 
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 

@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-// ConsumoBonos Pantalla de tratamiento de ConsumoBonos
-func ConsumoBonos(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "consumobonos", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // ConsumoBonosList - json con los datos de clientes
 func ConsumoBonosList(w http.ResponseWriter, r *http.Request) {
 

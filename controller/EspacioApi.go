@@ -14,15 +14,6 @@ import (
 	"../util"
 )
 
-// Espacio Pantalla de tratamiento de Espacio
-func Espacio(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "espacios", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // EspacioList - json con los datos de Espacio
 func EspacioList(w http.ResponseWriter, r *http.Request) {
 

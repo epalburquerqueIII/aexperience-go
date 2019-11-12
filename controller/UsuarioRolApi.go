@@ -12,14 +12,6 @@ import (
 	"../util"
 )
 
-// UsuariosRoles Pantalla de tratamiento de usuario
-func UsuariosRoles(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "usuariosRoles", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // UsuariosRolesList - json con los datos de clientes
 func UsuariosRolesList(w http.ResponseWriter, r *http.Request) {
 

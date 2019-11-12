@@ -3,7 +3,7 @@
 
 {{ define "menus" }}
 
-{{ template "head" }}
+{{ template "head" . }}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,14 +17,26 @@
 
 <!-- Se abre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" . }}
-{{ template "header" }}
+{{ template "header" . }}
     <!-- <h2> Registradas </h2> -->
 
-    <div class="container">
+    <div class= 'container' onload='loadcontainer()'>
         <div id="MenusTableContainer"></div>
     </div>
 
+    <div class='container'  onload='loadcontainer()'>
+        <div id="PagosTableContainer"></div>
+    </div>
+
+    {{ with .AuthWeb }}
+
     <script type="text/javascript">
+        function loadcontainer(){
+            var token = request.getResponseHeader('X-CSRF-Token');
+            console.log("Success! The token is: ", token);
+            var myHeaders = new Headers();
+            myHeaders.append('X-CSRF-Token', token);
+         };
         $(document).ready(function () {
             var spanishMessages = {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
@@ -58,6 +70,11 @@
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
                 defaultSorting: 'parentId ASC', //Set default sorting
+                token : '{{ .CsrfSecret }}',
+                security:
+                {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                },
                 //selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -101,14 +118,15 @@
                     HandleFunc: {
                         title: 'HandleFunc',
                         width: '10%'
-                    },
+                    }
                 }
             });
             //Load student list from server
             $('#MenusTableContainer').jtable('load');
         });
     </script>
-      </div><!--Cierre de menu-->
+    {{ end }} 
+    </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 
     {{ template "footer" }}

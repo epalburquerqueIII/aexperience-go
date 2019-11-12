@@ -13,9 +13,9 @@
 <!-- Add aditional link -->
 </head> <!-- fin de head -->
 
-<!-- Se habre un div en menu.html y header.html y se cierra en index -->
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" . }}
-{{ template "header" }}
+{{ template "header"  .  }}
 
 
 
@@ -24,7 +24,17 @@
     <div class="container">
         <div id="EspaciosTableContainer"></div>
     </div>
+  
+    {{ with .AuthWeb }}
+
     <script type="text/javascript">
+        function loadcontainer(){
+            var token = request.getResponseHeader('X-CSRF-Token');
+            console.log("Success! The token is: ", token);
+            var myHeaders = new Headers();
+            myHeaders.append('X-CSRF-Token', token);
+         };
+
         $(document).ready(function () {
             var spanishMessages = {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
@@ -58,11 +68,11 @@
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
                 defaultSorting: 'ID ASC', //Set default sorting
-                //selecting: true, //Enable selecting
-                //multiselect: true, //Allow multiple selecting
-                //selectingCheckboxes: true, //Show checkboxes on first column
-                //selectOnRowClick: false, //Enable this to only select using checkboxes
-                // Ver como aplicar selección en pagina jtables.org
+                token : '{{ .CsrfSecret }}',
+                security:
+                {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                },
                 actions: {
                     listAction: '/espacios/list',
                     deleteAction: '/espacios/delete',
@@ -142,4 +152,5 @@
     {{ template "cerrarsesion" }}
 
 </body><!--espacios -->
+{{ end }}
 {{ end }}

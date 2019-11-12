@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-// Pantalla de tratamiento de Newsletter
-func Newsletter(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "newsletter", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // NewsletterList - json con los datos de clientes
 func NewsletterList(w http.ResponseWriter, r *http.Request) {
 
