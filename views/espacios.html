@@ -24,8 +24,17 @@
     <div class="container">
         <div id="EspaciosTableContainer"></div>
     </div>
-    //AuthWeb
+  
+    {{ with .AuthWeb }}
+
     <script type="text/javascript">
+        function loadcontainer(){
+            var token = request.getResponseHeader('X-CSRF-Token');
+            console.log("Success! The token is: ", token);
+            var myHeaders = new Headers();
+            myHeaders.append('X-CSRF-Token', token);
+         };
+
         $(document).ready(function () {
             var spanishMessages = {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
@@ -59,7 +68,11 @@
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
                 defaultSorting: 'ID ASC', //Set default sorting
-                //token : '{{ .Csrf}}'
+                token : '{{ .CsrfSecret }}',
+                security:
+                {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                },
                 actions: {
                     listAction: '/espacios/list',
                     deleteAction: '/espacios/delete',
