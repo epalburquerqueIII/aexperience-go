@@ -50,7 +50,7 @@ func authHandler(next http.Handler) http.Handler {
 		// do auth stuff
 		// include list of restricted paths, comma sep
 		// I'm including logout here, bc I don't want a baddie forcing my users to logout
-		activa_restricted := true
+		activaRestricted := true
 
 		requestCsrfToken := grabCsrfFromReq(r)
 		if r.URL.Path == "/autorizados/list" || r.URL.Path == "/pagos" {
@@ -63,10 +63,10 @@ func authHandler(next http.Handler) http.Handler {
 		}
 		// A M
 		if (requestCsrfToken != "") && (requestCsrfToken[4] == '$') {
-			activa_restricted = false
+			activaRestricted = false
 		}
 
-		if activa_restricted {
+		if activaRestricted {
 
 			switch r.URL.Path {
 			case "/restricted", "/deleteUser",
