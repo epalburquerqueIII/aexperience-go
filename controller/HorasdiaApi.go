@@ -6,22 +6,88 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"../model"
 	"../model/database"
 	"../util"
 )
 
-// Espacios Pantalla de tratamiento de Espacio
+type datocarga struct {
+	fechabusqueda  string
+	espacioposible string
+}
+
+var fechafinal string
+var espaciofinal string
+
+// HorasDia  Pantalla de tratamiento de Espacio
+/*
 func HorasDia(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "horasdia", &menu)
+
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT horarios.id, horarios.idespacio,horarios.hora, IF(isnull(reservas.hora),0,1) as reservado from horarios left outer join reservas on reservas.fecha = '2019-12-30' and reservas.hora = horarios.hora and horarios.idespacio = reservas.idespacio where horarios.fechaInicio >= '2019-10-01' and horarios.fechaFin <= '2019-12-31' and horarios.idespacio = 1 order by hora")
+
+	hora := model.THorasdia{}
+	horas := []model.THorasdia{}
+
+	for selDB.Next() {
+
+		err = selDB.Scan(&hora.ID, &hora.IDEspacio, &hora.Hora, &hora.Reservado)
+
+		if err != nil {
+			util.ErrorApi(err.Error(), w, "Error Cargando datos de horas dia")
+		}
+		horas = append(horas, hora)
+	}
+
+	error := tmpl.ExecuteTemplate(w, "horasdia", &horas)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
+
+}
+*/
+func HorasReservables(w http.ResponseWriter, r *http.Request) {
+	datos := datocarga{}
+	if r.FormValue("dia") == "1" {
+		datos.fechabusqueda = time.Now().Format("2006-01-02")
+	} else {
+		datos.fechabusqueda = "0"
+	}
+	if r.FormValue("espacio") == "1" {
+		datos.espacioposible = "5"
+	} else {
+		datos.espacioposible = "1"
+	}
+	fechafinal = datos.fechabusqueda
+	espaciofinal = datos.espacioposible
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT horarios.id, horarios.idespacio,horarios.hora, IF(isnull(reservas.hora),0,1) as reservado from horarios left outer join reservas on reservas.fecha = '" + fechafinal + "' and reservas.hora = horarios.hora and horarios.idespacio = reservas.idespacio where horarios.fechaInicio >= '2019-10-01' and horarios.fechaFin <= '2019-12-31' and horarios.idespacio = '" + espaciofinal + "' order by hora")
+
+	horareservada := model.THorasdia{}
+	horasreservada := []model.THorasdia{}
+
+	ID := 0
+	for selDB.Next() {
+
+		err = selDB.Scan(&ID, &horareservada.IDEspacio, &horareservada.Hora, &horareservada.Reservado)
+
+		if err != nil {
+			util.ErrorApi(err.Error(), w, "Error Cargando datos de horas dia")
+		}
+		horasreservada = append(horasreservada, horareservada)
+	}
+
+	error := tmpl.ExecuteTemplate(w, "horasreservables", &horasreservada)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+
 }
 
 // EspaciosList - json con los datos de Espacio
+/*
 func HorasDiaList(w http.ResponseWriter, r *http.Request) {
 
 	var i int
@@ -32,7 +98,7 @@ func HorasDiaList(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT horarios.id, horarios.idespacio, horarios.fechaFin,horarios.hora, IF(isnull(reservas.hora), '0', '1') as reservado from horarios left outer join reservas on reservas.fecha = '2019-11-11' and reservas.hora = horarios.hora and horarios.idespacio = reservas.idespacio where horarios.fechaInicio <= '2019-10-11' and horarios.fechaFin >= '2019-10-11' and horarios.idespacio = 1 " + jtsort)
+	selDB, err := db.Query("SELECT horarios.id, horarios.idespacio, horarios.fechaFin,horarios.hora, IF(isnull(reservas.hora), 'No',' Si') as reservado from horarios left outer join reservas on reservas.fecha = '2019-11-11' and reservas.hora = horarios.hora and horarios.idespacio = reservas.idespacio where horarios.fechaInicio <= '2019-10-11' and horarios.fechaFin >= '2019-10-12' and horarios.idespacio = 1 " + jtsort)
 	if err != nil {
 		var verror model.Resulterror
 		verror.Result = "ERROR"
@@ -72,41 +138,53 @@ func HorasDiaList(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 	defer db.Close()
 }
-
+*/
 // HorasDiaCreate - json con los datos de Espacio
-
 func HorasDiaCreate(w http.ResponseWriter, r *http.Request) {
-
+	//Falta saltar si y esta reservada y modificar el aspecto
+	var hora string
+	usuariosimulcro := 1
+	rolsimulacro := 1
+	sesionessimulacro := 0
 	db := database.DbConn()
-	esp := model.THorasdia{}
+	reser := model.Treserva{}
 	if r.Method == "POST" {
+		guardado := 0
+		reser.Fecha = fechafinal
 
-		esp.Fecha = r.FormValue("Fecha")
-		esp.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
-		esp.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
-		esp.IDUsuario, _ = strconv.Atoi(r.FormValue("IDUsuario"))
-		esp.IDAutorizado, _ = strconv.Atoi(r.FormValue("IDAutorizado"))
-
-		insForm, err := db.Prepare("INSERT INTO reservas(fecha, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?)")
-		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error Insertando Espacio"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
+		for i := 0; i <= 8; i++ {
+			a := "ch" + string(i)
+			fmt.Printf(a)
+			hora = r.FormValue("ch" + strconv.Itoa(i))
+			if hora != "" {
+				guardado = 1
+			}
+			if guardado == 1 {
+				guardado = 0
+				reser.Hora, _ = strconv.Atoi(hora)
+				reser.IdEspacio, _ = strconv.Atoi(espaciofinal)
+				reser.IdUsuario = usuariosimulcro
+				reser.Sesiones = sesionessimulacro
+				reser.IdAutorizado = rolsimulacro
+				insForm, err := db.Prepare("INSERT INTO reservas (fecha, Sesiones, hora, idUsuario, idEspacio, idAutorizado) VALUES(?,?,?,?,?,?)")
+				if err != nil {
+					util.ErrorApi(err.Error(), w, "Error Insertando Pago")
+				}
+				res, err1 := insForm.Exec(reser.Fecha, reser.Sesiones, reser.Hora, reser.IdUsuario, reser.IdEspacio, reser.IdAutorizado)
+				if err1 != nil {
+					panic(err1.Error())
+					util.ErrorApi(err.Error(), w, "")
+				}
+				defer db.Close()
+				reser.Id, err1 = res.LastInsertId()
+				log.Printf("INSERT: fecha: %s | hora:  %d \n ", reser.Fecha, reser.Hora)
+			}
 		}
-		res, err1 := insForm.Exec(esp.Fecha, esp.Hora, esp.IDUsuario, esp.IDEspacio, esp.IDAutorizado)
-		if err1 != nil {
-			panic(err1.Error())
-		}
-		esp.ID, err1 = res.LastInsertId()
-		log.Println("INSERT: Reservado: " + esp.Fecha)
 
 	}
-	var vrecord model.HorariosdiasRecord
+	var vrecord model.ReservasRecord
 	vrecord.Result = "OK"
-	vrecord.Record = esp
+	vrecord.Record = reser
 	a, _ := json.Marshal(vrecord)
 	s := string(a)
 	fmt.Println(s)
@@ -115,47 +193,5 @@ func HorasDiaCreate(w http.ResponseWriter, r *http.Request) {
 
 	defer db.Close()
 	//	http.Redirect(w, r, "/", 301)
-}
 
-// HorasDiaUpdate - json con los datos de Espacio
-
-func HorasDiaUpdate(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	esp := model.THorasdia{}
-	if r.Method == "POST" {
-
-		esp.IDEspacio, _ = strconv.Atoi(r.FormValue("IDEspacio"))
-		esp.Fecha = r.FormValue("Fecha")
-		esp.Hora, _ = strconv.Atoi(r.FormValue("Hora"))
-		esp.Reservado, _ = strconv.Atoi(r.FormValue("Reservado"))
-
-		insForm, err := db.Prepare("UPDATE espacios SET descripcion=?, estado=?, modo=?, precio =?, idTipoevento=?, aforo=?, fecha=?, numeroReservaslimite=? WHERE id=?")
-		if err != nil {
-			var verror model.Resulterror
-			verror.Result = "ERROR"
-			verror.Error = "Error Insertando Espacio"
-			a, _ := json.Marshal(verror)
-			w.Write(a)
-			panic(err.Error())
-		}
-		res, err1 := insForm.Exec(esp.ID, esp.IDEspacio, esp.Fecha, esp.Hora, esp.Reservado)
-		if err1 != nil {
-			panic(err1.Error())
-		}
-		esp.ID, err1 = res.LastInsertId()
-		log.Println("INSERT: Reservado: " + esp.Fecha)
-
-	}
-	var vrecord model.HorariosdiasRecord
-	vrecord.Result = "OK"
-	vrecord.Record = esp
-	a, _ := json.Marshal(vrecord)
-	s := string(a)
-	fmt.Println(s)
-
-	w.Write(a)
-
-	defer db.Close()
-	//	http.Redirect(w, r, "/", 301)
 }

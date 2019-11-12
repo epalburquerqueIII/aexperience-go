@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-//MenuRoles - Pantalla de tratamiento
-func MenuRoles(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "menuroles", &menu)
-	if error != nil {
-		fmt.Println("Error: ", error.Error)
-	}
-}
-
 //MenuRolesList - json con los datos de clientes
 func MenuRolesList(w http.ResponseWriter, r *http.Request) {
 

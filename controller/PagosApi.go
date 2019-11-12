@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-//Pagos Pantalla de tratamiento de Pagos
-func Pagos(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "pagos", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // PagosList - json con los datos de los pagos
 func PagosList(w http.ResponseWriter, r *http.Request) {
 
@@ -31,7 +22,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagos.id, reservas.id, reservas.fecha, pagos.fechaPago,tipospago.id ,tipospago.nombre,pagos.importe, numeroTarjeta, referencia FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagos.id, reservas.id, reservas.fecha, pagos.fechaPago,tipospago.id ,tipospago.nombre, numeroTarjeta, pagos.importe, referencia FROM pagos LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -39,7 +30,7 @@ func PagosList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tpago{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaReserva, &pag.FechaPago, &pag.IdTipopago, &pag.TipoPago, &pag.Importe, &pag.NumeroTarjeta, &pag.Referencia)
+		err = selDB.Scan(&pag.Id, &pag.IdReserva, &pag.FechaReserva, &pag.FechaPago, &pag.IdTipopago, &pag.TipoPago, &pag.NumeroTarjeta, &pag.Importe, &pag.Referencia)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los Pagos")
 		}
@@ -69,15 +60,14 @@ func PagosCreate(w http.ResponseWriter, r *http.Request) {
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
 		pag.FechaPago = r.FormValue("FechaPago")
 		pag.IdTipopago, _ = strconv.Atoi(r.FormValue("IdTipopago"))
-		//pag.Importe, _ = strconv.ParseFloat("Importe", 64)
-		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.NumeroTarjeta = r.FormValue("NumeroTarjeta")
+		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.Referencia = r.FormValue("Referencia")
-		insForm, err := db.Prepare("INSERT INTO pagos(idReserva, fechaPago, idTipopago, importe, numeroTarjeta, referencia) VALUES(?,CURDATE(),?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO pagos(idReserva, fechaPago, idTipopago,  numeroTarjeta, importe, referencia) VALUES(?,CURDATE(),?,?,?,?)")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Insertando Pago")
 		}
-		res, err1 := insForm.Exec(pag.IdReserva, pag.IdTipopago, pag.Importe, pag.NumeroTarjeta, pag.Referencia)
+		res, err1 := insForm.Exec(pag.IdReserva, pag.IdTipopago, pag.NumeroTarjeta, pag.Importe, pag.Referencia)
 		if err1 != nil {
 			panic(err1.Error())
 		}
@@ -108,15 +98,15 @@ func PagosUpdate(w http.ResponseWriter, r *http.Request) {
 		pag.IdReserva, _ = strconv.Atoi(r.FormValue("IdReserva"))
 		pag.FechaPago = util.DateSql(r.FormValue("FechaPago"))
 		pag.IdTipopago, _ = strconv.Atoi(r.FormValue("IdTipopago"))
-		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.NumeroTarjeta = r.FormValue("NumeroTarjeta")
+		pag.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 2)
 		pag.Referencia = r.FormValue("Referencia")
-		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, fechaPago=?, idTipopago=?, importe=?, numeroTarjeta=?, referencia=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE pagos SET idReserva=?, fechaPago=?, idTipopago=?, numeroTarjeta=?, importe=?, referencia=? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		}
 
-		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.Importe, pag.NumeroTarjeta, pag.Referencia, pag.Id)
+		insForm.Exec(pag.IdReserva, pag.FechaPago, pag.IdTipopago, pag.NumeroTarjeta, pag.Importe, pag.Referencia, pag.Id)
 		log.Printf("UPDATE: fechaPago: %s | idTipopago:  %d\n", pag.FechaPago, pag.IdTipopago)
 	}
 	defer db.Close()

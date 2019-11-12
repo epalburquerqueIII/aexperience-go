@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+{{ define "reservapabellonpista" }}
+  <body id="body">
+    <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
+    <h1 id="title">Reserva de horas</h1>
+    <form method="POST" action="/horasdia">
+      <input type="radio" name="espacio" value= 1> Pista<br>
+      <input type="radio" name="espacio" value= 2> Pabellon<br>
+
+      <input type="radio" name="dia" value= 1> Hoy<br>
+      <input type="radio" name="dia" value= 2> Mañana<br>  
+
+        
+   <br />
+      <br />
+      <button type="submit" >Consultar</button>
+     
+    </form>
+  </body>
+
+</html>
+{{ end }}

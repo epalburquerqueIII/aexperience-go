@@ -4,7 +4,6 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -14,17 +13,6 @@ import (
 	"../model/database"
 	"../util"
 )
-
-var tmpl = template.Must(template.ParseGlob("views/*.html"))
-
-// Usuario Pantalla de tratamiento de usuario
-func Usuarios(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "usuarios", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
 
 // UsuarioList - json con los datos de clientes
 func UsuariosList(w http.ResponseWriter, r *http.Request) {
@@ -168,14 +156,6 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	w.Write(a)
 
 	//	http.Redirect(w, r, "/", 301)
-}
-
-// UsuariosUserRegister Pantalla para registrar un usuario
-func UsuariosUIRegister(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "userregister", nil)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
 }
 
 // UsuarioRegister - registra un Usuario

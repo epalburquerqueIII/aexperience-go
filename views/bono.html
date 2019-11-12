@@ -18,10 +18,18 @@
 {{ template "menu" . }}
 {{ template "header" }}
 
-        <div class="container">
+        <div class='container'  onload='loadcontainer()'>
           <div id="BonoTableContainer"></div>
         </div>
         <script type="text/javascript">
+
+        function loadcontainer(){
+            var token = request.getResponseHeader('X-CSRF-Token');
+            console.log("Success! The token is: ", token);
+            var myHeaders = new Headers();
+            myHeaders.append('X-CSRF-Token', token);
+         };
+
             $(document).ready(function () {
                 var spanishMessages =  {
                     serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
@@ -47,11 +55,11 @@
                     pageSize: 10, //Set page size (default: 10)
                     sorting: true, //Enable sorting
                     defaultSorting: 'ID ASC', //Set default sorting
-                    //selecting: true, //Enable selecting
-                    //multiselect: true, //Allow multiple selecting
-                    //selectingCheckboxes: true, //Show checkboxes on first column
-                    //selectOnRowClick: false, //Enable this to only select using checkboxes
-                    // Ver como aplicar selección en pagina jtables.org
+                    token : '{{ .CsrfSecret }}',
+                     security:
+                    {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                    },
                     actions: {
                         listAction: '/bonos/list',
                         createAction: '/bonos/create',

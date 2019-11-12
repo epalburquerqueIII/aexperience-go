@@ -9,19 +9,9 @@ import (
 
 	"../model"
 	"../model/database"
-	"../util"
 )
 
 const usertype int = 0
-
-// Autorizados - Pantalla de tratamiento de Autorizados
-func Autorizados(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "autorizados", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
 
 // AutorizadosList - json con los datos de clientes
 func AutorizadosList(w http.ResponseWriter, r *http.Request) {

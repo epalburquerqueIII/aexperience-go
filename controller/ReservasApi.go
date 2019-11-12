@@ -12,15 +12,6 @@ import (
 	"../util"
 )
 
-// Reservas Pantalla de tratamiento de Reservas
-func Reservas(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "reservas", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-}
-
 // ReservasList - json con los datos de clientes
 func ReservasList(w http.ResponseWriter, r *http.Request) {
 

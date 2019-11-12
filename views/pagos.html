@@ -17,8 +17,9 @@
 <body>
     
     <!-- Se habre un div en menu.html y header.html y se cierra en index -->
-{{ template "header" .  }}
+
 {{ template "menu" . }}
+{{ template "header" .  }}
 
 
     <div class='container'  onload='loadcontainer()'>
@@ -111,12 +112,12 @@
                         type: 'combo',
                         options: '/tipospago/getoptions'
                     },
-                    Importe: {
-                        title: 'Importe',
-                        width: '15%'
-                    },
                     NumeroTarjeta: {
                         title: 'Nº de tarjeta',
+                        width: '15%'
+                    },
+                    Importe: {
+                        title: 'Importe',
                         width: '15%'
                     }
                 }

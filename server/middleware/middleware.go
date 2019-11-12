@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -50,7 +51,7 @@ func authHandler(next http.Handler) http.Handler {
 		// do auth stuff
 		// include list of restricted paths, comma sep
 		// I'm including logout here, bc I don't want a baddie forcing my users to logout
-		activaRestricted := true
+		activaRestricted := false
 
 		requestCsrfToken := grabCsrfFromReq(r)
 		if r.URL.Path == "/autorizados/list" || r.URL.Path == "/pagos" {
@@ -109,6 +110,7 @@ func authHandler(next http.Handler) http.Handler {
 				"/pagospendientes", //Pagos pendientes
 				"/pagospendientes/list",
 				"/pagospendientes/getoptions",
+				"/pagospendientes/confirmarpago",
 				"/usuariosroles", //Roles de usuario
 				"/usuariosroles/list",
 				"/usuariosroles/create",
@@ -336,8 +338,11 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 	case "/usuarios/getoptions":
 		controller.Usuariosgetoptions(w, r)
 	case "/usuarios/registerUI":
-		controller.UsuariosUIRegister(w, r)
-
+		// UsuariosUserRegister Pantalla para registrar un usuario
+		error := tmpl.ExecuteTemplate(w, "userregister", nil)
+		if error != nil {
+			fmt.Println("Error ", error.Error)
+		}
 	//Gestiona el consumo de bonos:
 	case "/consumobonos":
 		error := tmpl.ExecuteTemplate(w, "consumobonos", &templates.RestrictedPage{authweb, menu})
@@ -416,6 +421,8 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.PagosPendientesList(w, r)
 	case "/pagospendientes/getoptions":
 		controller.Pagospendientesgetoptions(w, r)
+	case "/pagospendientes/confirmarpago":
+		controller.Pagospendientesconfirmarpago(w, r)
 
 	//Gestiona los roles de usuario:
 	case "/usuariosroles":
@@ -568,12 +575,12 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
-	case "/horasdia/list":
-		controller.HorasDiaList(w, r)
-	case "/horasdia/create":
-		controller.HorasDiaCreate(w, r)
-	case "/horasdia/update":
-		controller.HorasDiaUpdate(w, r)
+		//	case "/horasdia/list":
+		//		controller.HorasDiaList(w, r)
+		//	case "/horasdia/create":
+		//		controller.HorasDiaCreate(w, r)
+		//	case "/horasdia/update":
+		//		controller.HorasDiaUpdate(w, r)
 
 	//Gestiona otras apis:
 	case "/estadisticas":

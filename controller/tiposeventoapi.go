@@ -9,18 +9,7 @@ import (
 
 	"../model"
 	"../model/database"
-	"../util"
 )
-
-// Tiposeventos - Pantalla tipo de eventos
-func Tiposeventos(w http.ResponseWriter, r *http.Request) {
-	menu := util.Menus(usertype)
-	error := tmpl.ExecuteTemplate(w, "tiposevento", &menu)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-
-}
 
 // TiposeventosList - json con los datos de clientes
 func TiposeventosList(w http.ResponseWriter, r *http.Request) {
