@@ -14,7 +14,8 @@ import (
 
 //PagosPendientes Pantalla de tratamiento de Pagos
 func PagosPendientes(w http.ResponseWriter, r *http.Request) {
-	error := tmpl.ExecuteTemplate(w, "pagosPendientes", nil)
+	menu := util.Menus(usertype)
+	error := tmpl.ExecuteTemplate(w, "pagosPendientes", &menu)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}

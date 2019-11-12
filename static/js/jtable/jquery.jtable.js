@@ -3905,6 +3905,10 @@ THE SOFTWARE.
         _createRecordLoadUrl: function() {
             var loadUrl = base._createRecordLoadUrl.apply(this, arguments);
             loadUrl = this._addPagingInfoToUrl(loadUrl, this._currentPageNo);
+            // add token info to URL
+            if (this.options.token != null) {
+                loadUrl = this._addTokenInfoToUrl(loadUrl, this.options.token);
+            }
             return loadUrl;
         },
 
@@ -3989,7 +3993,15 @@ THE SOFTWARE.
             return (url + (url.indexOf('?') < 0 ? '?' : '&') + 'jtStartIndex=' + jtStartIndex + '&jtPageSize=' + jtPageSize);
         },
 
-        /* Creates and shows the page list.
+        /* Adds jtStartIndex and jtPageSize parameters to a URL as query string.
+        *************************************************************************/
+       _addTokenInfoToUrl: function (url, token) {
+
+        return (url + (url.indexOf('?') < 0 ? '?' : '&') + 'X-CSRF-Token=' + token);
+
+    },
+
+    /* Creates and shows the page list.
         *************************************************************************/
         _createPagingList: function () {
             if (this.options.pageSize <= 0) {
