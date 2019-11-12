@@ -164,7 +164,6 @@ func authHandler(next http.Handler) http.Handler {
 				"/horasdia/create",
 				"/horasdia/update",
 				"/estadisticas", //Otras
-				"/login",
 				"/404",
 				"/recuperarcontrasena",
 				"/paginavacia",

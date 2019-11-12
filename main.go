@@ -9,7 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var host = "192.168.0.21"
+var host = "192.168.0.12"
 var port = "8088"
 
 func main() {
@@ -22,7 +22,7 @@ func main() {
 		log.Fatal(jwtErr)
 	}
 
-	// start the server
+	// Inicio Servidor
 	serverErr := server.StartServer(host, port)
 	if serverErr != nil {
 		log.Println("Error starting server!")
