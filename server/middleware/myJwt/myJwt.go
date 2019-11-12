@@ -61,7 +61,7 @@ func InitJWT() error {
 }
 
 // CreateNewTokens Create Tokens
-func CreateNewTokens(uuid string, role string) (authTokenString, refreshTokenString, csrfSecret string, err error) {
+func CreateNewTokens(uuid string, role int) (authTokenString, refreshTokenString, csrfSecret string, err error) {
 	// generate the csrf secret
 	csrfSecret, err = util.GenerateCSRFSecret()
 	if err != nil {
@@ -152,7 +152,7 @@ func CheckAndRefreshTokens(oldAuthTokenString string, oldRefreshTokenString stri
 	return
 }
 
-func createAuthTokenString(uuid string, role string, csrfSecret string) (authTokenString string, err error) {
+func createAuthTokenString(uuid string, role int, csrfSecret string) (authTokenString string, err error) {
 	authTokenExp := time.Now().Add(model.AuthTokenValidTime).Unix()
 	authClaims := model.TokenClaims{
 		jwt.StandardClaims{
@@ -171,7 +171,7 @@ func createAuthTokenString(uuid string, role string, csrfSecret string) (authTok
 	return
 }
 
-func createRefreshTokenString(uuid string, role string, csrfString string) (refreshTokenString string, err error) {
+func createRefreshTokenString(uuid string, role int, csrfString string) (refreshTokenString string, err error) {
 	refreshTokenExp := time.Now().Add(model.RefreshTokenValidTime).Unix()
 	refreshJti, err := authdb.StoreRefreshToken()
 	if err != nil {

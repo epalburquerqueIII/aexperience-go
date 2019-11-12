@@ -7,5 +7,5 @@ type ResponseToken struct {
 	CsrfSecretToken    string `json:"data2"`
 	UserName           string `json:"username"`
 	UserID             int    `json:"userid"`
-	UserRol            string `json:"userrol"`
+	UserRol            int    `json:"userrol"`
 }

@@ -4,6 +4,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+
+	"../../model"
 )
 
 type LoginPage struct {
@@ -16,9 +18,10 @@ type RegisterPage struct {
 	AlertMsg   string
 }
 
+// RestrictedPage Estructura para página restringidas
 type RestrictedPage struct {
-	CsrfSecret    string
-	SecretMessage string
+	AuthWeb model.AuthWeb
+	Menus   []model.Tmenuconfig
 }
 
 var templates = template.Must(template.ParseGlob("./views/*"))

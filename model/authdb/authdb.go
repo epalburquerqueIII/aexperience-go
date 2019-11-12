@@ -28,7 +28,7 @@ func InitDB() {
 }
 
 // StoreUser password is hashed before getting here
-func StoreUser(email string, password string, role string, username string, userid int) (uuid string, err error) {
+func StoreUser(email string, password string, role int, username string, userid int) (uuid string, err error) {
 	uuid, err = util.GenerateRandomString(32)
 	if err != nil {
 		return "", err
@@ -50,7 +50,7 @@ func StoreUser(email string, password string, role string, username string, user
 		return
 	}
 
-	users[uuid] = model.User{email, passwordHash, role, username, userid}
+	users[uuid] = model.User{email, passwordHash, username, role, userid}
 
 	return uuid, err
 }
@@ -80,7 +80,7 @@ func FetchUserByEmail(email string) (model.User, string, error) {
 
 	located, userid, username, k, userRol := controller.GetUsuario(email)
 	if located {
-		return model.User{email, k, userRol, username, userid}, k, nil
+		return model.User{email, k, username, userRol, userid}, k, nil
 	}
 
 	for k, v := range users {

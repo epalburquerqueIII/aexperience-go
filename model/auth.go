@@ -8,15 +8,21 @@ import (
 
 // User Datos del usuario
 type User struct {
-	Email, PasswordHash, Role, UserName string
-	UserID                              int
+	Email, PasswordHash, UserName string
+	Role, UserID                  int
 }
 
 // https://tools.ietf.org/html/rfc7519
 type TokenClaims struct {
 	jwt.StandardClaims
-	Role string `json:"role"`
+	Role int    `json:"role"`
 	Csrf string `json:"csrf"`
+}
+
+// AuthWeb Datos para Csrf y usuario en la web
+type AuthWeb struct {
+	CsrfSecret string
+	UserName   string
 }
 
 const RefreshTokenValidTime = time.Minute * 15
