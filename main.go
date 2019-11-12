@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"./model/authdb"
 	"./server"
@@ -14,6 +13,7 @@ var host = "192.168.0.82"
 var port = "8088"
 
 func main() {
+<<<<<<< HEAD
 	log.Println("Server started on: http://localhost:3000")
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 	http.HandleFunc("/", index)
@@ -153,6 +153,7 @@ func main() {
 	http.HandleFunc("/recuperarcontrasena", controller.Recuperarcontrasena)
 	http.HandleFunc("/paginavacia", controller.Paginavacia)
 	http.HandleFunc("/iva", controller.Iva)
+=======
 	// init the DB
 	authdb.InitDB()
 	// init the JWTs
@@ -161,6 +162,7 @@ func main() {
 		log.Println("Error initializing the JWT's!")
 		log.Fatal(jwtErr)
 	}
+>>>>>>> 50085f5d5b18ba9d3e3365ca7e4f1bcd62f01d64
 
 	// start the server
 	serverErr := server.StartServer(host, port)
