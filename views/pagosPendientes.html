@@ -3,7 +3,7 @@
 
 {{ define "pagosPendientes" }}
 
-{{ template "head" }}
+{{ template "head" . }}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,7 +17,7 @@
 
     <!-- Se abre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" . }}
-{{ template "header" }}
+{{ template "header" . }}
 
 
     <!-- <h2> Registradas </h2> -->
@@ -59,11 +59,17 @@
                 sorting: true, //Enable sorting
                 columnSelectable: true,
                 defaultSorting: 'Nombre ASC', //Set default sorting
+                token : '{{ .CsrfSecret }}',
+                security:
+                {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                },
                 selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
+               
                 actions: {
                     listAction: '/pagospendientes/list',
                     updateAction: '/pagospendientes/confirmarpago'
