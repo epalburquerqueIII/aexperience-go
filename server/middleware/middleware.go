@@ -109,6 +109,7 @@ func authHandler(next http.Handler) http.Handler {
 				"/pagospendientes", //Pagos pendientes
 				"/pagospendientes/list",
 				"/pagospendientes/getoptions",
+				"/pagospendientes/confirmarpago",
 				"/usuariosroles", //Roles de usuario
 				"/usuariosroles/list",
 				"/usuariosroles/create",
@@ -416,6 +417,8 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.PagosPendientesList(w, r)
 	case "/pagospendientes/getoptions":
 		controller.Pagospendientesgetoptions(w, r)
+	case "/pagospendientes/confirmarpago":
+		controller.Pagospendientesconfirmarpago(w, r)
 
 	//Gestiona los roles de usuario:
 	case "/usuariosroles":
@@ -568,12 +571,12 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
-	case "/horasdia/list":
-		controller.HorasDiaList(w, r)
-	case "/horasdia/create":
-		controller.HorasDiaCreate(w, r)
-	case "/horasdia/update":
-		controller.HorasDiaUpdate(w, r)
+		//	case "/horasdia/list":
+		//		controller.HorasDiaList(w, r)
+		//	case "/horasdia/create":
+		//		controller.HorasDiaCreate(w, r)
+		//	case "/horasdia/update":
+		//		controller.HorasDiaUpdate(w, r)
 
 	//Gestiona otras apis:
 	case "/estadisticas":
