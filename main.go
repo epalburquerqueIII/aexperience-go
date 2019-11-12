@@ -150,10 +150,9 @@ func main() {
 	http.HandleFunc("/newsletter/getoptions", controller.NewslettergetoptionsTipoNoticias)
 
 	//Apis horas del dia
-	http.HandleFunc("/horasdia", controller.HorasDia)
-	http.HandleFunc("/horasdia/list", controller.HorasDiaList)
-	http.HandleFunc("/horasdia/create", controller.HorasDiaCreate)
-	http.HandleFunc("/horasdia/update", controller.HorasDiaUpdate)
+	http.HandleFunc("/reservapabellonpista", controller.ReservaPabellonPista)
+	http.HandleFunc("/horasdia", controller.HorasReservables)
+	http.HandleFunc("/reservapabellonpista/create", controller.HorasDiaCreate)
 
 	//Radio button emailnewsletter
 	http.HandleFunc("/emailnewsletter", controller.EmailNewsletter)
