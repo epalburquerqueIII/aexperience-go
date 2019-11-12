@@ -20,9 +20,15 @@
 {{ template "header" . }}
     <!-- <h2> Registradas </h2> -->
 
-    <div class="container">
+    <div class= 'container' onload='loadcontainer()'>
         <div id="MenusTableContainer"></div>
     </div>
+
+    <div class='container'  onload='loadcontainer()'>
+        <div id="PagosTableContainer"></div>
+    </div>
+
+    {{ with .AuthWeb }}
 
     <script type="text/javascript">
         function loadcontainer(){
@@ -112,14 +118,15 @@
                     HandleFunc: {
                         title: 'HandleFunc',
                         width: '10%'
-                    },
+                    }
                 }
             });
             //Load student list from server
             $('#MenusTableContainer').jtable('load');
         });
     </script>
-      </div><!--Cierre de menu-->
+    {{ end }} 
+    </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 
     {{ template "footer" }}
