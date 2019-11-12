@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "pagosPendientes" }}
+{{ define "pagospendientes" }}
 
 {{ template "head" }}
 <meta charset="utf-8">
@@ -21,9 +21,12 @@
 
 
     <!-- <h2> Registradas </h2> -->
-    <div class="container">
+    <div class="container" onload='loadcontainer()'>
         <div id="pagosPendientesTableContainer"></div>
     </div>
+
+    {{ with .AuthWeb }}
+
     <script type="text/javascript">
         $(document).ready(function () {
             var spanishMessages = {
@@ -59,6 +62,10 @@
                 sorting: true, //Enable sorting
                 columnSelectable: true,
                 defaultSorting: 'Nombre ASC', //Set default sorting
+                security:
+                {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                },
                 selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
@@ -116,6 +123,7 @@
             $('#pagosPendientesTableContainer').jtable('load');
         });
     </script>
+    {{ end }}
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 
