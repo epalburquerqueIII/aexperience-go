@@ -73,7 +73,45 @@
   </div>
 
   {{ template "linkfooter" }}
+  <script>
+    if ( {{ .BAlertUser }} ) alert("{{ .AlertMsg }}");
 
+    function DoSubmit(){
+      document.realRegister.email.value = document.fakeRegister.email.value;
+      document.realRegister.password.value = CryptoJS.SHA256(document.fakeRegister.password.value).toString(CryptoJS.enc.Hex);
+
+      $.ajax({
+        'type': 	'POST',
+        'url': 		'/register',
+        'data': 	$('#realRegister').serializeArray(),
+        success: function(data, textStatus, request) {
+          var token = request.getResponseHeader('X-CSRF-Token');
+          console.log("Success! The token is: ", token);
+          $("#X-CSRF-Token-input").val(token);
+          $("#restricted").submit();
+
+          // $.ajax({
+          // 	'url': 		"/restricted",
+          // 	'headers': 	{ 'X-CSRF-Token' : token },             
+          // 	'type': 	"GET",
+          // 	success: function(data, textStatus, request) {
+          // 		console.log("Success the 2nd time!");
+          // 		console.log(data, textStatus, request)
+          // 	},
+          // 	error: function (request, textStatus, errorThrown) {
+          // 		console.log("Error the 2nd time!");
+          // 		console.log(request, textStatus, errorThrown)
+          // 	}
+          // });
+        },
+        error: function (request, textStatus, errorThrown) {
+          console.log("Error!", request.getResponseHeader('X-CSRF-Token'));
+        }
+      });
+
+      return false;
+    }
+  </script>
 </body>
 
 </html>
