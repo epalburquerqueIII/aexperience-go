@@ -29,7 +29,13 @@
                     </div>
                 </div>
             </form>
-
+            <!-- Formulario para enviar CSRF al sistema -->
+            {{ with .AuthWeb }}
+            <form id="CSRF" name="CSRF" method="POST" style="display: none;">
+                <input id="X-CSRF-Token-input" name="X-CSRF-Token" value="{{ .CsrfSecret }}" />          
+            </form>
+            {{ end }}
+      
             <!-- Barra Superior - Barra de navegación -->
             <ul class="navbar-nav ml-auto">
 

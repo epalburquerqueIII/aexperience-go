@@ -170,7 +170,15 @@ func UsuariosUpdate(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// Usuarioregistro - registra un Usuario
+// UsuariosUserRegister Pantalla para registrar un usuario
+func UsuariosUIRegister(w http.ResponseWriter, r *http.Request) {
+	error := tmpl.ExecuteTemplate(w, "userregister", nil)
+	if error != nil {
+		fmt.Println("Error ", error.Error)
+	}
+}
+
+// UsuarioRegister - registra un Usuario
 func UsuariosRegister(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
@@ -245,7 +253,7 @@ func UsuariosDelete(w http.ResponseWriter, r *http.Request) {
 	//	http.Redirect(w, r, "/", 301)
 }
 
-// Usuariogetoptions - Obtener nombres de usuarios para la tabla de autorizados
+// Usuariosgetoptions - Obtener nombres de usuarios para la tabla de autorizados
 func Usuariosgetoptions(w http.ResponseWriter, r *http.Request) {
 
 	db := database.DbConn()
@@ -273,4 +281,30 @@ func Usuariosgetoptions(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(s)
 	w.Write(a)
 	defer db.Close()
+}
+
+// GetUsuario Get user to login
+func GetUsuario(email string) (bool, int, string, string, int) {
+
+	var tipo, userid int
+	var passwd, username string
+	var found bool
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT ID,nombre,password,idusuariorol FROM usuarios where email = ?", email)
+	if err != nil {
+		var verror model.Resulterror
+		verror.Result = "ERROR"
+		verror.Error = "Error buscando datos"
+		panic(err.Error())
+	}
+	for selDB.Next() {
+		found = true
+		err = selDB.Scan(&userid, &username, &passwd, &tipo)
+	}
+	defer db.Close()
+	if found {
+		return found, userid, username, passwd, tipo
+	} else {
+		return false, -1, "", "", 1
+	}
 }

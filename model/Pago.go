@@ -9,4 +9,6 @@ type Tpago struct {
 	IdTipopago    int
 	TipoPago      string
 	NumeroTarjeta string
+	Importe       float64
+	Referencia    string
 }
