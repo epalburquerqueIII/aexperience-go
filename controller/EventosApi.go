@@ -9,7 +9,7 @@ import (
 
 func GetEventosmdtojson(w http.ResponseWriter, r *http.Request) {
 
-	json, err := mdtojson.ProcessRepo("http://localhost:1313/content/eventos/", "./dir")
+	json, err := mdtojson.ProcessRepo("http://localhost:1313/content/eventos/", "./util/dir")
 
 	if json != "" {
 		fmt.Printf(json)
