@@ -24,6 +24,9 @@
     <div class='container'  onload='loadcontainer()'>
         <div id="PagosTableContainer"></div>
     </div>
+
+    {{ with .AuthWeb }}
+
     <script type="text/javascript">
         function loadcontainer(){
             var token = request.getResponseHeader('X-CSRF-Token');
@@ -122,6 +125,7 @@
             $('#PagosTableContainer').jtable('load');
         });
     </script>
+    {{ end }} 
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 

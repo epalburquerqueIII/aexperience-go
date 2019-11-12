@@ -284,10 +284,10 @@ func Usuariosgetoptions(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetUsuario Get user to login
-func GetUsuario(email string) (bool, int, string, string, string) {
+func GetUsuario(email string) (bool, int, string, string, int) {
 
-	var userid int
-	var passwd, tipo, username string
+	var tipo, userid int
+	var passwd, username string
 	var found bool
 	db := database.DbConn()
 	selDB, err := db.Query("SELECT ID,nombre,password,idusuariorol FROM usuarios where email = ?", email)
@@ -299,12 +299,12 @@ func GetUsuario(email string) (bool, int, string, string, string) {
 	}
 	for selDB.Next() {
 		found = true
-		err = selDB.Scan(&userid,&username,&passwd, &tipo)
+		err = selDB.Scan(&userid, &username, &passwd, &tipo)
 	}
 	defer db.Close()
 	if found {
 		return found, userid, username, passwd, tipo
 	} else {
-		return false, -1,"","", ""
+		return false, -1, "", "", 1
 	}
 }

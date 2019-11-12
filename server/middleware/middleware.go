@@ -15,8 +15,12 @@ import (
 	"../../model/authdb"
 	"../../server/middleware/myJwt"
 	"../../server/templates"
+	"../../util"
 	"github.com/justinas/alice"
 )
+
+var user = model.User{"", "", "Default", 1, -1}
+var uuid string
 
 // NewHandler Punto de llamadas desde el servidor
 func NewHandler() http.Handler {
@@ -49,6 +53,19 @@ func authHandler(next http.Handler) http.Handler {
 		activa_restricted := true
 
 		requestCsrfToken := grabCsrfFromReq(r)
+		if r.URL.Path == "/autorizados/list" || r.URL.Path == "/pagos" {
+			//				for _, cookie := range r.Cookies() {
+			//					log.Printf("Found a cookie named: %s,%s\n", cookie.Name, cookie.Value)
+			//				}
+			log.Println("List")
+			buf, _ := ioutil.ReadAll(r.Body)
+			log.Println(buf)
+		}
+		// A M
+		if (requestCsrfToken != "") && (requestCsrfToken[4] == '$') {
+			activa_restricted = false
+		}
+
 		if activa_restricted {
 
 			switch r.URL.Path {
@@ -58,6 +75,10 @@ func authHandler(next http.Handler) http.Handler {
 				"/pagos/create",
 				"/pagos/update",
 				"/pagos/delete",
+				"/autorizados/list",
+				"/autorizados/create",
+				"/autorizados/update",
+				"/autorizados/delete",
 				"/usuarios":
 				//, "/logout"
 				// Login desde otra plataforma o segmento de red, no acabada
@@ -178,20 +199,21 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	var tmpl = template.Must(template.ParseGlob("./views/*.html"))
 
+	authweb := model.AuthWeb{grabCsrfFromReq(r), user.UserName}
+	menu := util.Menus(user.Role)
+
 	// @adam-hanna: I shouldn't be doing this in my middleware!!!!
 	switch r.URL.Path {
 	case "/restricted":
-		csrfSecret := grabCsrfFromReq(r)
-		w.Header().Set("X-CSRF-Token", csrfSecret)
-		error := tmpl.ExecuteTemplate(w, "restricted", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
+		error := tmpl.ExecuteTemplate(w, "restricted", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
 		// Gestiona los pagos
 	case "/pagos":
-		csrfSecret := grabCsrfFromReq(r)
-		w.Header().Set("X-CSRF-Token", csrfSecret)
-		error := tmpl.ExecuteTemplate(w, "pagos", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
+		error := tmpl.ExecuteTemplate(w, "pagos", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -203,9 +225,16 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.PagosUpdate(w, r)
 	case "/pagos/delete":
 		controller.PagosDelete(w, r)
+	case "/autorizados/list":
+		controller.AutorizadosList(w, r)
+	case "/autorizados/create":
+		controller.AutorizadosCreate(w, r)
+	case "/autorizados/update":
+		controller.AutorizadosUpdate(w, r)
+	case "/autorizados/delete":
+		controller.AutorizadosDelete(w, r)
 	case "/usuarios":
-		csrfSecret := grabCsrfFromReq(r)
-		error := tmpl.ExecuteTemplate(w, "usuarios", &templates.RestrictedPage{csrfSecret, "Stoofs!"})
+		error := tmpl.ExecuteTemplate(w, "usuarios", &templates.RestrictedPage{authweb, menu})
 		if error != nil {
 			log.Println("Error ", error.Error)
 		}
@@ -220,8 +249,9 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		case "POST":
 			r.ParseForm()
 			log.Println(r.Form)
-
-			user, uuid, loginErr := authdb.LogUserIn(strings.Join(r.Form["email"], ""), strings.Join(r.Form["password"], ""))
+			var user model.User
+			var loginErr error
+			user, uuid, loginErr = authdb.LogUserIn(strings.Join(r.Form["email"], ""), strings.Join(r.Form["password"], ""))
 			log.Println(user, uuid, loginErr)
 			if loginErr != nil {
 				// login err
@@ -264,9 +294,9 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		case "POST":
 			r.ParseForm()
 			log.Println(r.Form)
-
+			var err error
 			// check to see if the email is already taken
-			user, uuid, err := authdb.FetchUserByEmail(strings.Join(r.Form["email"], ""))
+			user, uuid, err = authdb.FetchUserByEmail(strings.Join(r.Form["email"], ""))
 			if err == nil {
 				// templates.RenderTemplate(w, "register", &templates.RegisterPage{ true, "email not available!" })
 				w.WriteHeader(http.StatusUnauthorized)

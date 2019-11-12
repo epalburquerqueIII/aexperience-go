@@ -15,7 +15,6 @@ var port = "8088"
 func main() {
 	// init the DB
 	authdb.InitDB()
-
 	// init the JWTs
 	jwtErr := myJwt.InitJWT()
 	if jwtErr != nil {
