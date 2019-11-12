@@ -1,9 +1,10 @@
+{{ define "usuarios" }}
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "usuarios" }}
 
-{{ template "head" }}
+
+{{ template "head" .}}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,11 +28,11 @@
 
     <script type="text/javascript">
     function loadcontainer(){
-    var token = request.getResponseHeader('X-CSRF-Token');
-    console.log("Success! The token is: ", token);
-    var myHeaders = new Headers();
-    myHeaders.append('X-CSRF-Token', token);
- };
+            var token = request.getResponseHeader('X-CSRF-Token');
+            console.log("Success! The token is: ", token);
+            var myHeaders = new Headers();
+            myHeaders.append('X-CSRF-Token', token);
+        };
         $(document).ready(function () {
             var spanishMessages = {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',

@@ -1,10 +1,9 @@
+{{ define "iva" }}
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "iva" }}
-
 <!-- Se abre un div en menu.html y header.html y se cierra en index -->
-{{ template "head" }}
+{{ template "head" .}}
 
 </head>
 
@@ -12,7 +11,7 @@
 
   <!-- Se abre un div en menu.html y header.html y se cierra en index -->
   {{ template "menu" . }}
-  {{ template "header" }}
+  {{ template "header" .}}
 
   <!-- Begin Page Content -->
   <div class="container-fluid">
@@ -138,5 +137,4 @@
 </body>
 
 </html>
-
 {{ end }}
