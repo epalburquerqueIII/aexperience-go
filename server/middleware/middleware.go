@@ -75,7 +75,8 @@ func authHandler(next http.Handler) http.Handler {
 				"/pagos/create",
 				"/pagos/update",
 				"/pagos/delete",
-				//"/usuarios", //Usuarios
+				//Usuarios
+				"/usuarios",
 				"/usuarios/list",
 				"/usuarios/create",
 				"/usuarios/update",
@@ -172,8 +173,7 @@ func authHandler(next http.Handler) http.Handler {
 				"/404",
 				"/recuperarcontrasena",
 				"/paginavacia",
-				"/iva",
-				"/usuarios":
+				"/iva":
 				//, "/logout"
 				// Login desde otra plataforma o segmento de red, no acabada
 				// fuerza el cambio de web de Hugo a privada en el 8088
