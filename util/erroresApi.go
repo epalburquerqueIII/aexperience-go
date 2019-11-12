@@ -14,6 +14,8 @@ func ErrorApi(textoPanic string, w http.ResponseWriter, textoError string) {
 	verror.Result = "ERROR"
 	verror.Error = textoError + "<--->" + textoPanic
 	a, _ := json.Marshal(verror)
-	w.Write(a)
+	if w != nil {
+		w.Write(a)
+	}
 	panic(textoPanic)
 }

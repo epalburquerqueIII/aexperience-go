@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	"../model"
 	"../model/database"
@@ -41,25 +40,25 @@ func HorasDia(w http.ResponseWriter, r *http.Request) {
 		horas = append(horas, hora)
 	}
 
-	error := tmpl.ExecuteTemplate(w, "horasdia", &horas)
+	error := templates.ExecuteTemplate(w, "horasdia", &horas)
 	if error != nil {
 		fmt.Println("Error ", error.Error)
 	}
 
 }
 */
-func HorasReservables(w http.ResponseWriter, r *http.Request) {
+func HorasReservables() []model.THorasdia {
 	datos := datocarga{}
-	if r.FormValue("dia") == "1" {
-		datos.fechabusqueda = time.Now().Format("2006-01-02")
-	} else {
-		datos.fechabusqueda = "0"
-	}
-	if r.FormValue("espacio") == "1" {
-		datos.espacioposible = "5"
-	} else {
-		datos.espacioposible = "1"
-	}
+	/*	if r.FormValue("dia") == "1" {
+			datos.fechabusqueda = time.Now().Format("2006-01-02")
+		} else {
+			datos.fechabusqueda = "0"
+		}
+		if r.FormValue("espacio") == "1" {
+			datos.espacioposible = "5"
+		} else {
+			datos.espacioposible = "1"
+		}*/
 	fechafinal = datos.fechabusqueda
 	espaciofinal = datos.espacioposible
 	db := database.DbConn()
@@ -74,15 +73,16 @@ func HorasReservables(w http.ResponseWriter, r *http.Request) {
 		err = selDB.Scan(&ID, &horareservada.IDEspacio, &horareservada.Hora, &horareservada.Reservado)
 
 		if err != nil {
-			util.ErrorApi(err.Error(), w, "Error Cargando datos de horas dia")
+			util.ErrorApi(err.Error(), nil, "Error Cargando datos de horas dia")
 		}
 		horasreservada = append(horasreservada, horareservada)
 	}
 
-	error := tmpl.ExecuteTemplate(w, "horasreservables", &horasreservada)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
+	//	error := templates.ExecuteTemplate(w, "horasreservables", &horasreservada)
+	//	if error != nil {
+	//		fmt.Println("Error ", error.Error)
+	//	}
+	return horasreservada
 
 }
 

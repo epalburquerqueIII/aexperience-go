@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"log"
 
 	"./model/authdb"
@@ -11,6 +12,7 @@ import (
 
 var host = "192.168.0.12"
 var port = "8088"
+var tmpl = template.Must(template.ParseGlob("./views/*.html"))
 
 func main() {
 	// init the DB

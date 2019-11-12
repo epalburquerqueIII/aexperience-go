@@ -2,12 +2,10 @@ package middleware
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
-	"text/template"
 	"time"
 
 	"../../config"
@@ -16,6 +14,7 @@ import (
 	"../../model/authdb"
 	"../../server/middleware/myJwt"
 	"../../server/templates"
+
 	"../../util"
 	"github.com/justinas/alice"
 )
@@ -93,21 +92,25 @@ func authHandler(next http.Handler) http.Handler {
 				"/bonos/create",
 				"/bonos/update",
 				"/bonos/delete",
-				"/autorizados", //Autorizados
+				//Autorizados
+				"/autorizados",
 				"/autorizados/list",
 				"/autorizados/create",
 				"/autorizados/update",
 				"/autorizados/delete",
 				"/autorizados/getoptions",
-				"/eventos/getEventosmdtojson", //Eventos
-				"/reservas",                   //Reservas
+				//Eventos
+				"/eventos/getEventosmdtojson",
+				//Reservas
+				"/reservas",
 				"/reservas/list",
 				"/reservas/create",
 				"/reservas/update",
 				"/reservas/delete",
 				"/reservas/getoptions",
 				"/reservas/comprarbono",
-				"/pagospendientes", //Pagos pendientes
+				//Pagos pendientes
+				"/pagospendientes",
 				"/pagospendientes/list",
 				"/pagospendientes/getoptions",
 				"/pagospendientes/confirmarpago",
@@ -288,8 +291,6 @@ func setupResponse(w *http.ResponseWriter, req *http.Request) {
 
 func logicHandler(w http.ResponseWriter, r *http.Request) {
 
-	var tmpl = template.Must(template.ParseGlob("./views/*.html"))
-
 	authweb := model.AuthWeb{grabCsrfFromReq(r), user.UserName}
 	menu := util.Menus(user.Role)
 
@@ -297,19 +298,13 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.URL.Path {
 	case "/restricted":
 		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
-		error := tmpl.ExecuteTemplate(w, "restricted", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "restricted", &templates.RestrictedPage{authweb, menu})
 
 	//--- GESTIONES ---
 	//Gestiona los pagos:
 	case "/pagos":
 		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
-		error := tmpl.ExecuteTemplate(w, "pagos", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "pagos", &templates.RestrictedPage{authweb, menu})
 	case "/pagos/list":
 		controller.PagosList(w, r)
 	case "/pagos/create":
@@ -321,10 +316,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los usuarios:
 	case "/usuarios":
-		error := tmpl.ExecuteTemplate(w, "usuarios", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "usuarios", &templates.RestrictedPage{authweb, menu})
 	case "/usuarios/list":
 		controller.UsuariosList(w, r)
 	case "/usuarios/create":
@@ -339,16 +331,10 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.Usuariosgetoptions(w, r)
 	case "/usuarios/registerUI":
 		// UsuariosUserRegister Pantalla para registrar un usuario
-		error := tmpl.ExecuteTemplate(w, "userregister", nil)
-		if error != nil {
-			fmt.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "userregister", nil)
 	//Gestiona el consumo de bonos:
 	case "/consumobonos":
-		error := tmpl.ExecuteTemplate(w, "consumobonos", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "consumobonos", &templates.RestrictedPage{authweb, menu})
 	case "/consumobonos/list":
 		controller.ConsumoBonosList(w, r)
 	case "/consumobonos/create":
@@ -358,10 +344,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los bonos:
 	case "/bonos":
-		error := tmpl.ExecuteTemplate(w, "bonos", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "bonos", &templates.RestrictedPage{authweb, menu})
 	case "/bonos/list":
 		controller.BonoList(w, r)
 	case "/bonos/create":
@@ -373,10 +356,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los autorizados:
 	case "/autorizados":
-		error := tmpl.ExecuteTemplate(w, "autorizados", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "autorizados", &templates.RestrictedPage{authweb, menu})
 	case "/autorizados/list":
 		controller.AutorizadosList(w, r)
 	case "/autorizados/create":
@@ -394,10 +374,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona las reservas:
 	case "/reservas":
-		error := tmpl.ExecuteTemplate(w, "reservas", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "reservas", &templates.RestrictedPage{authweb, menu})
 	case "/reservas/list":
 		controller.ReservasList(w, r)
 	case "/reservas/create":
@@ -413,10 +390,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los pagos pendientes:
 	case "/pagospendientes":
-		error := tmpl.ExecuteTemplate(w, "pagospendientes", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "pagospendientes", &templates.RestrictedPage{authweb, menu})
 	case "/pagospendientes/list":
 		controller.PagosPendientesList(w, r)
 	case "/pagospendientes/getoptions":
@@ -426,10 +400,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los roles de usuario:
 	case "/usuariosroles":
-		error := tmpl.ExecuteTemplate(w, "usuariosroles", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "usuariosroles", &templates.RestrictedPage{authweb, menu})
 	case "/usuariosroles/list":
 		controller.UsuariosRolesList(w, r)
 	case "/usuariosroles/create":
@@ -443,10 +414,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los tipos de pago:
 	case "/tipospago":
-		error := tmpl.ExecuteTemplate(w, "tipospago", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "tipospago", &templates.RestrictedPage{authweb, menu})
 	case "/tipospago/list":
 		controller.TiposPagoList(w, r)
 	case "/tipospago/create":
@@ -460,10 +428,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los menús:
 	case "/menus":
-		error := tmpl.ExecuteTemplate(w, "menus", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "menus", &templates.RestrictedPage{authweb, menu})
 	case "/menus/list":
 		controller.MenusList(w, r)
 	case "/menus/create":
@@ -477,10 +442,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los tipos de eventos:
 	case "/tiposeventos":
-		error := tmpl.ExecuteTemplate(w, "tiposeventos", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "tiposeventos", &templates.RestrictedPage{authweb, menu})
 	case "/tiposeventos/list":
 		controller.TiposeventosList(w, r)
 	case "/tiposeventos/create":
@@ -494,10 +456,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los espacios:
 	case "/espacios":
-		error := tmpl.ExecuteTemplate(w, "espacios", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "espacios", &templates.RestrictedPage{authweb, menu})
 	case "/espacios/list":
 		controller.EspacioList(w, r)
 	case "/espacios/create":
@@ -511,10 +470,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los horarios:
 	case "/horarios":
-		error := tmpl.ExecuteTemplate(w, "horarios", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "horarios", &templates.RestrictedPage{authweb, menu})
 	case "/horarios/list":
 		controller.HorariosList(w, r)
 	case "/horarios/create":
@@ -526,10 +482,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona los roles de menú:
 	case "/menuroles":
-		error := tmpl.ExecuteTemplate(w, "menuroles", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "menuroles", &templates.RestrictedPage{authweb, menu})
 	case "/menuroles/list":
 		controller.MenuRolesList(w, r)
 	case "/menuroles/create":
@@ -543,10 +496,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona el newsletter:
 	case "/newsletter":
-		error := tmpl.ExecuteTemplate(w, "newsletter", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "newsletter", &templates.RestrictedPage{authweb, menu})
 	case "/newsletter/list":
 		controller.NewsletterList(w, r)
 	case "/newsletter/create":
@@ -562,19 +512,19 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona el tipo de noticias:
 	case "/tiponoticias":
-		error := tmpl.ExecuteTemplate(w, "tiponoticias", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
+
+		type datos struct {
+			Email    string
+			Noticias []model.TtipoNoticia
 		}
+
+		templates.RenderTemplate(w, "tiponoticias", &datos{r.FormValue("EMAIL"), controller.GetTipoNoticias()})
 	case "/tiponoticias/list":
 		controller.TipoNoticiasList(w, r)
 
 	//Gestiona las horas del día:
 	case "/horasdia":
-		error := tmpl.ExecuteTemplate(w, "horasdia", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "horasdia", &templates.RestrictedPage{authweb, menu})
 		//	case "/horasdia/list":
 		//		controller.HorasDiaList(w, r)
 		//	case "/horasdia/create":
@@ -584,36 +534,21 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 
 	//Gestiona otras apis:
 	case "/estadisticas":
-		error := tmpl.ExecuteTemplate(w, "estadisticas", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "estadisticas", &templates.RestrictedPage{authweb, menu})
 	case "/404":
-		error := tmpl.ExecuteTemplate(w, "404", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "404", &templates.RestrictedPage{authweb, menu})
 	case "/recuperarcontrasena":
-		error := tmpl.ExecuteTemplate(w, "recuperarcontrasena", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "recuperarcontrasena", &templates.RestrictedPage{authweb, menu})
 	case "/paginavacia":
-		error := tmpl.ExecuteTemplate(w, "paginavacia", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "paginavacia", &templates.RestrictedPage{authweb, menu})
 	case "/iva":
-		error := tmpl.ExecuteTemplate(w, "iva", &templates.RestrictedPage{authweb, menu})
-		if error != nil {
-			log.Println("Error ", error.Error)
-		}
+		templates.RenderTemplate(w, "iva", &templates.RestrictedPage{authweb, menu})
 
 	//Gestiona el login:
 	case "/login":
 		switch r.Method {
 		case "GET":
-			tmpl.ExecuteTemplate(w, "login", &templates.LoginPage{false, ""})
+			templates.RenderTemplate(w, "login", &templates.LoginPage{false, ""})
 
 			//			templates.RenderTemplate(w, "login", &templates.LoginPage{false, ""})
 

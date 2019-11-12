@@ -3,7 +3,6 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"html/template"
 	"net/http"
 	"strconv"
 
@@ -12,8 +11,6 @@ import (
 	"../model/database"
 	"../util"
 )
-
-var tmpl = template.Must(template.ParseGlob("./views/*.html"))
 
 // NoticiasList
 func TipoNoticiasList(w http.ResponseWriter, r *http.Request) {
@@ -56,36 +53,25 @@ func TipoNoticiasList(w http.ResponseWriter, r *http.Request) {
 }
 
 // Select tipo de noticias y email
-func TipoNoticias(w http.ResponseWriter, r *http.Request) {
+func GetTipoNoticias() []model.TtipoNoticia {
 	db := database.DbConn()
 
 	selDB, err := db.Query("SELECT id, nombre FROM tiponoticias order by tiponoticias.id")
 	if err != nil {
-		util.ErrorApi(err.Error(), w, "Error en Select ")
+		util.ErrorApi(err.Error(), nil, "Error en Select ")
 	}
-	mceEmail := r.FormValue("EMAIL")
 	tipo := model.TtipoNoticia{}
 	noticias := []model.TtipoNoticia{}
-	type datos struct {
-		Email    string
-		Noticias []model.TtipoNoticia
-	}
 
 	for selDB.Next() {
 
 		err = selDB.Scan(&tipo.Id, &tipo.Nombre)
 		if err != nil {
-			util.ErrorApi(err.Error(), w, "Error Cargando datos de tiponoticias")
+			util.ErrorApi(err.Error(), nil, "Error Cargando datos de tiponoticias")
 		}
 		noticias = append(noticias, tipo)
 	}
-	parametros := datos{mceEmail, noticias}
-
-	error := tmpl.ExecuteTemplate(w, "tiponoticias", &parametros)
-	if error != nil {
-		fmt.Println("Error ", error.Error)
-	}
-
+	return noticias
 }
 
 // Guardar tipo de noticias y email
