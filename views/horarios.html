@@ -1,9 +1,8 @@
+{{ define "horarios" }}
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "horarios" }}
-
-{{ template "head" }}
+{{ template "head" .}}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,7 +17,7 @@
 <body>
 
     {{ template "menu" . }}
-    {{ template "header" }}
+    {{ template "header" .}}
 
     <!-- <h2> Registradas </h2> -->
     <div class="container">

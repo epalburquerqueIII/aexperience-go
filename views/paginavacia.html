@@ -1,9 +1,8 @@
+{{ define "paginavacia" }}
 <!DOCTYPE html>
 <html lang="es">
 
-  {{ define "paginavacia" }}
-
-  {{ template "head" }}
+  {{ template "head" .}}
 
 </head>
 
@@ -11,7 +10,7 @@
 
   <!-- Se abre un div en menu.html y header.html y se cierra en index -->
   {{ template "menu" . }}
-  {{ template "header" }}
+  {{ template "header" .}}
 
 </div><!--Cierre de menu-->
 </div><!--Cierre de Header-->
@@ -32,6 +31,4 @@
 </body>
 
 </html>
-
-
 {{ end }}
