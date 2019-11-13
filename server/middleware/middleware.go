@@ -53,7 +53,7 @@ func authHandler(next http.Handler) http.Handler {
 		activaRestricted := false
 
 		requestCsrfToken := grabCsrfFromReq(r)
-		if r.URL.Path == "/autorizados/list" || r.URL.Path == "/pagos" {
+		if r.URL.Path == "/pagos/list" || r.URL.Path == "/pagos" {
 			//				for _, cookie := range r.Cookies() {
 			//					log.Printf("Found a cookie named: %s,%s\n", cookie.Name, cookie.Value)
 			//				}
