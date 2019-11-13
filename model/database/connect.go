@@ -10,7 +10,7 @@ import (
 // DbConn Conectar a db
 func DbConn() (db *sql.DB) {
 	//	var host = "tcp(192.168.0.3)"
-	var host = "tcp(192.168.0.12)"
+	var host = "tcp(192.168.0.82)"
 	//	var host = "tcp(127.0.0.1)"
 	dbname := "dbaexperience"
 	db, err := sql.Open(config.DbDriver, fmt.Sprintf("%s:%s@%s/%s", config.DbUser, config.DbPass, host, dbname))
