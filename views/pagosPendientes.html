@@ -61,6 +61,7 @@
                 sorting: true, //Enable sorting
                 columnSelectable: true,
                 defaultSorting: 'Nombre ASC', //Set default sorting
+                token : '{{ .CsrfSecret }}',
                 security:
                 {
                     antiforgerytoken: "{{ .CsrfSecret }}"
@@ -70,6 +71,7 @@
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
+               
                 actions: {
                     listAction: '/pagospendientes/list',
                     updateAction: '/pagospendientes/confirmarpago'
