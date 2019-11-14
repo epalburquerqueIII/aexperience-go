@@ -86,33 +86,52 @@
                     IdReserva: {
                         title: 'Reserva',
                         width: '10%',
-                        options: '/reservas/getoptions',
-                        //type: "date",
+                        visibility: 'hidden',
                         displayFormat: "dd-mm-yy",
-                        readonly: true
+                        edit:false
                     },
-                    FechaPago: {
-                        title: 'Fecha',
+                    FechaReserva: {
+                        title: 'Fecha Reserva',
                         width: '10%',
                         type: "date",
                         displayFormat: "dd-mm-yy",
-                        readonly: true
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="FechaReserva" style="width:200px" value="' + data.record.FechaReserva + '" readonly />';
+                            } 
+                        }
+                    },
+                    FechaPago: {
+                        title: 'Fecha Pago',
+                        width: '10%',
+                        type: "date",
+                        displayFormat: "dd-mm-yy",
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="FechaPago" style="width:200px" value="' + data.record.FechaPago + '" readonly />';
+                            } 
+                        }
                     },
                     IdTipopago: {
                         title: 'Tipo de pago',
                         width: '15%',
                         options: '/tipospago/getoptions',
-                        readonly: true
                     },
+
                     NumeroTarjeta: {
                         title: 'Nº de tarjeta',
                         width: '15%',
-                        readonly: true
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="NumeroTarjeta" style="width:200px" value="' + data.record.NumeroTarjeta + '" readonly />';
+                            } 
+                        }
                     },
                     Importe: {
                         title: 'Importe',
                         width: '10%',
-                        readonly: true,
+                        displayFormat: '#,###.00',
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="Importe" style="width:200px" value="' + data.record.Importe + '" readonly />';
+                            } 
+                        }
                     },
                     Referencia: {
                         title: 'Referencia',
