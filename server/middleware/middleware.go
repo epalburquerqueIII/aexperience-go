@@ -161,8 +161,6 @@ func authHandler(next http.Handler) http.Handler {
 				"/newsletter/create",
 				"/newsletter/update",
 				"/newsletter/delete",
-				"/newsletter/getoptions",
-				"/newsletter/newsletterguardar",
 				"/tiponoticias", //Tipo noticias
 				"/tiponoticias/list",
 				"/horasdia", //Horas del día
@@ -369,7 +367,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.Autorizadosgetoptions(w, r)
 
 	//Gestiona los eventos:
-	case "/getEventosmdtojson":
+	case "/eventos/getEventosmdtojson":
 		controller.GetEventosmdtojson(w, r)
 
 	//Gestiona las reservas:
