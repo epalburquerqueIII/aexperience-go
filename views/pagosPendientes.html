@@ -1,9 +1,8 @@
+{{ define "pagospendientes" }}
 <!DOCTYPE html>
 <html lang="es">
 
-{{ define "pagosPendientes" }}
-
-{{ template "head" }}
+{{ template "head" .}}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,13 +16,16 @@
 
     <!-- Se abre un div en menu.html y header.html y se cierra en index -->
 {{ template "menu" . }}
-{{ template "header" }}
+{{ template "header" .}}
 
 
     <!-- <h2> Registradas </h2> -->
-    <div class="container">
+    <div class="container" onload='loadcontainer()'>
         <div id="pagosPendientesTableContainer"></div>
     </div>
+
+    {{ with .AuthWeb }}
+
     <script type="text/javascript">
         $(document).ready(function () {
             var spanishMessages = {
@@ -59,11 +61,17 @@
                 sorting: true, //Enable sorting
                 columnSelectable: true,
                 defaultSorting: 'Nombre ASC', //Set default sorting
+                token : '{{ .CsrfSecret }}',
+                security:
+                {
+                    antiforgerytoken: "{{ .CsrfSecret }}"
+                },
                 selecting: true, //Enable selecting
                 //multiselect: true, //Allow multiple selecting
                 //selectingCheckboxes: true, //Show checkboxes on first column
                 //selectOnRowClick: false, //Enable this to only select using checkboxes
                 // Ver como aplicar selección en pagina jtables.org
+               
                 actions: {
                     listAction: '/pagospendientes/list',
                     updateAction: '/pagospendientes/confirmarpago'
@@ -78,33 +86,52 @@
                     IdReserva: {
                         title: 'Reserva',
                         width: '10%',
-                        options: '/reservas/getoptions',
-                        //type: "date",
+                        visibility: 'hidden',
                         displayFormat: "dd-mm-yy",
-                        readonly: true
+                        edit:false
                     },
-                    FechaPago: {
-                        title: 'Fecha',
+                    FechaReserva: {
+                        title: 'Fecha Reserva',
                         width: '10%',
                         type: "date",
                         displayFormat: "dd-mm-yy",
-                        readonly: true
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="FechaReserva" style="width:200px" value="' + data.record.FechaReserva + '" readonly />';
+                            } 
+                        }
+                    },
+                    FechaPago: {
+                        title: 'Fecha Pago',
+                        width: '10%',
+                        type: "date",
+                        displayFormat: "dd-mm-yy",
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="FechaPago" style="width:200px" value="' + data.record.FechaPago + '" readonly />';
+                            } 
+                        }
                     },
                     IdTipopago: {
                         title: 'Tipo de pago',
                         width: '15%',
                         options: '/tipospago/getoptions',
-                        readonly: true
                     },
+
                     NumeroTarjeta: {
                         title: 'Nº de tarjeta',
                         width: '15%',
-                        readonly: true
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="NumeroTarjeta" style="width:200px" value="' + data.record.NumeroTarjeta + '" readonly />';
+                            } 
+                        }
                     },
                     Importe: {
                         title: 'Importe',
                         width: '10%',
-                        readonly: true,
+                        displayFormat: '#,###.00',
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="Importe" style="width:200px" value="' + data.record.Importe + '" readonly />';
+                            } 
+                        }
                     },
                     Referencia: {
                         title: 'Referencia',
@@ -116,6 +143,7 @@
             $('#pagosPendientesTableContainer').jtable('load');
         });
     </script>
+    {{ end }}
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 

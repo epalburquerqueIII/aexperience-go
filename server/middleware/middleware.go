@@ -53,7 +53,7 @@ func authHandler(next http.Handler) http.Handler {
 		activaRestricted := false
 
 		requestCsrfToken := grabCsrfFromReq(r)
-		if r.URL.Path == "/autorizados/list" || r.URL.Path == "/pagos" {
+		if r.URL.Path == "/pagos/list" || r.URL.Path == "/pagos" {
 			//				for _, cookie := range r.Cookies() {
 			//					log.Printf("Found a cookie named: %s,%s\n", cookie.Name, cookie.Value)
 			//				}
@@ -75,7 +75,8 @@ func authHandler(next http.Handler) http.Handler {
 				"/pagos/create",
 				"/pagos/update",
 				"/pagos/delete",
-				//"/usuarios", //Usuarios
+				//Usuarios
+				"/usuarios",
 				"/usuarios/list",
 				"/usuarios/create",
 				"/usuarios/update",
@@ -112,7 +113,6 @@ func authHandler(next http.Handler) http.Handler {
 				//Pagos pendientes
 				"/pagospendientes",
 				"/pagospendientes/list",
-				"/pagospendientes/getoptions",
 				"/pagospendientes/confirmarpago",
 				"/usuariosroles", //Roles de usuario
 				"/usuariosroles/list",
@@ -171,8 +171,7 @@ func authHandler(next http.Handler) http.Handler {
 				"/404",
 				"/recuperarcontrasena",
 				"/paginavacia",
-				"/iva",
-				"/usuarios":
+				"/iva":
 				//, "/logout"
 				// Login desde otra plataforma o segmento de red, no acabada
 				// fuerza el cambio de web de Hugo a privada en el 8088
@@ -299,6 +298,22 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
 		templates.RenderTemplate(w, "restricted", &templates.RestrictedPage{authweb, menu})
 
+	case "/comprarbonos":
+
+		type Datos struct {
+			IDUsuario int
+			Bonos     []model.Tbono
+		}
+		datos := Datos{}
+		datos.IDUsuario = 18
+		datos.Bonos = controller.GetBonos()
+		type Infobonos struct {
+			AuthWeb model.AuthWeb
+			Menus   []model.Tmenuconfig
+			Params  Datos
+		}
+		templates.RenderTemplate(w, "comprarbonos", &Infobonos{authweb, menu, datos})
+
 	//--- GESTIONES ---
 	//Gestiona los pagos:
 	case "/pagos":
@@ -392,8 +407,6 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		templates.RenderTemplate(w, "pagospendientes", &templates.RestrictedPage{authweb, menu})
 	case "/pagospendientes/list":
 		controller.PagosPendientesList(w, r)
-	case "/pagospendientes/getoptions":
-		controller.Pagospendientesgetoptions(w, r)
 	case "/pagospendientes/confirmarpago":
 		controller.Pagospendientesconfirmarpago(w, r)
 

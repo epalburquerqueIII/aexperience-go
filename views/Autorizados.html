@@ -1,57 +1,50 @@
-{{ define "pagos" }}
+{{ define "autorizados" }}
 <!DOCTYPE html>
 <html lang="es">
-
-{{ template "head" . }}
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AExperience</title>
-<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+{{ template "head" .}}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AExperience</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
 {{ template "linkjtable" }}
-<!-- Add aditional link -->
-</head> <!-- fin de head/ -->
-
+    <!-- Add aditional link -->
+</head> <!-- fin de head -->
 
 <body>
-    
     <!-- Se abre un div en menu.html y header.html y se cierra en index -->
-
-{{ template "menu" . }}
-{{ template "header" .  }}
-
+    {{ template "menu" . }}
+    {{ template "header" . }}
 
     <div class='container'  onload='loadcontainer()'>
-        <div id="PagosTableContainer"></div>
+      <div id="AutorizadoTableContainer"></div>
     </div>
-
-    {{ with .AuthWeb }}
-
     <script type="text/javascript">
+
         function loadcontainer(){
             var token = request.getResponseHeader('X-CSRF-Token');
             console.log("Success! The token is: ", token);
             var myHeaders = new Headers();
             myHeaders.append('X-CSRF-Token', token);
          };
-     
+
         $(document).ready(function () {
-            var spanishMessages = {
+            var spanishMessages =  {
                 serverCommunicationError: 'Ocurrió un error en la comunicación con el servidor.',
                 loadingMessage: 'Cargando registros...',
                 noDataAvailable: 'No hay datos disponibles!',
                 addNewRecord: 'Crear nuevo registro',
                 editRecord: 'Editar registro',
                 areYouSure: '¿Confirma?',
-                deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
-                // deleteConfirmation: 'El usuario será dado de baja. ¿Continuar?',
+                //deleteConfirmation: 'El registro será eliminado. ¿Confirma?',
+                deleteConfirmation: 'El autorizado será dado de baja. ¿Continuar?',
                 save: 'Guardar',
                 saving: 'Guardando',
                 cancel: 'Cancelar',
-                deleteText: 'Eliminar',
-                // deleteText: 'Dar de baja',
-                deleting: 'Eliminando',
-                // deleting: 'Dando de baja',
+                //deleteText: 'Eliminar',
+                deleteText: 'Dar de baja',
+                //deleting: 'Eliminando',
+                deleting: 'Dando de baja',
                 error: 'Error',
                 close: 'Cerrar',
                 cannotLoadOptionsFor: 'No se pueden cargar las opciones para el campo {0}',
@@ -61,74 +54,52 @@
                 pageSizeChangeLabel: 'Registros por página',
                 gotoPageLabel: 'Ir a página'
             };
-            $('#PagosTableContainer').jtable({
+            $('#AutorizadoTableContainer').jtable({
                 messages: spanishMessages, //Lozalize
-                title: 'Listado de Pagos',
+                title: 'Autorizados',
                 paging: true, //Enable paging
                 pageSize: 10, //Set page size (default: 10)
                 sorting: true, //Enable sorting
-                defaultSorting: 'FechaPago ASC', //Set default sorting
+                defaultSorting: 'nombreAutorizado ASC', //Set default sorting
                 token : '{{ .CsrfSecret }}',
                 security:
                 {
                     antiforgerytoken: "{{ .CsrfSecret }}"
                 },
-                //selecting: true, //Enable selecting
-                //multiselect: true, //Allow multiple selecting
-                //selectingCheckboxes: true, //Show checkboxes on first column
-                //selectOnRowClick: false, //Enable this to only select using checkboxes
-                // Ver como aplicar selección en pagina jtables.org
                 actions: {
-                    listAction: '/pagos/list',
-                    updateAction: '/pagos/update',
-                    createAction: '/pagos/create',
-                    deleteAction: '/pagos/delete'
+                    listAction: '/autorizados/list',
+                    deleteAction: '/autorizados/delete',
+                    updateAction: '/autorizados/update',
+                    createAction: '/autorizados/create'
                 },
                 fields: {
-                    Id: {
+                    ID: {
                         key: true,
                         create: false,
                         edit: false,
                         list: false
                     },
-                    IdReserva: {
-                        title: 'Reserva',
-                        width: '10%',
-                        type: 'combo',
-                        options: '/reservas/getoptions'
-                    },
-                    FechaPago: {
-                        title: 'Fecha',
-                        width: '15%',
-                        type: "date",
-                        create: false,
-                        edit: true,
-                        displayFormat: "dd-mm-yy"
-                    },
-                    IdTipopago: {
-                        title: 'Tipo de pago',
+                    IDUsuario: {
+                        title: 'Usuario',
                         width: '20%',
-                        type: 'combo',
-                        options: '/tipospago/getoptions'
+                        options: '/usuarios/getoptions'
                     },
-                    NumeroTarjeta: {
-                        title: 'Nº de tarjeta',
-                        width: '15%'
+                    NombreAutorizado: {
+                        title: 'Autorizado',
+                        width: '20%'
                     },
-                    Importe: {
-                        title: 'Importe',
-                        width: '15%'
+                    Nif: {
+                        title: 'Nif',
+                        width: '8%'
                     }
                 }
             });
             //Load student list from server
-            $('#PagosTableContainer').jtable('load');
+            $('#AutorizadoTableContainer').jtable('load');
         });
     </script>
-    {{ end }} 
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
-
     {{ template "footer" }}
 
     <!-- Scroll al botón superior-->
@@ -140,7 +111,5 @@
     {{ template "cerrarsesion" }}
 
 </body>
-  
-</html>
-<!--pagos -->
+</html><!-- autorizado -->
 {{ end }}
