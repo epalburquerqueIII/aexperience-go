@@ -100,8 +100,6 @@ func authHandler(next http.Handler) http.Handler {
 				"/autorizados/update",
 				"/autorizados/delete",
 				"/autorizados/getoptions",
-				//Eventos
-				"/eventos/getEventosmdtojson",
 				//Reservas
 				"/reservas",
 				"/reservas/list",
