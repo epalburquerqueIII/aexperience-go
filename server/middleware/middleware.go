@@ -113,7 +113,6 @@ func authHandler(next http.Handler) http.Handler {
 				//Pagos pendientes
 				"/pagospendientes",
 				"/pagospendientes/list",
-				"/pagospendientes/getoptions",
 				"/pagospendientes/confirmarpago",
 				"/usuariosroles", //Roles de usuario
 				"/usuariosroles/list",
@@ -409,8 +408,6 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		templates.RenderTemplate(w, "pagospendientes", &templates.RestrictedPage{authweb, menu})
 	case "/pagospendientes/list":
 		controller.PagosPendientesList(w, r)
-	case "/pagospendientes/getoptions":
-		controller.Pagospendientesgetoptions(w, r)
 	case "/pagospendientes/confirmarpago":
 		controller.Pagospendientesconfirmarpago(w, r)
 
