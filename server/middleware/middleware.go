@@ -164,10 +164,9 @@ func authHandler(next http.Handler) http.Handler {
 				"/newsletter/newsletterguardar",
 				"/tiponoticias", //Tipo noticias
 				"/tiponoticias/list",
-				"/horasdia", //Horas del día
-				"/horasdia/list",
-				"/horasdia/create",
-				"/horasdia/update",
+				"/reservapabellonpista", //Horas del día
+				"/horasreservables",
+				"/reservapabellonpista/create",
 				"/estadisticas", //Otras
 				"/404",
 				"/recuperarcontrasena",
@@ -523,14 +522,37 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.TipoNoticiasList(w, r)
 
 	//Gestiona las horas del día:
-	case "/horasdia":
-		templates.RenderTemplate(w, "horasdia", &templates.RestrictedPage{authweb, menu})
-		//	case "/horasdia/list":
-		//		controller.HorasDiaList(w, r)
-		//	case "/horasdia/create":
-		//		controller.HorasDiaCreate(w, r)
-		//	case "/horasdia/update":
-		//		controller.HorasDiaUpdate(w, r)
+	case "/reservapabellonpista":
+
+		templates.RenderTemplate(w, "reservapabellonpista", &templates.RestrictedPage{authweb, menu})
+	case "/horasreservables":
+		// Realizado con campos ocultos, se puede hace con cookie, este sistema es más rapido
+		type Datos struct {
+			Fechabusqueda  string
+			Espacio        string
+			Horasreservada []model.THorasdia
+		}
+		datos := Datos{}
+		type HorasReservaPage struct {
+			AuthWeb model.AuthWeb
+			Menus   []model.Tmenuconfig
+			Params  Datos
+		}
+		if r.FormValue("dia") == "1" {
+			datos.Fechabusqueda = time.Now().Format("2006-01-02")
+		} else {
+			datos.Fechabusqueda = "0"
+		}
+		if r.FormValue("espacio") == "1" {
+			datos.Espacio = "5"
+		} else {
+			datos.Espacio = "1"
+		}
+		datos.Horasreservada = controller.HorasReservables(datos.Fechabusqueda, datos.Espacio)
+		templates.RenderTemplate(w, "horasreservables", &HorasReservaPage{authweb, menu, datos})
+
+	case "/reservapabellonpista/create":
+		controller.HorasDiaCreate(w, r)
 
 	//Gestiona otras apis:
 	case "/estadisticas":

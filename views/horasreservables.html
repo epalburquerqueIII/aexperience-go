@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 {{ define "horasreservables" }}
-  <body id="body">
-    <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
+{{ template "head" }}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AExperience</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+<link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
+
+<!-- Add aditional link -->
+</head> <!-- fin de head -->
+
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
+{{ template "menu" . }}
+{{ template "header"  .  }}
+
+
+
+<body>
+    <!-- <h2> Registradas </h2> -->
+    <div class="container">
+        <div >
     <h1 id="title">Reserva de horas</h1>
     <form method="POST" action="/reservapabellonpista/create">
       <label> Horarios </label> <br>
-      {{ range . }}
-       <input type="checkbox" name="ch{{ .ID }}" value="{{ .Hora }}" {{if eq .Reservado  1 }}Checked {{end}}>{{ .Hora }}</input><br>
+      {{ range .Params.Horasreservada }}
+       <input type="checkbox" name="ch{{ .ID }}" value="{{if eq .Reservado  1 }}0{{else}}{{ .Hora}}{{end}}" {{if eq .Reservado  1 }}Checked {{end}}>{{ .Hora }}</input><br>
       {{ end }}
+      
+   <input type= hidden name="espacio" value="{{ .Params.Espacio }}">
+   <input type= hidden name="fechabusqueda" value="{{ .Params.Fechabusqueda }}">
    
 <br />
   <br />
@@ -16,7 +38,11 @@
   
 </form>
 
-  </body>
+        </div>
+    </div>
+  
+    
+
 
 </html>
 {{ end }}
