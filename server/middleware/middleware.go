@@ -113,7 +113,6 @@ func authHandler(next http.Handler) http.Handler {
 				//Pagos pendientes
 				"/pagospendientes",
 				"/pagospendientes/list",
-				"/pagospendientes/getoptions",
 				"/pagospendientes/confirmarpago",
 				"/usuariosroles", //Roles de usuario
 				"/usuariosroles/list",
@@ -161,14 +160,11 @@ func authHandler(next http.Handler) http.Handler {
 				"/newsletter/create",
 				"/newsletter/update",
 				"/newsletter/delete",
-				"/newsletter/getoptions",
-				"/newsletter/newsletterguardar",
 				"/tiponoticias", //Tipo noticias
 				"/tiponoticias/list",
-				"/horasdia", //Horas del día
-				"/horasdia/list",
-				"/horasdia/create",
-				"/horasdia/update",
+				"/reservapabellonpista", //Horas del día
+				"/horasreservables",
+				"/reservapabellonpista/create",
 				"/estadisticas", //Otras
 				"/404",
 				"/recuperarcontrasena",
@@ -300,6 +296,22 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
 		templates.RenderTemplate(w, "restricted", &templates.RestrictedPage{authweb, menu})
 
+	case "/comprarbonos":
+
+		type Datos struct {
+			IDUsuario int
+			Bonos     []model.Tbono
+		}
+		datos := Datos{}
+		datos.IDUsuario = 18
+		datos.Bonos = controller.GetBonos()
+		type Infobonos struct {
+			AuthWeb model.AuthWeb
+			Menus   []model.Tmenuconfig
+			Params  Datos
+		}
+		templates.RenderTemplate(w, "comprarbonos", &Infobonos{authweb, menu, datos})
+
 	//--- GESTIONES ---
 	//Gestiona los pagos:
 	case "/pagos":
@@ -369,7 +381,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.Autorizadosgetoptions(w, r)
 
 	//Gestiona los eventos:
-	case "/getEventosmdtojson":
+	case "/eventos/getEventosmdtojson":
 		controller.GetEventosmdtojson(w, r)
 
 	//Gestiona las reservas:
@@ -393,8 +405,6 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		templates.RenderTemplate(w, "pagospendientes", &templates.RestrictedPage{authweb, menu})
 	case "/pagospendientes/list":
 		controller.PagosPendientesList(w, r)
-	case "/pagospendientes/getoptions":
-		controller.Pagospendientesgetoptions(w, r)
 	case "/pagospendientes/confirmarpago":
 		controller.Pagospendientesconfirmarpago(w, r)
 
@@ -523,14 +533,37 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.TipoNoticiasList(w, r)
 
 	//Gestiona las horas del día:
-	case "/horasdia":
-		templates.RenderTemplate(w, "horasdia", &templates.RestrictedPage{authweb, menu})
-		//	case "/horasdia/list":
-		//		controller.HorasDiaList(w, r)
-		//	case "/horasdia/create":
-		//		controller.HorasDiaCreate(w, r)
-		//	case "/horasdia/update":
-		//		controller.HorasDiaUpdate(w, r)
+	case "/reservapabellonpista":
+
+		templates.RenderTemplate(w, "reservapabellonpista", &templates.RestrictedPage{authweb, menu})
+	case "/horasreservables":
+		// Realizado con campos ocultos, se puede hace con cookie, este sistema es más rapido
+		type Datos struct {
+			Fechabusqueda  string
+			Espacio        string
+			Horasreservada []model.THorasdia
+		}
+		datos := Datos{}
+		type HorasReservaPage struct {
+			AuthWeb model.AuthWeb
+			Menus   []model.Tmenuconfig
+			Params  Datos
+		}
+		if r.FormValue("dia") == "1" {
+			datos.Fechabusqueda = time.Now().Format("2006-01-02")
+		} else {
+			datos.Fechabusqueda = "0"
+		}
+		if r.FormValue("espacio") == "1" {
+			datos.Espacio = "5"
+		} else {
+			datos.Espacio = "1"
+		}
+		datos.Horasreservada = controller.HorasReservables(datos.Fechabusqueda, datos.Espacio)
+		templates.RenderTemplate(w, "horasreservables", &HorasReservaPage{authweb, menu, datos})
+
+	case "/reservapabellonpista/create":
+		controller.HorasDiaCreate(w, r)
 
 	//Gestiona otras apis:
 	case "/estadisticas":
