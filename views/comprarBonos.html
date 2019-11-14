@@ -1,0 +1,67 @@
+{{ define "comprarbonos" }}
+<!DOCTYPE html>
+<html lang="es">
+
+    {{ template "head" . }}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AExperience</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+</head> <!-- fin de head -->
+
+<body>
+    <!-- Se abre un div en menu.html y header.html y se cierra en index -->
+    {{ template "menu" . }}
+    {{ template "header" . }}
+
+        <div class='container'  onload='loadcontainer()'>
+            <h1 id="title">Compra de bonos</h1>
+                <form method="POST" action="/reservas/comprarbono">
+                    <div>
+                        {{ with .Params.Bonos }}
+                        {{ range . }}
+                        <label>
+                            <input type="radio" name="Sesiones" value="{{ .Sesiones }}">{{ .Sesiones }} sesion/es</input>
+                        </label> <br>
+                        <br>
+                        <label>{{ .Precio }} €</label><br>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+
+                    <div>
+                         <h6>Pago</h6><br>
+                        <!-- Efectivo -->
+                        <label>
+                            <input type="radio" name="tipodepago" value=1 required> En efectivo
+                        </label>
+                        <!-- Transferencia -->
+                        <label>
+                            <input type="radio" name="tipodepago" value=2> Por transferencia
+                        </label>
+                    </div>
+
+                    <div>
+                        <button type="submit" value="Comprar" id="boton">Comprar</button>
+                    </div>
+                </form>
+        </div>
+
+        </div><!--Cierre de menu-->
+    </div><!--Cierre de Header-->
+
+    {{ template "footer" }}
+
+    <!-- Scroll al botón superior-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Cerrar sesión -->
+    {{ template "cerrarsesion" }}
+
+</body>
+</html><!--comprarBonos -->
+{{ end }}
