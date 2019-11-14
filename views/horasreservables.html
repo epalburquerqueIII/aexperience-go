@@ -1,8 +1,7 @@
 {{ define "horasreservables" }}
 <!DOCTYPE html>
 <html lang="es">
-{{ define "horasreservables" }}
-{{ template "head" }}
+{{ template "head" .}}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,8 +13,8 @@
 </head> <!-- fin de head -->
 
 <!-- Se abre un div en menu.html y header.html y se cierra en index -->
-{{ template "menu" . }}
-{{ template "header"  .  }}
+{{ template "menu" .}}
+{{ template "header" .}}
 
 
 
@@ -39,8 +38,8 @@
   
 </form>
 
-        </div>
-    </div>
+      
+</form>
   
     
 
