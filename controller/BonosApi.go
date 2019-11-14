@@ -11,6 +11,26 @@ import (
 	"../model/database"
 )
 
+// GetBonos -
+func GetBonos() []model.Tbono {
+	db := database.DbConn()
+	selDB, err := db.Query("SELECT bonos.id, precio, sesiones FROM bonos")
+	if err != nil {
+		log.Println("Error en Select")
+	}
+	bon := model.Tbono{}
+	res := []model.Tbono{}
+	for selDB.Next() {
+		err = selDB.Scan(&bon.ID, &bon.Precio, &bon.Sesiones)
+		if err != nil {
+			log.Println("Error al insertar datos")
+		}
+		res = append(res, bon)
+
+	}
+	return res
+}
+
 // BonoList - json con los datos de clientes
 func BonoList(w http.ResponseWriter, r *http.Request) {
 

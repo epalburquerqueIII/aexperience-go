@@ -121,12 +121,12 @@ func authHandler(next http.Handler) http.Handler {
 				"/usuariosroles/update",
 				"/usuariosroles/delete",
 				"/usuariosroles/getoptions",
-				"/tipospagos", //Tipos de pago
-				"/tipospagos/list",
-				"/tipospagos/create",
-				"/tipospagos/update",
-				"/tipospagos/delete",
-				"/tipospagos/getoptions",
+				"/tipospago", //Tipos de pago
+				"/tipospago/list",
+				"/tipospago/create",
+				"/tipospago/update",
+				"/tipospago/delete",
+				"/tipospago/getoptions",
 				"/menus", //Menus
 				"/menus/list",
 				"/menus/create",
@@ -300,6 +300,22 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-CSRF-Token", authweb.CsrfSecret)
 		templates.RenderTemplate(w, "restricted", &templates.RestrictedPage{authweb, menu})
 
+	case "/comprarbonos":
+
+		type Datos struct {
+			IDUsuario int
+			Bonos     []model.Tbono
+		}
+		datos := Datos{}
+		datos.IDUsuario = 18
+		datos.Bonos = controller.GetBonos()
+		type Infobonos struct {
+			AuthWeb model.AuthWeb
+			Menus   []model.Tmenuconfig
+			Params  Datos
+		}
+		templates.RenderTemplate(w, "comprarbonos", &Infobonos{authweb, menu, datos})
+
 	//--- GESTIONES ---
 	//Gestiona los pagos:
 	case "/pagos":
@@ -413,17 +429,17 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.UsuariosRolesgetoptions(w, r)
 
 	//Gestiona los tipos de pago:
-	case "/tipospagos":
-		templates.RenderTemplate(w, "tipospagos", &templates.RestrictedPage{authweb, menu})
-	case "/tipospagos/list":
+	case "/tipospago":
+		templates.RenderTemplate(w, "tipospago", &templates.RestrictedPage{authweb, menu})
+	case "/tipospago/list":
 		controller.TiposPagoList(w, r)
-	case "/tipospagos/create":
+	case "/tipospago/create":
 		controller.TiposPagoCreate(w, r)
-	case "/tipospagos/update":
+	case "/tipospago/update":
 		controller.TiposPagoUpdate(w, r)
-	case "/tipospagos/delete":
+	case "/tipospago/delete":
 		controller.TiposPagoDelete(w, r)
-	case "/tipospagos/getoptions":
+	case "/tipospago/getoptions":
 		controller.TiposPagogetoptions(w, r)
 
 	//Gestiona los menús:
