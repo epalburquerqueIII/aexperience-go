@@ -16,6 +16,12 @@ form
    text-align:left;
 }
 
+form label {
+    display: inline-block;
+    font-size: 23px;
+    padding-bottom: 15px;
+}
+
 form h4 {
     display: inline-block;
     font-size: 23px;
