@@ -160,8 +160,10 @@ func authHandler(next http.Handler) http.Handler {
 				"/newsletter/delete",
 				"/tiponoticias", //Tipo noticias
 				"/tiponoticias/list",
-				"/reservapabellonpista", //Horas del día
+				//Horas del día
+				"/reservapabellonpista",
 				"/horasreservables",
+				"/movilhorasreservables",
 				"/reservapabellonpista/create",
 				"/estadisticas", //Otras
 				"/404",
@@ -530,9 +532,10 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 	case "/tiponoticias/list":
 		controller.TipoNoticiasList(w, r)
 
-	//Gestiona las horas del día:
+		//Gestiona las horas del día:
+	case "/movilhorasreservables":
+		controller.MovilHorasReservables(w, r)
 	case "/reservapabellonpista":
-
 		templates.RenderTemplate(w, "reservapabellonpista", &templates.RestrictedPage{authweb, menu})
 	case "/horasreservables":
 		// Realizado con campos ocultos, se puede hace con cookie, este sistema es más rapido
