@@ -70,7 +70,8 @@ func authHandler(next http.Handler) http.Handler {
 
 			switch r.URL.Path {
 			case "/restricted", "/deleteUser",
-				"/pagos", //Pagos
+				//Pagos
+				"/pagos",
 				"/pagos/list",
 				"/pagos/create",
 				"/pagos/update",
@@ -81,14 +82,14 @@ func authHandler(next http.Handler) http.Handler {
 				"/usuarios/create",
 				"/usuarios/update",
 				//"/usuarios/delete",
-				"/usuarios/register",
 				"/usuarios/getoptions",
-				"/usuarios/registerUI",
-				"/consumobonos", //Consumo bonos
+				//Consumo bonos
+				"/consumobonos",
 				"/consumobonos/list",
 				"/consumobonos/create",
 				"/consumobonos/update",
-				"/bonos", //Bonos
+				//Bonos
+				"/bonos",
 				"/bonos/list",
 				"/bonos/create",
 				"/bonos/update",
@@ -112,60 +113,70 @@ func authHandler(next http.Handler) http.Handler {
 				"/pagospendientes",
 				"/pagospendientes/list",
 				"/pagospendientes/confirmarpago",
-				"/usuariosroles", //Roles de usuario
+				//Roles de usuario
+				"/usuariosroles",
 				"/usuariosroles/list",
 				"/usuariosroles/create",
 				"/usuariosroles/update",
 				"/usuariosroles/delete",
 				"/usuariosroles/getoptions",
-				"/tipospagos", //Tipos de pago
+				//Tipos de pago
+				"/tipospagos",
 				"/tipospagos/list",
 				"/tipospagos/create",
 				"/tipospagos/update",
 				"/tipospagos/delete",
 				"/tipospagos/getoptions",
-				"/menus", //Menus
+				//Menus
+				"/menus",
 				"/menus/list",
 				"/menus/create",
 				"/menus/update",
 				"/menus/delete",
 				"/menus/getoptions",
-				"/tiposeventos", //Tipo eventos
+				//Tipo eventos
+				"/tiposeventos",
 				"/tiposeventos/list",
 				"/tiposeventos/create",
 				"/tiposeventos/update",
 				"/tiposeventos/delete",
 				"/tiposeventos/getoptions",
-				"/espacios", //Espacios
+				//Espacios
+				"/espacios",
 				"/espacios/list",
 				"/espacios/create",
 				"/espacios/update",
 				"/espacios/delete",
 				"/espacios/getoptions",
-				"/horarios", //Horarios
+				//Horarios
+				"/horarios",
 				"/horarios/list",
 				"/horarios/create",
 				"/horarios/update",
 				"/horarios/delete",
-				"/menuroles", //Menu roles
+				//Menu roles
+				"/menuroles",
 				"/menuroles/list",
 				"/menuroles/create",
 				"/menuroles/update",
 				"/menuroles/delete",
 				"/menuroles/getoptions",
-				"/newsletter", //Newsletter
+				//Newsletter
+				"/newsletter",
 				"/newsletter/list",
 				"/newsletter/create",
 				"/newsletter/update",
 				"/newsletter/delete",
-				"/tiponoticias", //Tipo noticias
+				//Tipo noticias
+				"/tiponoticias",
 				"/tiponoticias/list",
 				//Horas del día
 				"/reservapabellonpista",
 				"/horasreservables",
 				"/movilhorasreservables",
 				"/reservapabellonpista/create",
-				"/estadisticas", //Otras
+				//Otras
+				"/estadisticas",
 				"/404",
 				"/recuperarcontrasena",
 				"/paginavacia",
@@ -341,9 +352,6 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.UsuariosRegister(w, r)
 	case "/usuarios/getoptions":
 		controller.Usuariosgetoptions(w, r)
-	case "/usuarios/registerUI":
-		// UsuariosUserRegister Pantalla para registrar un usuario
-		templates.RenderTemplate(w, "userregister", nil)
 	//Gestiona el consumo de bonos:
 	case "/consumobonos":
 		templates.RenderTemplate(w, "consumobonos", &templates.RestrictedPage{authweb, menu})
@@ -626,11 +634,11 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
-	case "/register":
+	case "/usuarios/registerUI":
 		switch r.Method {
 		case "GET":
-			templates.RenderTemplate(w, "register", &templates.RegisterPage{false, ""})
-
+			// UsuariosUserRegister Pantalla para registrar un usuario
+			templates.RenderTemplate(w, "userregister", nil)
 		case "POST":
 			r.ParseForm()
 			log.Println(r.Form)
