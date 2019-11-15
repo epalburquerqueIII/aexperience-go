@@ -4,7 +4,7 @@ package model
 type TpagoPendiente struct {
 	Id             int64
 	IdReserva      int
-	ReservaNombre  string
+	FechaReserva   string
 	FechaPago      string
 	IdTipopago     int
 	TipopagoNombre string

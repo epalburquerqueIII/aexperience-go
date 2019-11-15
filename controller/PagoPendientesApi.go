@@ -22,7 +22,11 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagospendientes.id, reservas.id ,reservas.fecha, pagospendientes.fechaPago, tipospago.id, tipospago.nombre, pagospendientes.numeroTarjeta, pagospendientes.importe FROM pagosPendientes LEFT OUTER JOIN reservas ON (idReserva = reservas.id) LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id)" + jtsort)
+	selDB, err := db.Query("SELECT pagosPendientes.id, pagosPendientes.idreserva, reservas.fecha, pagosPendientes.fechapago, pagosPendientes.idtipopago," +
+		"tipospago.nombre, pagosPendientes.numerotarjeta, pagospendientes.importe FROM pagosPendientes " +
+		"LEFT OUTER JOIN Reservas on idreserva = Reservas.id " +
+		"LEFT OUTER JOIN tiposPago ON (idTipopago = tiposPago.id) " +
+		"ORDER BY pagosPendientes.id " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -30,7 +34,7 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 	res := []model.TpagoPendiente{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&pagopend.Id, &pagopend.IdReserva, &pagopend.ReservaNombre, &pagopend.FechaPago, &pagopend.IdTipopago, &pagopend.TipopagoNombre, &pagopend.NumeroTarjeta, &pagopend.Importe)
+		err = selDB.Scan(&pagopend.Id, &pagopend.IdReserva, &pagopend.FechaReserva, &pagopend.FechaPago, &pagopend.IdTipopago, &pagopend.TipopagoNombre, &pagopend.NumeroTarjeta, &pagopend.Importe)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando el registros de los Pagos")
 		}
@@ -51,36 +55,6 @@ func PagosPendientesList(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 }
 
-// Pagospendientesgetoptions - Obtener pagos de pagos pendientes para la tabla de pagos
-func Pagospendientesgetoptions(w http.ResponseWriter, r *http.Request) {
-
-	db := database.DbConn()
-	selDB, err := db.Query("SELECT pagosPendientes.id, pagosPendientes.idreserva, pagosPendientes.fechapago, pagosPendientes.idtipopago, pagosPendientes.numerotarjeta, pagospendientes.importe from pagosPendientes Order by pagosPendientes.id")
-	if err != nil {
-		panic(err.Error())
-	}
-	elem := model.Option{}
-	vtabla := []model.Option{}
-	for selDB.Next() {
-		err = selDB.Scan(&elem.Value, &elem.DisplayText)
-		if err != nil {
-			panic(err.Error())
-		}
-		vtabla = append(vtabla, elem)
-	}
-
-	var vtab model.Options
-	vtab.Result = "OK"
-	vtab.Options = vtabla
-	// create json response from struct
-	a, err := json.Marshal(vtab)
-	// Visualza
-	s := string(a)
-	fmt.Println(s)
-	w.Write(a)
-	defer db.Close()
-}
-
 // Pagospendientesconfirmarpago confirma un pago pendiente y lo pasa a pago
 func Pagospendientesconfirmarpago(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
@@ -94,7 +68,7 @@ func Pagospendientesconfirmarpago(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	} else {
-
+		selDB.Next()
 		err = selDB.Scan(&Sesiones, &idUsuario)
 	}
 
@@ -112,7 +86,7 @@ func Pagospendientesconfirmarpago(w http.ResponseWriter, r *http.Request) {
 	//Incrementar las sesiones al usuario con el IDReserva
 	if Sesiones != 0 {
 		// update	idusuario = sesiones + sesiones nuevas
-		insForm, err := db.Prepare("UPDATE usuario SET sesionesbono=sesionesbono + ? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuarios SET sesionesbonos=sesionesbonos + ? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		} else {

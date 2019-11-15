@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 {{ define "reservapabellonpista" }}
-  <body id="body">
-    <link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
-    <h1 id="title">Reserva de horas</h1>
-    <form method="POST" action="/horasreservables">
-      <input type="radio" name="espacio" value= 1> Pista<br>
-      <input type="radio" name="espacio" value= 2> Pabellon<br>
+{{ template "head" }}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AExperience</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css">
+<link rel="stylesheet" type="text/css" href="static/css/stylenewsletter.css">
 
-      <input type="radio" name="dia" value= 1> Hoy<br>
-      <input type="radio" name="dia" value= 2> Mañana<br>  
+<!-- Add aditional link -->
+</head> <!-- fin de head -->
 
-        
-   <br />
-      <br />
-      <button type="submit" >Consultar</button>
-     
-    </form>
-  </body>
+<!-- Se abre un div en menu.html y header.html y se cierra en index -->
+{{ template "menu" . }}
+{{ template "header"  .  }}
+
+
+
+<body>
+   <!-- <h2> Registradas </h2> -->
+   <div class="container">
+      <div>
+          <h1 id="titlereserva">Reserva de horas</h1>
+          <form method="POST" action="/horasreservables">
+            <input type="radio" name="espacio" value= 1> Pista<br>
+            <input type="radio" name="espacio" value= 2> Pabellon<br>
+      
+            <input type="radio" name="dia" value= 1> Hoy<br>
+            <input type="radio" name="dia" value= 2> Mañana<br>  
+      
+              
+         <br />
+            <br />
+            <button type="submit" >Consultar</button>
+           
+          </form>
+      </div>
+  </div>
+
+    
+  
 
 </html>
 {{ end }}
