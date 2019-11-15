@@ -1,6 +1,6 @@
-{{ define "horasreservables" }}
 <!DOCTYPE html>
 <html lang="es">
+{{ define "horasreservables" }}
 {{ template "head" .}}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,7 @@
     <!-- <h2> Registradas </h2> -->
     <div class="container">
         <div >
-    <h1 id="title">Reserva de horas</h1>
+    <h1 id="titlereserva">Reserva de horas</h1>
     <form method="POST" action="/reservapabellonpista/create">
       <label> Horarios </label> <br>
       {{ range .Params.Horasreservada }}
@@ -34,7 +34,7 @@
    
 <br />
   <br />
-  <button type="submit" value="Reservar" id="boton">Reservar</button>
+  <button type="submit" value="Reservar">Reservar</button>
   
 </form>
 
