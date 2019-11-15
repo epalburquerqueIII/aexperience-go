@@ -265,3 +265,16 @@ table.table .avatar {
 .modal form label {
     font-weight: normal;
 }
+#titlereserva{
+    font-size: 1cm;
+    font-style: normal;
+    background: #0b67cd;
+    color: #fff;
+    background-color: #0b67cd;
+    border-color: #0b67cd;
+    text-align: center;
+}
+#boton{
+padding: 15cm;
+background: #0b67cd;
+}

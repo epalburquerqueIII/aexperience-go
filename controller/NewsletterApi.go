@@ -22,7 +22,7 @@ func NewsletterList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT newsletter.id, Email, Idtiponoticias FROM newsletter " + jtsort)
+	selDB, err := db.Query("SELECT newsletter.id, Email, Idtiponoticias, tiponoticias.nombre FROM newsletter " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
@@ -30,7 +30,7 @@ func NewsletterList(w http.ResponseWriter, r *http.Request) {
 	res := []model.Tnewsletter{}
 	for selDB.Next() {
 
-		err = selDB.Scan(&news.Id, &news.Email, &news.Idtiponoticias)
+		err = selDB.Scan(&news.Id, &news.Email, &news.Idtiponoticias, &news.Temas)
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Cargando datos de newsletter")
 		}
