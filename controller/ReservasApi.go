@@ -215,8 +215,19 @@ func ComprarBono(w http.ResponseWriter, r *http.Request) {
 		if err1 != nil {
 			util.ErrorApi(err.Error(), w, "")
 		}
+
 		reser.Id, err1 = res.LastInsertId()
 		log.Printf("INSERT: sesiones: %d | idUsuario:  %d\n ", reser.Sesiones, reser.IdUsuario)
+
+		// Obtención del importe mediante las sesiones
+		selDB, err5 := db.Query("SELECT bonos.precio FROM bonos WHERE sesiones= " + r.FormValue("Sesiones"))
+
+		if err5 != nil {
+			log.Println("Error en Select")
+		}
+		for selDB.Next() {
+			err5 = selDB.Scan(&pago.Importe)
+		}
 
 		//Pago en efectivo
 		if pago.IdTipopago == 1 {
@@ -233,10 +244,13 @@ func ComprarBono(w http.ResponseWriter, r *http.Request) {
 				if err2 != nil {
 					util.ErrorApi(err2.Error(), w, "Error Insertando Pago")
 				}
+
 				res1, err3 := insForm1.Exec(pago.IdReserva, pago.IdTipopago, pago.Importe, pago.NumeroTarjeta, pago.Referencia)
+
 				if err3 != nil {
 					panic(err3.Error())
 				}
+
 				pago.Id, err3 = res1.LastInsertId()
 				log.Printf("INSERT: idReserva: %d | idTipopago:  %d\n", pago.IdReserva, pago.IdTipopago)
 
@@ -244,9 +258,11 @@ func ComprarBono(w http.ResponseWriter, r *http.Request) {
 				ID, _ := strconv.Atoi(r.FormValue("IdUsuario"))
 				SesionesBonos := reser.Sesiones
 				insForm2, err4 := db.Prepare("UPDATE usuarios SET sesionesbonos = sesionesbonos + ? WHERE usuarios.id=?")
+
 				if err4 != nil {
 					util.ErrorApi(err4.Error(), w, "Error Actualizando Base de Datos")
 				}
+
 				insForm2.Exec(SesionesBonos, ID)
 				log.Printf("UPDATE: ID: %d  | Sesiones:  %d\n", ID, SesionesBonos)
 			}
@@ -264,10 +280,13 @@ func ComprarBono(w http.ResponseWriter, r *http.Request) {
 				if err3 != nil {
 					util.ErrorApi(err3.Error(), w, "Error Insertando Pago")
 				}
+
 				res2, err4 := insForm2.Exec(pagopend.IdReserva, pagopend.IdTipopago, pagopend.NumeroTarjeta, pagopend.Importe)
+
 				if err4 != nil {
 					panic(err4.Error())
 				}
+
 				pagopend.Id, err4 = res2.LastInsertId()
 				log.Printf("INSERT: idReserva: %d | idTipopago:  %d\n", pagopend.IdReserva, pagopend.IdTipopago)
 			}
