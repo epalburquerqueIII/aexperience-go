@@ -23,9 +23,9 @@
                     <div class="modal-body mx-0">
                         <div class="md-form mb-0">
                             {{ range . }}
-                            <h4 class="col-md-10"  id="seleccion">
+                            <label class="col-md-10"  id="seleccion">
                                 <input class="col-md-0" type="radio" name="Sesiones" value="{{ .Sesiones }}"> {{ .Sesiones }} sesion/es</input>
-                            </h4>
+                            </label>
                             <h4 class="col-md-0"  id="seleccion">{{ .Precio }} €</h4><br>
                             {{ end }}
                             <br>
@@ -33,14 +33,14 @@
                             <h3 class="centro">Pago</h3><br>
                             <!-- Efectivo -->
                             <label class="col-md-1"></label>
-                            <h4 id="seleccion" class="col-md-4">
+                            <label id="seleccion" class="col-md-4">
                                 <input class="col-md-1" type="radio" name="tipodepago" value=1 required> En efectivo
-                            </h4>
+                            </label>
                             <!-- Transferencia -->
                             <label class="col-md-1"></label>
-                            <h4 id="seleccion" class="col-md-5">
+                            <label id="seleccion" class="col-md-5">
                                 <input class="col-md-1" type="radio" name="tipodepago" value=2> Por transferencia
-                            </h4>
+                            </label>
                         </div>
                         <br><br>
                         <div class="d-flex justify-content-center">

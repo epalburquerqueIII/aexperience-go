@@ -12,7 +12,7 @@ import (
 // GetEventosmdtojson Obtiene los eventos de la Web en formato Json
 func GetEventosmdtojson(w http.ResponseWriter, r *http.Request) {
 
-	json, err := mdtojson.ProcessRepo(config.CmsHost+"/content/eventos/", "./dir")
+	json, err := mdtojson.ProcessRepo(config.CmsHost+"/content/eventos/", "./util/dir")
 
 	if json != "" {
 		fmt.Printf(json)
