@@ -235,7 +235,6 @@ func ComprarBono(w http.ResponseWriter, r *http.Request) {
 			if r.Method == "POST" {
 				//Carga de datos para pagos
 				pago.IdReserva = int(reser.Id)
-				pago.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 64)
 				pago.NumeroTarjeta = "NO"
 				pago.Referencia = "a"
 
@@ -271,7 +270,7 @@ func ComprarBono(w http.ResponseWriter, r *http.Request) {
 			if r.Method == "POST" {
 				//Carga de datos para pagos pendientes
 				pagopend.IdReserva = int(reser.Id)
-				pagopend.Importe, _ = strconv.ParseFloat(r.FormValue("Importe"), 64)
+				pagopend.Importe = pago.Importe
 				pagopend.IdTipopago = pago.IdTipopago
 				pagopend.NumeroTarjeta = "1111111111"
 

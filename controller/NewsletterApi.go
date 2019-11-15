@@ -22,7 +22,7 @@ func NewsletterList(w http.ResponseWriter, r *http.Request) {
 		jtsort = "ORDER BY " + jtsort
 	}
 	db := database.DbConn()
-	selDB, err := db.Query("SELECT newsletter.id, Email, Idtiponoticias, tiponoticias.nombre FROM newsletter " + jtsort)
+	selDB, err := db.Query("SELECT newsletter.id, Email, Idtiponoticias, tiponoticias.nombre FROM newsletter LEFT OUTER JOIN tiponoticias ON (idtiponoticias = tiponoticias.id) " + jtsort)
 	if err != nil {
 		util.ErrorApi(err.Error(), w, "Error en Select ")
 	}
