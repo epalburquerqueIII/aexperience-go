@@ -118,12 +118,12 @@ func authHandler(next http.Handler) http.Handler {
 				"/usuariosroles/update",
 				"/usuariosroles/delete",
 				"/usuariosroles/getoptions",
-				"/tipospago", //Tipos de pago
-				"/tipospago/list",
-				"/tipospago/create",
-				"/tipospago/update",
-				"/tipospago/delete",
-				"/tipospago/getoptions",
+				"/tipospagos", //Tipos de pago
+				"/tipospagos/list",
+				"/tipospagos/create",
+				"/tipospagos/update",
+				"/tipospagos/delete",
+				"/tipospagos/getoptions",
 				"/menus", //Menus
 				"/menus/list",
 				"/menus/create",
@@ -423,17 +423,17 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		controller.UsuariosRolesgetoptions(w, r)
 
 	//Gestiona los tipos de pago:
-	case "/tipospago":
-		templates.RenderTemplate(w, "tipospago", &templates.RestrictedPage{authweb, menu})
-	case "/tipospago/list":
+	case "/tipospagos":
+		templates.RenderTemplate(w, "tipospagos", &templates.RestrictedPage{authweb, menu})
+	case "/tipospagos/list":
 		controller.TiposPagoList(w, r)
-	case "/tipospago/create":
+	case "/tipospagos/create":
 		controller.TiposPagoCreate(w, r)
-	case "/tipospago/update":
+	case "/tipospagos/update":
 		controller.TiposPagoUpdate(w, r)
-	case "/tipospago/delete":
+	case "/tipospagos/delete":
 		controller.TiposPagoDelete(w, r)
-	case "/tipospago/getoptions":
+	case "/tipospagos/getoptions":
 		controller.TiposPagogetoptions(w, r)
 
 	//Gestiona los menús:

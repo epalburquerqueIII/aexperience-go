@@ -16,44 +16,50 @@
     {{ template "menu" . }}
     {{ template "header" . }}
 
-        <div class='container'  onload='loadcontainer()'>
-            <h1 id="title" class="centro">Bonos</h1><br>
-                <form method="POST" action="/reservas/comprarbono">
-                    {{ with .Params.Bonos }}
-                    <div class="modal-body mx-0">
-                        <div class="md-form mb-0">
-                            {{ range . }}
-                            <label class="col-md-10"  id="seleccion">
-                                <input class="col-md-0" type="radio" name="Sesiones" value="{{ .Sesiones }}"> {{ .Sesiones }} sesion/es</input>
-                            </label>
-                            <h4 class="col-md-0"  id="seleccion">{{ .Precio }} €</h4><br>
-                            {{ end }}
-                            <br>
-                        <div>
-                            <h3 class="centro">Pago</h3><br>
-                            <!-- Efectivo -->
-                            <label class="col-md-1"></label>
-                            <label id="seleccion" class="col-md-4">
-                                <input class="col-md-1" type="radio" name="tipodepago" value=1 required> En efectivo
-                            </label>
-                            <!-- Transferencia -->
-                            <label class="col-md-1"></label>
-                            <label id="seleccion" class="col-md-5">
-                                <input class="col-md-1" type="radio" name="tipodepago" value=2> Por transferencia
-                            </label>
-                        </div>
+    <div class='container'  onload='loadcontainer()'>
+        <h1 id="title" class="centro">Bonos</h1><br>
+            <form method="POST" action="/reservas/comprarbono">
+                <input type="hidden" name="IdUsuario"  value="{{ .Params.IDUsuario }}">
+                {{ with .Params.Bonos }}
+                <div class="modal-body mx-0">
+                    <div class="md-form mb-0">
+                        {{ range . }}
+                        <!-- Sesiones -->
+                        <label class="col-md-10"  id="seleccion">
+                            <input class="col-md-0" type="radio" name="Sesiones" value="{{ .Sesiones }}"> {{ .Sesiones }} sesion/es</input>
+                        </label>
+
+                        <!-- Precio -->
+                        <h4 class="col-md-0"  id="seleccion">{{ .Precio }} €</h4><br>
+                        {{ end }}
+                        <br>
+
+                        <h3 class="centro">Pago</h3><br>
+                        <!-- Efectivo -->
+                        <label class="col-md-1"></label><!-- Label en blanco para alinear textos -->
+                        <label id="seleccion" class="col-md-4">
+                            <input class="col-md-1" type="radio" name="TipoPago" value=1 required> En efectivo
+                        </label>
+
+                        <!-- Transferencia -->
+                        <label class="col-md-1"></label><!-- Label en blanco para alinear textos -->
+                        <label id="seleccion" class="col-md-5">
+                            <input class="col-md-1" type="radio" name="TipoPago" value=2> Por transferencia
+                        </label>
                         <br><br>
+
+                        <!-- Botón comprar -->
                         <div class="d-flex justify-content-center">
                             <button class="bt btn-primary" type="submit" value="Comprar" id="boton">Comprar</button>
                         </div>
                     </div>
-                        </div>
-                    {{ end }}
-                </form>
-        </div>
+                </div>
+                {{ end }}
+            </form>
+    </div>
 
-        </div><!--Cierre de menu-->
-    </div><!--Cierre de Header-->
+    </div><!--Cierre de menu-->
+</div><!--Cierre de Header-->
 
     {{ template "footer" }}
 
