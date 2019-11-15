@@ -1,38 +1,52 @@
-#title {
-    text-align: center;
+.title {
+    text-align: center !important;
     color: #e41f18;
 }
-
-#body {
-    color: #000000;
-    background: #f5f5f5;
-    font-family: 'Varela Round', sans-serif;
-    font-size: 20px;
-    text-align: center;
+.fondo{
+    /* background-color: #e41f18; */
+    background-color: white !important;
 }
 
-#boton{
+.ventana{
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    box-shadow: #e41f18 !important;
+}
+
+.body {
+    background: #f5f5f5;
+    font-family: 'Varela Round', sans-serif;
+    font-size: 16px;
+    text-align: center !important;
+}
+
+.boton{
     background: #e41f18;
     color: #fff;
     background-color: #e41f18;
     border-color: #e41f18;
-    width: 195px;
+    width: 125px;
     height: 45px;
     border: none;
     border-radius: 5px;
-    font-size: 20px;
+    font-size: 16px;
     float: center;
     margin-right: 15px;
   }
 
-#temas{
+.temas{
     text-align: center;
-    font-size: 30px;
+    font-size: 20px;
+    color: black !important;
 }
 
-#form-container{
-    max-width: 500px;
-    padding: 10px;
-    background: white;
+.color{
+    color: black;
+    
 }
-  
+
+.borderrojo{
+    -webkit-box-shadow: 0 1rem 3rem #8a0a03  !important;
+    box-shadow: 0 1rem 3rem #8a0a03 !important;
+}
+
