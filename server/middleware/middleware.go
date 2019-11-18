@@ -550,7 +550,7 @@ func logicHandler(w http.ResponseWriter, r *http.Request) {
 		if r.FormValue("dia") == "1" {
 			datos.Fechabusqueda = time.Now().Format("2006-01-02")
 		} else {
-			datos.Fechabusqueda = "0"
+			datos.Fechabusqueda = time.Now().AddDate(0, 0, 1).Format("2006-01-02")
 		}
 		if r.FormValue("espacio") == "1" {
 			datos.Espacio = "5"

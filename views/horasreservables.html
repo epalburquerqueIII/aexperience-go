@@ -26,7 +26,7 @@
     <form method="POST" action="/reservapabellonpista/create">
       <label> Horarios </label> <br>
       {{ range .Params.Horasreservada }}
-       <input type="checkbox" name="ch{{ .ID }}" value="{{if eq .Reservado  1 }}0{{else}}{{ .Hora}}{{end}}" {{if eq .Reservado  1 }}Checked {{end}}>{{ .Hora }}</input><br>
+       <input  type="checkbox" name="ch{{ .ID }}" value="{{if eq .Reservado  1 }}0{{else}}{{ .Hora}}{{end}}" {{if eq .Reservado  1 }}Checked disabled="true" {{end}}>{{ .Hora }}</input><br>
       {{ end }}
       
    <input type= hidden name="espacio" value="{{ .Params.Espacio }}">
@@ -34,7 +34,7 @@
    
 <br />
   <br />
-  <button type="submit" value="Reservar">Reservar</button>
+  <button id = "botonreserva" type="submit" value="Reservar">Reservar</button>
   
 </form>
 

@@ -274,7 +274,18 @@ table.table .avatar {
     border-color: #0b67cd;
     text-align: center;
 }
-#boton{
-padding: 15cm;
+#botonreserva{
+padding: 4px;
 background: #0b67cd;
+text-align: center;
+color: #fff;
+font-size: 10px;
+width: 2cm;
+height: 1cm;
+
+}
+#textoreserva{
+    font-size: 1cm;
+    padding: 25cm;
+    
 }

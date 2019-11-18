@@ -46,20 +46,12 @@ func HorasDiaCreate(w http.ResponseWriter, r *http.Request) {
 	db := database.DbConn()
 	reser := model.Treserva{}
 	if r.Method == "POST" {
-		guardado := 0
 		reser.Fecha = r.FormValue("fechabusqueda")
 
 		for i := 0; i <= 8; i++ {
-			a := "ch" + string(i)
-			fmt.Printf(a)
-			hora = r.FormValue("ch" + strconv.Itoa(i))
-			if hora != "0" {
-				guardado = 1
-			}
-			if guardado == 1 {
-				guardado = 0
-				horas := strings.TrimSpace(hora[:2])
-				reser.Hora, _ = strconv.Atoi(horas)
+			hora = strings.TrimSpace(r.FormValue("ch" + strconv.Itoa(i)))
+			if hora != "" {
+				reser.Hora, _ = strconv.Atoi(hora)
 				reser.IdEspacio, _ = strconv.Atoi(r.FormValue("espacio"))
 				reser.IdUsuario = usuariosimulcro
 				reser.Sesiones = sesionessimulacro
