@@ -113,7 +113,12 @@
                     IdTipopago: {
                         title: 'Tipo de pago',
                         width: '15%',
-                        options: '/tipospago/getoptions',
+                        options: '/tipospagos/getoptions',
+                        input: function (data) { if (data.record) {
+                                return '<input type="text" name="TipopagoNombre" style="width:200px" value="' + data.record.TipopagoNombre + '" readonly />';
+                            } 
+                        }
+                        
                     },
 
                     NumeroTarjeta: {

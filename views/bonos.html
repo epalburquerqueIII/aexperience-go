@@ -20,6 +20,9 @@
         <div class='container'  onload='loadcontainer()'>
           <div id="BonoTableContainer"></div>
         </div>
+
+        {{ with .AuthWeb }}
+
         <script type="text/javascript">
 
         function loadcontainer(){
@@ -84,6 +87,9 @@
                 $('#BonoTableContainer').jtable('load');
             });
         </script>
+
+    {{ end }}
+
     </div><!--Cierre de menu-->
     </div><!--Cierre de Header-->
 

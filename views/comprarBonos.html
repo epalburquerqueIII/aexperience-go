@@ -58,6 +58,26 @@
             </form>
     </div>
 
+    {{ with .AuthWeb }}
+
+    <script type="text/javascript">
+
+        function loadcontainer(){
+            var token = request.getResponseHeader('X-CSRF-Token');
+            console.log("Success! The token is: ", token);
+            var myHeaders = new Headers();
+            myHeaders.append('X-CSRF-Token', token);
+         };
+
+        token : '{{ .CsrfSecret }}';
+        security:
+        {
+            antiforgerytoken: "{{ .CsrfSecret }}"
+        };
+    </script>
+
+    {{ end }}
+
     </div><!--Cierre de menu-->
 </div><!--Cierre de Header-->
 
