@@ -5,4 +5,5 @@ type Tnewsletter struct {
 	Id             int64
 	Email          string
 	Idtiponoticias int
+	Temas          string
 }

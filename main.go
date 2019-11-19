@@ -10,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var host = "192.168.0.82"
+var host = "192.168.0.14"
 var port = "8088"
 var tmpl = template.Must(template.ParseGlob("./views/*.html"))
 

@@ -13,47 +13,60 @@
         <!-- Fila anidada dentro del cuerpo de la tarjeta -->
         <div class="row">
           <div class="col-lg-5 d-none d-lg-block ">
-          <img src="/static/img/LOGO_AZUL_PNG.png" width=100% height=120%></div>
+            <img src="/static/img/LOGO_AZUL_PNG.png" width=100% height=120%></div>
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">¡Crea una cuenta!</h1>
               </div>
-              <form method="POST" action="/Usuario/UsuariosUIRegister">
-                <div class="form-group row">
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre">
+                <form class="user" id="fakeLogin" name="fakeLogin" onsubmit="return DoSubmit();">
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <input type="text" class="form-control form-control-user" id="exampleFirstName" name="Nombre"
+                        placeholder="Nombre">
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control form-control-user" id="exampleLastName" name="Nif"
+                      placeholder="Dni/Nif">
+                    </div>
                   </div>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Dni">
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control form-control-user" id="exampleLastName" name="Email"
+                        placeholder="Dirección de Correo">
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control form-control-user" id="exampleLastName"  name="FechaNacimiento"
+                        placeholder="Fecha de Nacimiento">
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Dirección de Correo">
+                  <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                      <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="Password"
+                        placeholder="Contraseña">
+                    </div>
+                    <div class="col-sm-6">
+                      <input type="password" class="form-control form-control-user" id="exampleRepeatPassword"
+                        placeholder="Repetir contraseña">
+                    </div>
                   </div>
-                  <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Fecha de Nacimiento">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Contraseña">
-                  </div>
-                  <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repetir contraseña">
-                  </div>
-                </div>
-                <a href="index" class="btn btn-primary btn-user btn-block">
-                  Registrar
-                </a>
-                <hr>
-                <a href="index" class="btn btn-google btn-user btn-block">
-                  <i class="fab fa-google fa-fw"></i> Registrar con Google
-                </a>
-                <a href="index" class="btn btn-facebook btn-user btn-block">
-                  <i class="fab fa-facebook-f fa-fw"></i> Registrar con Facebook
-                </a>
+                  <input type="Submit" value="Registrar" class="btn btn-primary btn-user btn-block">
+                  <hr>
+                  <a href="index" class="btn btn-google btn-user btn-block">
+                    <i class="fab fa-google fa-fw"></i> Inicia sesión con Google
+                  </a>
+                  <a href="index" class="btn btn-facebook btn-user btn-block">
+                    <i class="fab fa-facebook-f fa-fw"></i> Inicia sesión con Facebook
+                  </a>
+                </form>
+                <form style="display: none;" id="realLogin" name="realLogin" action="/Usuario/UsuariosUIRegister" method="POST">
+                  <input class="fullWidth" name="Nombre" type="text" placeholder="Nombre" />
+                  <input class="fullWidth" name="Nif" type="text" placeholder="Dni" />
+                  <input class="fullWidth" name="Email" type="text" placeholder="Dirección de Correo" />
+                  <input class="fullWidth" name="FechadeNacimiento" type="text" placeholder="Fecha de Nacimiento" />
+                  <input class="fullWidth" name="password" type="password" placeholder="Contraseña" />
+                  <input class="fullWidth" name="Repetir Contraseña" type="text" placeholder="Repetir Contraseña" />
+                </form>
               </form>
               <hr>
               <div class="text-center">
@@ -72,41 +85,13 @@
 
   {{ template "linkfooter" }}
   <script>
-    if ( {{ .BAlertUser }} ) alert("{{ .AlertMsg }}");
 
-    function DoSubmit(){
-      document.realRegister.email.value = document.fakeRegister.email.value;
-      document.realRegister.password.value = CryptoJS.SHA256(document.fakeRegister.password.value).toString(CryptoJS.enc.Hex);
-
-      $.ajax({
-        'type': 	'POST',
-        'url': 		'/register',
-        'data': 	$('#realRegister').serializeArray(),
-        success: function(data, textStatus, request) {
-          var token = request.getResponseHeader('X-CSRF-Token');
-          console.log("Success! The token is: ", token);
-          $("#X-CSRF-Token-input").val(token);
-          $("#restricted").submit();
-
-          // $.ajax({
-          // 	'url': 		"/restricted",
-          // 	'headers': 	{ 'X-CSRF-Token' : token },             
-          // 	'type': 	"GET",
-          // 	success: function(data, textStatus, request) {
-          // 		console.log("Success the 2nd time!");
-          // 		console.log(data, textStatus, request)
-          // 	},
-          // 	error: function (request, textStatus, errorThrown) {
-          // 		console.log("Error the 2nd time!");
-          // 		console.log(request, textStatus, errorThrown)
-          // 	}
-          // });
-        },
-        error: function (request, textStatus, errorThrown) {
-          console.log("Error!", request.getResponseHeader('X-CSRF-Token'));
-        }
-      });
-
+    function DoSubmit() {
+      document.realRegister.Nombre.value = document.fakeRegister.Nombre.value;
+      document.realRegister.Nif.value = document.fakeRegister.Nif.value;
+      document.realRegister.Email.value = document.fakeRegister.Email.value;
+      document.realRegister.FechaNacimiento.value = document.fakeRegister.FechaNacimiento.value;
+      document.realRegister.Password.value = CryptoJS.SHA256(document.fakeRegister.Password.value).toString(CryptoJS.enc.Hex);
       return false;
     }
   </script>

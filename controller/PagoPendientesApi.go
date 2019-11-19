@@ -86,7 +86,7 @@ func Pagospendientesconfirmarpago(w http.ResponseWriter, r *http.Request) {
 	//Incrementar las sesiones al usuario con el IDReserva
 	if Sesiones != 0 {
 		// update	idusuario = sesiones + sesiones nuevas
-		insForm, err := db.Prepare("UPDATE usuarios SET sesionesbonos =sesionesbonos + ? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE usuarios SET sesionesbonos=sesionesbonos + ? WHERE id=?")
 		if err != nil {
 			util.ErrorApi(err.Error(), w, "Error Actualizando Base de Datos")
 		} else {
