@@ -12,7 +12,7 @@ import (
 
 //var host = "192.168.0.14"
 
-var host = "192.168.0.82"
+var host = "192.168.0.12"
 var port = "8088"
 var tmpl = template.Must(template.ParseGlob("./views/*.html"))
 

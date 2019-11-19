@@ -297,10 +297,12 @@ func ComprarBono(w http.ResponseWriter, r *http.Request) {
 		a, _ := json.Marshal(vrecord)
 		s := string(a)
 		fmt.Println(s)
-
-		w.Write(a)
-
 		defer db.Close()
-		//	http.Redirect(w, r, "/", 301)
+
+		if r.FormValue("Web") == "S" {
+			http.Redirect(w, r, "/restricted", 301)
+		} else {
+			w.Write(a)
+		}
 	}
 }
